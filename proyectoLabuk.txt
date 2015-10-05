@@ -2,3 +2,5 @@
 quiz-2015-sergio.herokuapp.com
 https://github.com/labuk/proyectoQuiz
 
+//05-10-2015
+Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk

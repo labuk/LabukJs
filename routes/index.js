@@ -5,6 +5,8 @@ var quizController = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var userController = require('../controllers/user_controller');
 var sessionController = require('../controllers/session_controller');
+var projectController = require('../controllers/project_controller');
+
 
 // GET home page
 router.get('/', function(req, res) {
@@ -12,10 +14,10 @@ router.get('/', function(req, res) {
 });
 
 // Autoload de comandos
-router.param('quizId', quizController.load); //Si existe parametro quizId hace el autoload 
-router.param('commentId', commentController.load); //Si existe parametro commentId hace el autoload 
+router.param('quizId', quizController.load); //Si existe parametro quizId hace el autoload
+router.param('commentId', commentController.load); //Si existe parametro commentId hace el autoload
 
-// Definicion de rutas /quizes 
+// Definicion de rutas /quizes
 router.get('/quizes', quizController.index);
 router.get('/quizes/:quizId(\\d+)', quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
@@ -42,7 +44,13 @@ router.get('/login', sessionController.new); // formulario login
 router.post('/login', sessionController.create); // crear session
 router.get('/logout', sessionController.destroy); // destruir session - lo ideal sería utilizar delete
 
-// GET author page 
+//Definición de rutas de Project
+router.get('/project', projectController.index); // lista de proyectos
+router.get('/project/new', projectController.new); // formulario nuevo proyecto
+router.post('/project/create', projectController.create); // crear proyecto
+router.get('/project/:projectId(\\d+)', projectController.show_pro); // index proyecto :projectId
+
+// GET author page
 router.get('/author', function(req, res){
   res.render('author', {errors: []});
 });

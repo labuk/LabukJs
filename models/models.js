@@ -22,7 +22,7 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 	 port: port,
   	 host: host,
 	 storage: storage,
-	 omitNull: true	 
+	 omitNull: true
 });
 
 // Importar la definición de la tabla User en user.js
@@ -47,9 +47,17 @@ User.hasMany(Quiz);
 Comment.belongsTo(User);
 User.hasMany(Comment);
 
+// Sección de Project
+// Importar la definición de la tabla Proyect en proyect.js
+var project_path = path.join(__dirname, 'project')
+var Project = sequelize.import(project_path);
+
+// Fin -- Project
+
 exports.User = User; // exportar definición de tabla Comment
 exports.Quiz = Quiz; // exportar definición de tabla Quiz
 exports.Comment = Comment; // exportar definición de tabla Comment
+exports.Project = Project; // exportar definición de tabla Comment
 
 // sequelize.sync() crea e inicializa la tabla en DB
 sequelize.sync().then(function() {
@@ -65,6 +73,15 @@ sequelize.sync().then(function() {
 			  respuesta: 'Roma',
 			  tematica: 'Humanidades',
 			  UserId: '1'
+			})
+			.then(function(){console.log('Base de datos inicializada')});
+		};
+	});
+
+	Project.count().then(function (count){
+		if (count === 0){ // la tabla se inicializa solo si está vacía
+			Project.create({
+				pro_nombre: 'Labuk',
 			})
 			.then(function(){console.log('Base de datos inicializada')});
 		};

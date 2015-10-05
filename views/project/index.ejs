@@ -1,0 +1,13 @@
+<p>
+Página de proyectos.
+</p>
+
+<table>
+<% var i; for (i=0; i < projects.length; i++){ %>
+	<tr>
+	  <td><a href="project/<%= projects[i].id %>"> <%= projects[i].pro_nombre %></a></td>
+	</tr>
+<% } %>
+</table>
+
+<a href="/project/new"><button type="button">Crear proyecto</button></a>
