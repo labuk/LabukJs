@@ -1,0 +1,24 @@
+<% include partial_promenu %><p>
+
+<p>
+Piezas.
+</p>
+
+<table>
+<% var i; for (i=0; i < pieces.length; i++){ %>
+	<tr>
+	  <td><a href="/project/<%= project.pro_url %>/pieces/<%= pieces[i].pie_url %>"> <%= pieces[i].pie_nombre %></a></td>
+	</tr>
+<% } %>
+</table>
+
+Añadir pieza: <p>
+
+<form method="post" action="/project/<%= project.pro_url %>/pieces/create">
+  <label for="nom" class="rem">Nombre:</label>
+  <input type="text" id="nom" name="piece[pie_nombre]" value="<%= piece.pie_nombre%>" /> </p>
+  <a href="/project/<%= project.pro_url %>/pieces"><button type="button">Cancelar</button></a>
+  <input type="submit" value="Salvar" />
+</form>
+
+<p>

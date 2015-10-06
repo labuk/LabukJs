@@ -16,6 +16,7 @@ router.get('/', function(req, res) {
 // Autoload de comandos
 router.param('quizId', quizController.load); //Si existe parametro quizId hace el autoload
 router.param('commentId', commentController.load); //Si existe parametro commentId hace el autoload
+router.param('pro_url', projectController.load); //Si existe parametro pro_url hace el autoload
 
 // Definicion de rutas /quizes
 router.get('/quizes', quizController.index);
@@ -48,7 +49,10 @@ router.get('/logout', sessionController.destroy); // destruir session - lo ideal
 router.get('/project', projectController.index); // lista de proyectos
 router.get('/project/new', projectController.new); // formulario nuevo proyecto
 router.post('/project/create', projectController.create); // crear proyecto
-router.get('/project/:projectId(\\d+)', projectController.show_pro); // index proyecto :projectId
+router.get('/project/:pro_url', projectController.show_pro); // index proyecto :pro_url
+router.get('/project/:pro_url/pieces', projectController.pieces); // index piezas del proyecto
+router.post('/project/:pro_url/pieces/create', projectController.piece_create); // crear piece
+router.get('/project/:pro_url/pieces/:pie_url', projectController.show_pie); // index proyecto :pro_url
 
 // GET author page
 router.get('/author', function(req, res){

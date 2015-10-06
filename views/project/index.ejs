@@ -5,7 +5,7 @@ Página de proyectos.
 <table>
 <% var i; for (i=0; i < projects.length; i++){ %>
 	<tr>
-	  <td><a href="project/<%= projects[i].id %>"> <%= projects[i].pro_nombre %></a></td>
+	  <td><a href="project/<%= projects[i].pro_url %>"> <%= projects[i].pro_nombre %></a></td>
 	</tr>
 <% } %>
 </table>

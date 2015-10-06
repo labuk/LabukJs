@@ -48,16 +48,20 @@ Comment.belongsTo(User);
 User.hasMany(Comment);
 
 // Sección de Project
-// Importar la definición de la tabla Proyect en proyect.js
-var project_path = path.join(__dirname, 'project')
+// Importar la definición de la tabla Proyect en project/proyect.js
+var project_path = path.join(__dirname, 'project/project')
 var Project = sequelize.import(project_path);
+// Importar la definición de la tabla Piece en project/piece.js
+var piece_path = path.join(__dirname, 'project/piece')
+var Piece = sequelize.import(piece_path);
 
 // Fin -- Project
 
 exports.User = User; // exportar definición de tabla Comment
 exports.Quiz = Quiz; // exportar definición de tabla Quiz
 exports.Comment = Comment; // exportar definición de tabla Comment
-exports.Project = Project; // exportar definición de tabla Comment
+exports.Project = Project; // exportar definición de tabla Project
+exports.Piece = Piece; // exportar definición de tabla Comment
 
 // sequelize.sync() crea e inicializa la tabla en DB
 sequelize.sync().then(function() {
@@ -82,6 +86,11 @@ sequelize.sync().then(function() {
 		if (count === 0){ // la tabla se inicializa solo si está vacía
 			Project.create({
 				pro_nombre: 'Labuk',
+				pro_url: 'labuk'
+			});
+			Piece.create({
+				pie_nombre: 'General',
+				pie_url: 'general'
 			})
 			.then(function(){console.log('Base de datos inicializada')});
 		};

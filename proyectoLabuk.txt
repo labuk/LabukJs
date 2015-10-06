@@ -1,6 +1,16 @@
-// Proyecto Quiz
+﻿// Proyecto Quiz
 quiz-2015-sergio.herokuapp.com
 https://github.com/labuk/proyectoQuiz
 
 //05-10-2015
 Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
+  - Creamos la página principal de proyectos, donde se presentan en lista.
+  - Creo el formulario de creación de proyectos.
+  - Hago una página por proyecto relativa al :projectId (cambiar por url).
+
+//06-10-2015
+  - Creamos un url para el proyecto substituyendo los espacios y utilizando minúsculas con:
+      str = str.replace(/\s+/g, '-').toLowerCase();
+  - Creamos la parte para añadir piezas al proyecto. Listamos las piezas, creamos nuevas y con una página propia para cada pieza.
+  - Creamos el menú dentro del proyecto.
+  - Falta enlazar las piezas con su proyecto.
