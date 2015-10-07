@@ -5,11 +5,11 @@ Piezas.
 </p>
 
 <table>
-<% var i; for (i=0; i < pieces.length; i++){ %>
+<% var i; if (pieces) { for (i=0; i < pieces.length; i++){ %>
 	<tr>
 	  <td><a href="/project/<%= project.pro_url %>/pieces/<%= pieces[i].pie_url %>"> <%= pieces[i].pie_nombre %></a></td>
 	</tr>
-<% } %>
+<% }} %>
 </table>
 
 Añadir pieza: <p>

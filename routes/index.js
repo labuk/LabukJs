@@ -47,12 +47,12 @@ router.get('/logout', sessionController.destroy); // destruir session - lo ideal
 
 //Definición de rutas de Project
 router.get('/project', projectController.index); // lista de proyectos
-router.get('/project/new', projectController.new); // formulario nuevo proyecto
-router.post('/project/create', projectController.create); // crear proyecto
-router.get('/project/:pro_url', projectController.show_pro); // index proyecto :pro_url
-router.get('/project/:pro_url/pieces', projectController.pieces); // index piezas del proyecto
-router.post('/project/:pro_url/pieces/create', projectController.piece_create); // crear piece
-router.get('/project/:pro_url/pieces/:pie_url', projectController.show_pie); // index proyecto :pro_url
+router.get('/project/new', sessionController.loginRequired,projectController.new); // formulario nuevo proyecto
+router.post('/project/create', sessionController.loginRequired,projectController.create); // crear proyecto
+router.get('/project/:pro_url', sessionController.loginRequired,projectController.show_pro); // index proyecto :pro_url
+router.get('/project/:pro_url/pieces', sessionController.loginRequired,projectController.pieces); // index piezas del proyecto
+router.post('/project/:pro_url/pieces/create', sessionController.loginRequired,projectController.piece_create); // crear piece
+router.get('/project/:pro_url/pieces/:pie_url', sessionController.loginRequired,projectController.show_pie); // index proyecto :pro_url
 
 // GET author page
 router.get('/author', function(req, res){

@@ -9,7 +9,7 @@ var partials = require('express-partials');
 var methodOverride = require('method-override');
 var session = require('express-session');
 
-// Importar enrutadores 
+// Importar enrutadores
 var routes = require('./routes/index');
 
 // Crear aplicación
@@ -43,26 +43,29 @@ app.use(function(req, res, next){
    res.locals.session = req.session;
    next();
 
+   //Creamos session para no tener que hacer login
+   req.session.user = { id:'1', username:'admin'};
+
 });
 
 // Auto logout: al estar más de 2 minutos sin conectar por http
 app.use(function(req, res, next) {
     req.session.autologout = req.session.autologout || 0;
-    if (req.session.user && (Date.now() - req.session.autologout) > 120000) {
-	console.log('Logout');
-	var err = new Error('Mas de 2 minutos sin actividad. La sessión se va a desconectar.');
-	//callback(new Error('Mas de 2 minutos sin actividad. La sessión se va a desconectar.'));
-	req.session.errors = [{"mess_logout": 'Mas de 2 minutos sin actividad. Vuelve a autentificarte.'}];
-	req.session.redir = "/login";
-	//res.render("/login")
-	res.redirect("/logout");
-	next();
-	//next(err);
+    if (req.session.user && (Date.now() - req.session.autologout) > 12000000) {
+    	console.log('Logout');
+    	var err = new Error('Mas de 200 minutos sin actividad. La sessión se va a desconectar.');
+    	//callback(new Error('Mas de 2 minutos sin actividad. La sessión se va a desconectar.'));
+    	req.session.errors = [{"mess_logout": 'Mas de 200 minutos sin actividad. Vuelve a autentificarte.'}];
+    	req.session.redir = "/login";
+    	//res.render("/login")
+    	res.redirect("/logout");
+    	next();
+	    //next(err);
     } else {
 	req.session.autologout = Date.now();
 	next();
     }
-    
+
 });
 
 // Instalar enrutadores

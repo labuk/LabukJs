@@ -54,6 +54,10 @@ var Project = sequelize.import(project_path);
 // Importar la definición de la tabla Piece en project/piece.js
 var piece_path = path.join(__dirname, 'project/piece')
 var Piece = sequelize.import(piece_path);
+	// Relación Piece - Project
+	Piece.belongsTo(Project);
+	Project.hasMany(Piece);
+	Piece.belongsTo(User);
 
 // Fin -- Project
 

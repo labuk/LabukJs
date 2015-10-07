@@ -1,4 +1,9 @@
+<% if (project) { %>
+Proyecto <%=  project.pro_nombre  %>
+<% } %>
+
 <nav class="menu_pro" id="n1" role="navigation">
+   <span><a href="/project/<%= project.pro_url%> ">Principal</a></span>
    <span><a href="/project/<%= project.pro_url%>/pieces ">Piezas</a></span>
    <span><a href="/project/<%= project.pro_url%>/pieces ">Ideas</a></span>
    <span><a href="/project/<%= project.pro_url%>/pieces ">Tareas</a></span>

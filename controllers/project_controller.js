@@ -59,7 +59,9 @@ exports.show_pro = function(req, res){
 // GET /project/:pro_url/pieces
 exports.pieces = function(req, res){
 	// Muestra piezas
-	models.Piece.findAll().then(function(pieces){
+	models.Piece.findAll({
+		where:{ ProjectId: req.project.id }
+	}).then(function(pieces){
 		// Crea los datos del form
 		var piece = models.Project.build(
 			{pie_nombre: "Nombre", pie_url: "Url"}
@@ -69,20 +71,27 @@ exports.pieces = function(req, res){
 };
 
 
-// GET /project/:pro_url/pieces/create
+// POST /project/:pro_url/pieces/create
 exports.piece_create = function(req,res){
 
 	// Sustituimos espacios por '-' y todo en minúscula.
 	req.body.piece.pie_url = req.body.piece.pie_nombre.replace(/\s+/g, '-').toLowerCase();
 
-	var piece = models.Piece.build(req.body.piece);
+	console.log('ProjectId: '+ req.project.id);
+
+	var piece = models.Piece.build({
+				pie_nombre: req.body.piece.pie_nombre,
+				pie_url: req.body.piece.pie_url,
+				ProjectId: req.project.id,
+				UserId: req.session.user.id
+		});
 
 	piece.validate().then(function(err){
 		if (err) {
 			res.render('project/pieces_index', {piece: piece, errors: err.errors});
 		} else {
 			// guarda en DB los campos pregunta y respuesta
-			piece.save({fields: ["pie_nombre", "pie_url"]}).then(function(){
+			piece.save().then(function(){
 			res.redirect('/project/'+req.params.pro_url+'/pieces');})
 		}
 	});
@@ -90,5 +99,13 @@ exports.piece_create = function(req,res){
 
 // GET /project/:pro_url/pieces/:pie_url
 exports.show_pie = function(req, res){
-	res.render('project/piece_main',{ project: req.project, errors: []});
+	models.Piece.find({
+			where: { pie_url: req.params.pie_url },
+			include: [{model: models.User, attributes: ['nombre']}]
+		}).then(function(piece){
+		if (piece){
+			console.log(piece.User.nombre);
+			res.render('project/piece_main',{ piece: piece, project: req.project, errors: []});
+	} else { next(new Error('No existe project =' + projectId)); }
+	}).catch(function(error){ next(error);} );
 };

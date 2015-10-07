@@ -14,3 +14,8 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
   - Creamos la parte para añadir piezas al proyecto. Listamos las piezas, creamos nuevas y con una página propia para cada pieza.
   - Creamos el menú dentro del proyecto.
   - Falta enlazar las piezas con su proyecto.
+
+// 07-10-2015
+  - Enlazamos las piezas con su correspondiente proyecto.
+  - Mostramos el nombre de usuario que ha creado la pieza mediante include: [{model: models.***, attributes: ['***']}]
+  - Creamos una sesion para no tener que hacer login siempre en app.js
