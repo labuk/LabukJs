@@ -53,6 +53,7 @@ router.get('/project/:pro_url', sessionController.loginRequired,projectControlle
 router.get('/project/:pro_url/pieces', sessionController.loginRequired,projectController.pieces); // index piezas del proyecto
 router.post('/project/:pro_url/pieces/create', sessionController.loginRequired,projectController.piece_create); // crear piece
 router.get('/project/:pro_url/pieces/:pie_url', sessionController.loginRequired,projectController.show_pie); // index proyecto :pro_url
+router.post('/project/:pro_url/tasks/:pie_url/create', sessionController.loginRequired,projectController.task_create); // crear tarea
 
 // GET author page
 router.get('/author', function(req, res){

@@ -12,13 +12,13 @@ Piezas.
 <% }} %>
 </table>
 
-Añadir pieza: <p>
-
-<form method="post" action="/project/<%= project.pro_url %>/pieces/create">
-  <label for="nom" class="rem">Nombre:</label>
-  <input type="text" id="nom" name="piece[pie_nombre]" value="<%= piece.pie_nombre%>" /> </p>
-  <a href="/project/<%= project.pro_url %>/pieces"><button type="button">Cancelar</button></a>
-  <input type="submit" value="Salvar" />
-</form>
-
-<p>
+<button id="displayText" class="submit" style="display: block" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Nueva Pieza </button>
+<div id="toggleText" style="display: none">
+	<a id="closeText" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Cerrar</a>
+	<form method="post" action="/project/<%= project.pro_url %>/pieces/create">
+	  <label for="nom" class="rem">Nombre:</label>
+	  <input type="text" id="nom" name="piece[pie_nombre]" value="<%= piece.pie_nombre%>" /> </p>
+	  <a href="/project/<%= project.pro_url %>/pieces"><button type="button">Cancelar</button></a>
+	  <input type="submit" value="Salvar" />
+	</form>
+</div>

@@ -63,7 +63,7 @@ exports.pieces = function(req, res){
 		where:{ ProjectId: req.project.id }
 	}).then(function(pieces){
 		// Crea los datos del form
-		var piece = models.Project.build(
+		var piece = models.Piece.build(
 			{pie_nombre: "Nombre", pie_url: "Url"}
 		);
 		res.render('project/pieces_index', {pieces: pieces, piece: piece, project: req.project, errors: []});
@@ -76,8 +76,6 @@ exports.piece_create = function(req,res){
 
 	// Sustituimos espacios por '-' y todo en minúscula.
 	req.body.piece.pie_url = req.body.piece.pie_nombre.replace(/\s+/g, '-').toLowerCase();
-
-	console.log('ProjectId: '+ req.project.id);
 
 	var piece = models.Piece.build({
 				pie_nombre: req.body.piece.pie_nombre,
@@ -104,8 +102,30 @@ exports.show_pie = function(req, res){
 			include: [{model: models.User, attributes: ['nombre']}]
 		}).then(function(piece){
 		if (piece){
-			console.log(piece.User.nombre);
-			res.render('project/piece_main',{ piece: piece, project: req.project, errors: []});
-	} else { next(new Error('No existe project =' + projectId)); }
-	}).catch(function(error){ next(error);} );
+			models.Task.findAll({
+					where: { PieceId: piece.id },
+				}).then(function(tasks){
+					//console.log(tasks);
+					var task = models.Task.build( {tas_tarea: "Tarea", PieceId: "PieceId"} );
+					res.render('project/piece_main',{ piece: piece, project: req.project, task: task, tasks: tasks, errors: []});
+		})} else { next(new Error('No existe piece ')); }
+		}).catch(function(error){ next(error);} );
+};
+
+// POST /project/:pro_url/task/create
+exports.task_create = function(req,res){
+
+	console.log(req.body.task);
+
+	var task = models.Task.build(req.body.task);
+
+	task.validate().then(function(err){
+		if (err) {
+			res.render('project/pieces_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos pregunta y respuesta
+			task.save().then(function(){
+			res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.params.pie_url);})
+		}
+	});
 };

@@ -19,3 +19,7 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
   - Enlazamos las piezas con su correspondiente proyecto.
   - Mostramos el nombre de usuario que ha creado la pieza mediante include: [{model: models.***, attributes: ['***']}]
   - Creamos una sesion para no tener que hacer login siempre en app.js
+
+// 08-10-2015
+  - Creamos el modelo y las páginas de tareas referentes a una pieza.
+  - Añadimos el pop up para las nuevas tareas: <div id="toggleText" style="display: none"></div>
