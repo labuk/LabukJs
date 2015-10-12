@@ -23,3 +23,9 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
 // 08-10-2015
   - Creamos el modelo y las páginas de tareas referentes a una pieza.
   - Añadimos el pop up para las nuevas tareas: <div id="toggleText" style="display: none"></div>
+
+// 09-10-2015
+  - Añadimos la posibilidad de editar las piezas.
+
+// 13-10-2015
+  - Añadimos la posibilidad de borrar las piezas.

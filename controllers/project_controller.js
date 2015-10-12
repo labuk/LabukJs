@@ -95,6 +95,36 @@ exports.piece_create = function(req,res){
 	});
 };
 
+// PUT /project/:pro_url/pieces/:pieceId
+exports.piece_update = function(req,res){
+	models.Piece.find({
+		where:{ id: req.params.pieceId }
+	}).then(function(piece){
+		piece.pie_nombre = req.body.piece.pie_nombre;
+		piece.validate().then(function(err){
+			if (err) {
+				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
+			} else {
+				// cambia en DB los campos pregunta y respuesta
+				piece.save({fields: ["pie_nombre"]}).then(function(){
+				//models.Piece.update(piece).then(function(){
+				res.redirect('/project/'+req.params.pro_url+'/pieces');
+			})}
+	})});
+};
+
+// DELETE /project/:pro_url/pieces/:pieceId
+exports.piece_destroy = function(req,res){
+	console.log('Busqueda');
+	models.Piece.find({
+		where:{ id: req.params.pieceId }
+	}).then(function(piece){
+		console.log('Borrar');
+	 	piece.destroy().then(function() {
+			res.redirect('/project/'+req.params.pro_url+'/pieces');
+		}).catch(function(error){next(error)});
+})};
+
 // GET /project/:pro_url/pieces/:pie_url
 exports.show_pie = function(req, res){
 	models.Piece.find({

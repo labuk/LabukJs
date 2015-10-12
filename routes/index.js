@@ -52,6 +52,8 @@ router.post('/project/create', sessionController.loginRequired,projectController
 router.get('/project/:pro_url', sessionController.loginRequired,projectController.show_pro); // index proyecto :pro_url
 router.get('/project/:pro_url/pieces', sessionController.loginRequired,projectController.pieces); // index piezas del proyecto
 router.post('/project/:pro_url/pieces/create', sessionController.loginRequired,projectController.piece_create); // crear piece
+router.put('/project/:pro_url/pieces/:pieceId(\\d+)', sessionController.loginRequired, projectController.piece_update); //editar piece
+router.delete('/project/:pro_url/pieces/:pieceId(\\d+)', sessionController.loginRequired, projectController.piece_destroy); //editar piece
 router.get('/project/:pro_url/pieces/:pie_url', sessionController.loginRequired,projectController.show_pie); // index proyecto :pro_url
 router.post('/project/:pro_url/tasks/:pie_url/create', sessionController.loginRequired,projectController.task_create); // crear tarea
 

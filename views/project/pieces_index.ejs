@@ -9,6 +9,18 @@ Piezas.
 	<tr>
 	  <td><a href="/project/<%= project.pro_url %>/pieces/<%= pieces[i].pie_url %>"> <%= pieces[i].pie_nombre %></a></td>
 	</tr>
+	<tr><td>
+		<form method="post" action="/project/<%= project.pro_url %>/pieces/<%= pieces[i].id %>?_method=put ">
+			<label for="nom" class="rem">Nombre:</label>
+		  <input type="text" id="nom" name="piece[pie_nombre]" value="<%= pieces[i].pie_nombre%>" /> </p>
+		  <a href="/project/<%= project.pro_url %>/pieces"><button type="button">Cancelar</button></a>
+			<input type="submit" value="Editar" />
+		</form>
+		<form method="post" action="/project/<%= project.pro_url %>/pieces/<%= pieces[i].id %>?_method=delete">
+			<button type="submit" onClick="return confirm ('Borrar pieza?')" type="button">Borrar</button>
+		</form>
+		<br>
+	</td></tr>
 <% }} %>
 </table>
 
