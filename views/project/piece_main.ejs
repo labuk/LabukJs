@@ -23,6 +23,7 @@
 <form method="post" action="/project/<%= project.pro_url %>/tasks/<%= piece.pie_url %>/create">
   <label for="tar" class="rem">Tarea:</label><p>
   <textarea rows="4" cols="50" name="task[tas_tarea]" placeholder="Descripción <%= task.tas_tarea%>"></textarea><p>
+  <input type="hidden" id="tar" name="task[tas_estado]" value="0"/>
   <input type="hidden" id="tar" name="task[PieceId]" value="<%= piece.id%>"/>
   <a href="/project/<%= project.pro_url %>/pieces/<%= piece.pie_url %>"><button type="button">Cancelar</button></a>
   <input type="submit" value="Salvar" />

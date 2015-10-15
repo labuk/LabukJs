@@ -22,9 +22,10 @@ body {
 
 section > div {
   padding: 20px;
+  height: 100%;
 }
 
-header, nav, section {
+header, section {
   background: #eee;
   text-align: center;
 }
@@ -32,6 +33,11 @@ header, nav, section {
 footer {
   background: #eee;
   text-align: center;
+}
+
+nav {
+  background: #eee;
+  text-align: left;
 }
 
 nav span {
@@ -42,10 +48,14 @@ a {
   color: #00B7FF;
 }
 
-nav span { margin: 0px 10px 0px 0px;}
-
 .right {
   float: right;
+}
+
+nav.menu_pro{
+  text-align: center;
+  background: #fff;
+  height: 70%;
 }
 
 #ErrorMsgs {color: #f61; font-size: smaler;}

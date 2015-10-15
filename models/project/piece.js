@@ -9,6 +9,10 @@ module.exports = function(sequelize, DataTypes){
 			pie_url:  {
 				type: DataTypes.STRING,
 				validate: {notEmpty: {msg: "-> Falta url"}}
+			},
+			pie_prioridad:  {
+				type: DataTypes.INTEGER,
+				validate: {notEmpty: {msg: "-> Falta prioridad"}}
 			}
 		});
 }

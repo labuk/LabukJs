@@ -60,11 +60,12 @@ exports.show_pro = function(req, res){
 exports.pieces = function(req, res){
 	// Muestra piezas
 	models.Piece.findAll({
-		where:{ ProjectId: req.project.id }
+		where:{ ProjectId: req.project.id },
+		include: [{model: models.User, attributes: ['nombre']}]
 	}).then(function(pieces){
 		// Crea los datos del form
 		var piece = models.Piece.build(
-			{pie_nombre: "Nombre", pie_url: "Url"}
+			{pie_nombre: "Nombre", pie_url: "Url", pie_prioridad: "Prioridad"}
 		);
 		res.render('project/pieces_index', {pieces: pieces, piece: piece, project: req.project, errors: []});
 	}).catch(function(error){next(error);})
@@ -80,6 +81,7 @@ exports.piece_create = function(req,res){
 	var piece = models.Piece.build({
 				pie_nombre: req.body.piece.pie_nombre,
 				pie_url: req.body.piece.pie_url,
+				pie_prioridad: req.body.piece.pie_prioridad,
 				ProjectId: req.project.id,
 				UserId: req.session.user.id
 		});
@@ -100,13 +102,15 @@ exports.piece_update = function(req,res){
 	models.Piece.find({
 		where:{ id: req.params.pieceId }
 	}).then(function(piece){
+		console.log (req.body.piece);
 		piece.pie_nombre = req.body.piece.pie_nombre;
+		piece.pie_prioridad = req.body.piece.pie_prioridad;
 		piece.validate().then(function(err){
 			if (err) {
 				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
 			} else {
 				// cambia en DB los campos pregunta y respuesta
-				piece.save({fields: ["pie_nombre"]}).then(function(){
+				piece.save({fields: ["pie_nombre","pie_prioridad"] }).then(function(){
 				//models.Piece.update(piece).then(function(){
 				res.redirect('/project/'+req.params.pro_url+'/pieces');
 			})}
@@ -144,8 +148,6 @@ exports.show_pie = function(req, res){
 
 // POST /project/:pro_url/task/create
 exports.task_create = function(req,res){
-
-	console.log(req.body.task);
 
 	var task = models.Task.build(req.body.task);
 
