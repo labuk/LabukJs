@@ -10,7 +10,7 @@ Piezas.
 <a id="closeText" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Cerrar</a>
 	<form method="post" action="/project/<%= project.pro_url %>/pieces/create">
 	  <label for="nom" class="rem">Nombre:</label>
-	  <input type="text" id="nom" name="piece[pie_nombre]" value="<%= piece.pie_nombre%>" /> </p>
+	  <input type="text" id="nom" name="piece[pie_nombre]" placeholder="<%= piece.pie_nombre%>" value="" /> </p>
 		<label for="nom" class="rem">Prioridad:</label>
 		<input type="radio" name="piece[pie_prioridad]" value="0" > General
 		<input type="radio" name="piece[pie_prioridad]" value="1" > Esencial

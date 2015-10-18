@@ -161,3 +161,34 @@ exports.task_create = function(req,res){
 		}
 	});
 };
+
+
+// GET /project/:pro_url/tasks
+exports.tasks = function(req, res){
+	// Muestra tareas
+	models.Task.findAll({
+		include: [{	model: models.Piece, attributes: ['ProjectId'],
+								where:{ ProjectId: req.project.id }}]
+	}).then(function(tasks){
+		res.render('project/task_tab', {tasks: tasks, project: req.project, errors: []});
+	}).catch(function(error){next(error);})
+};
+
+// PUT /project/:pro_url/tasks/:taskId
+exports.task_update = function(req,res){
+	console.log (req.body.task);
+	models.Task.find({
+		where:{ id: req.params.taskId }
+	}).then(function(task){
+		task.tas_estado = req.body.task.tas_estado;
+		task.validate().then(function(err){
+			if (err) {
+				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
+			} else {
+				// cambia en DB los campos pregunta y respuesta
+				task.save({fields: ["tas_estado"] }).then(function(){
+				//models.Piece.update(piece).then(function(){
+				res.redirect('/project/'+req.params.pro_url+'/tasks');
+			})}
+	})});
+};

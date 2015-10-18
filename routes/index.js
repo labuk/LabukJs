@@ -56,6 +56,8 @@ router.put('/project/:pro_url/pieces/:pieceId(\\d+)', sessionController.loginReq
 router.delete('/project/:pro_url/pieces/:pieceId(\\d+)', sessionController.loginRequired, projectController.piece_destroy); //editar piece
 router.get('/project/:pro_url/pieces/:pie_url', sessionController.loginRequired,projectController.show_pie); // index proyecto :pro_url
 router.post('/project/:pro_url/tasks/:pie_url/create', sessionController.loginRequired,projectController.task_create); // crear tarea
+router.get('/project/:pro_url/tasks', sessionController.loginRequired,projectController.tasks); // index tablón tareas
+router.put('/project/:pro_url/tasks/:taskId(\\d+)', sessionController.loginRequired, projectController.task_update); //editar piece
 
 // GET author page
 router.get('/author', function(req, res){

@@ -63,6 +63,7 @@ var task_path = path.join(__dirname, 'project/task')
 var Task = sequelize.import(task_path);
 	// Relación Task - Piece
 	Task.belongsTo(Piece);
+	//Task.belongsTo(User);
 
 // Fin -- Project
 
