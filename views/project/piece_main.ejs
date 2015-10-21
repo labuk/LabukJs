@@ -4,7 +4,31 @@
   Pieza
 </p>
 
-<td><%= piece.pie_nombre %> - Proyecto: <%= piece.ProjectId %> - Tarea: <%= piece.id %>  - <%= piece.User.nombre %></td>
+<%= piece.pie_nombre %> - Proyecto: <%= piece.ProjectId %> - Tarea: <%= piece.id %>  - <%= piece.User.nombre %> </p>
+
+<!-- Formulario Editar Pieza -->
+<button id="displayText" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Editar </button>
+<div id="toggleText" style="display: none">
+<a id="closeText" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Cerrar</a>
+<form method="post" action="/project/<%= project.pro_url %>/pieces/<%= piece.id %>?_method=put ">
+  <label for="nom" class="rem">Nombre:</label>
+  <input type="text" id="nom" name="piece[pie_nombre]" value="<%= piece.pie_nombre%>" /> </p>
+  <label for="nom" class="rem">Prioridad:</label>
+  <input id="check<%= piece.id %>0" type="radio" name="piece[pie_prioridad]" value="0" > General
+  <input id="check<%= piece.id %>1" type="radio" name="piece[pie_prioridad]" value="1" > Esencial
+  <input id="check<%= piece.id %>2" type="radio" name="piece[pie_prioridad]" value="2" > Útil
+  <input id="check<%= piece.id %>3" type="radio" name="piece[pie_prioridad]" value="3" > Laborioso
+  <input id="check<%= piece.id %>4" type="radio" name="piece[pie_prioridad]" value="4" > Desechado
+  <script>$('#check<%= piece.id %><%= piece.pie_prioridad %>').prop('checked', true);</script>
+  <p>
+  <input type="submit" value="Editar" />
+</form>
+</div>
+
+<!-- Formulario Borrar Pieza -->
+<form method="post" action="/project/<%= project.pro_url %>/pieces/<%= piece.id %>?_method=delete">
+  <button type="submit" onClick="return confirm ('Borrar pieza?')" >Borrar</button>
+</form>
 
 <h3>Tareas</h3>
 <table>
@@ -13,20 +37,51 @@
 	  <td><%= tasks[i].tas_tarea %></td>
     <td><%= tasks[i].tas_estado %></td>
 	</tr>
+  <tr>
+    <td>
+      <!-- Formulario Borrar Task -->
+      <form method="post" action="/project/<%= project.pro_url %>/tasks/<%= tasks[i].id %>?_method=delete">
+        <input type="hidden" id="tar" name="piece[pie_url]" value="<%= piece.pie_url%>"/>
+        <button type="submit" onClick="return confirm ('Borrar tarea?')" >Borrar</button>
+      </form>
+    </td>
+    <td>
+    <!-- Formulario Editar Task -->
+    <button id="displayText<%= tasks[i].id %>" type="button" onclick="$('#toggleText<%= tasks[i].id %>').toggle(); $('#displayText<%= tasks[i].id %>').toggle();">Editar </button>
+    <div id="toggleText<%= tasks[i].id %>" style="display: none">
+    <a id="closeText<%= tasks[i].id %>" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText<%= tasks[i].id %>').toggle(); $('#displayText<%= tasks[i].id %>').toggle();">Cerrar</a>
+    <form id="change_form<%= tasks[i].id %>" method="post" action="/project/<%= project.pro_url %>/tasks/<%= tasks[i].id %>?_method=put">
+      <label for="nom" class="rem">Tarea:</label>
+      <input type="text" id="nom" name="task[tas_tarea]" value="<%= tasks[i].tas_tarea%>" /> </p>
+      <label for="nom" class="rem">Estado:</label>
+      <input id="check<%= tasks[i].id %>0" type="radio" name="task[tas_estado]" value="0" > En cola
+      <input id="check<%= tasks[i].id %>1" type="radio" name="task[tas_estado]" value="1" > En desarollo
+      <input id="check<%= tasks[i].id %>2" type="radio" name="task[tas_estado]" value="2" > Boceto
+      <input id="check<%= tasks[i].id %>3" type="radio" name="task[tas_estado]" value="3" > Perfilado
+      <input id="check<%= tasks[i].id %>4" type="radio" name="task[tas_estado]" value="4" > terminado
+      <script>$('input#check<%= tasks[i].id %><%= tasks[i].tas_estado %>').prop('checked', true);</script>
+      <input type="hidden" id="tar" name="piece[pie_url]" value="<%= piece.pie_url%>"/>
+      <p>
+      <input type="submit" value="Editar" />
+    </form>
+  </div>
+  </td>
+  </tr>
+
+
 <% }} %>
 </table>
 
-<button id="displayText" class="submit" style="display: block" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Nueva Tarea </button>
+<button id="displayText-1" class="submit" style="display: block" type="button" onclick="$('#toggleText-1').toggle(); $('#displayText-1').toggle();">Nueva Tarea </button>
 
-<div id="toggleText" style="display: none">
-<a id="closeText" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Cerrar</a>
+<div id="toggleText-1" style="display: none">
+<a id="closeText-1" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText-1').toggle(); $('#displayText-1').toggle();">Cerrar</a>
 
 <form method="post" action="/project/<%= project.pro_url %>/tasks/<%= piece.pie_url %>/create">
   <label for="tar" class="rem">Tarea:</label><p>
   <textarea rows="4" cols="50" name="task[tas_tarea]" placeholder="Descripción <%= task.tas_tarea%>"></textarea><p>
   <input type="hidden" id="tar" name="task[tas_estado]" value="0"/>
   <input type="hidden" id="tar" name="task[PieceId]" value="<%= piece.id%>"/>
-  <a href="/project/<%= project.pro_url %>/pieces/<%= piece.pie_url %>"><button type="button">Cancelar</button></a>
   <input type="submit" value="Salvar" />
 </form>
 

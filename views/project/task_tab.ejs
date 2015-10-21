@@ -16,6 +16,7 @@
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado+1 %>");
                      $("#change_form<%= tasks[i].id %>").submit();' title="Bajar estado"> ▼ </a>
           <input type="hidden" id="change_hidden<%= tasks[i].id %>" name="task[tas_estado]" value="">
+          <input type="hidden" name="task[flag_tab]" value="1">
         </form>
       </span>
       </li>

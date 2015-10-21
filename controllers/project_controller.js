@@ -104,15 +104,16 @@ exports.piece_update = function(req,res){
 	}).then(function(piece){
 		console.log (req.body.piece);
 		piece.pie_nombre = req.body.piece.pie_nombre;
-		piece.pie_prioridad = req.body.piece.pie_prioridad;
+		piece.pie_prioridad = req.body.piece.pie_prioridad
+		piece.pie_url = req.body.piece.pie_nombre.replace(/\s+/g, '-').toLowerCase();
 		piece.validate().then(function(err){
 			if (err) {
-				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
+				res.render('project/pieces_index', {piece: piece, project: req.project, errors: err.errors});
 			} else {
 				// cambia en DB los campos pregunta y respuesta
-				piece.save({fields: ["pie_nombre","pie_prioridad"] }).then(function(){
+				piece.save({fields: ["pie_nombre","pie_prioridad","pie_url"] }).then(function(){
 				//models.Piece.update(piece).then(function(){
-				res.redirect('/project/'+req.params.pro_url+'/pieces');
+				res.redirect('/project/'+req.params.pro_url+'/pieces/'+piece.pie_url);
 			})}
 	})});
 };
@@ -176,19 +177,32 @@ exports.tasks = function(req, res){
 
 // PUT /project/:pro_url/tasks/:taskId
 exports.task_update = function(req,res){
-	console.log (req.body.task);
 	models.Task.find({
 		where:{ id: req.params.taskId }
 	}).then(function(task){
+		task.tas_tarea = req.body.task.tas_tarea;
 		task.tas_estado = req.body.task.tas_estado;
 		task.validate().then(function(err){
 			if (err) {
 				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
 			} else {
 				// cambia en DB los campos pregunta y respuesta
-				task.save({fields: ["tas_estado"] }).then(function(){
-				//models.Piece.update(piece).then(function(){
-				res.redirect('/project/'+req.params.pro_url+'/tasks');
+				task.save({fields: ["tas_tarea","tas_estado"] }).then(function(){
+					if (req.body.task.flag_tab){
+						res.redirect('/project/'+req.params.pro_url+'/tasks');
+					} else {
+						res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.body.piece.pie_url);
+					}
 			})}
 	})});
 };
+
+// DELETE /project/:pro_url/tasks/:taskId
+exports.task_destroy = function(req,res){
+	models.Task.find({
+		where:{ id: req.params.taskId }
+	}).then(function(task){
+	 	task.destroy().then(function() {
+			res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.body.piece.pie_url);
+		}).catch(function(error){next(error)});
+})};

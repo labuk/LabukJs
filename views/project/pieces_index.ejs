@@ -33,29 +33,4 @@ Piezas.
 			<td> <%= pieces[i].User.nombre %> </td>
 		</tr>
 	</table>
-
-	<!-- Formulario Editar Pieza -->
-	<button id="displayText<%= pieces[i].id %>" type="button" onclick="$('#toggleText<%= pieces[i].id %>').toggle(); $('#displayText<%= pieces[i].id %>').toggle();">Editar </button>
-	<div id="toggleText<%= pieces[i].id %>" style="display: none">
-	<a id="closeText" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText<%= pieces[i].id %>').toggle(); $('#displayText<%= pieces[i].id %>').toggle();">Cerrar</a>
-	<form method="post" action="/project/<%= project.pro_url %>/pieces/<%= pieces[i].id %>?_method=put ">
-		<label for="nom" class="rem">Nombre:</label>
-		<input type="text" id="nom" name="piece[pie_nombre]" value="<%= pieces[i].pie_nombre%>" /> </p>
-		<label for="nom" class="rem">Prioridad:</label>
-		<input id="check<%= pieces[i].id %>0" type="radio" name="piece[pie_prioridad]" value="0" > General
-		<input id="check<%= pieces[i].id %>1" type="radio" name="piece[pie_prioridad]" value="1" > Esencial
-		<input id="check<%= pieces[i].id %>2" type="radio" name="piece[pie_prioridad]" value="2" > Útil
-		<input id="check<%= pieces[i].id %>3" type="radio" name="piece[pie_prioridad]" value="3" > Laborioso
-		<input id="check<%= pieces[i].id %>4" type="radio" name="piece[pie_prioridad]" value="4" > Desechado
-		<script>$('#check<%= pieces[i].id %><%= pieces[i].pie_prioridad %>').prop('checked', true);</script>
-		<p>
-		<a href="/project/<%= project.pro_url %>/pieces"><button type="button">Cancelar</button></a>
-		<input type="submit" value="Editar" />
-	</form>
-	</div>
-
-	<!-- Formulario Borrar Pieza -->
-	<form method="post" action="/project/<%= project.pro_url %>/pieces/<%= pieces[i].id %>?_method=delete">
-		<button type="submit" onClick="return confirm ('Borrar pieza?')" >Borrar</button>
-	</form>
 <% }} %>
