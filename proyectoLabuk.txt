@@ -29,3 +29,6 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
 
 // 13-10-2015
   - Añadimos la posibilidad de borrar las piezas.
+
+// 28-10-2015
+  - Añadimos miembros a los proyectos.

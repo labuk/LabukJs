@@ -51,6 +51,13 @@ User.hasMany(Comment);
 // Importar la definición de la tabla Proyect en project/proyect.js
 var project_path = path.join(__dirname, 'project/project')
 var Project = sequelize.import(project_path);
+// Importar la definición de la tabla Member en project/member.js
+var member_path = path.join(__dirname, 'project/member')
+var Member = sequelize.import(member_path);
+	// Relación Member - Project/User
+	Member.belongsTo(User);
+	Member.belongsTo(Project);
+	Project.hasMany(Member);
 // Importar la definición de la tabla Piece en project/piece.js
 var piece_path = path.join(__dirname, 'project/piece')
 var Piece = sequelize.import(piece_path);
@@ -73,6 +80,7 @@ exports.Comment = Comment; // exportar definición de tabla Comment
 exports.Project = Project; // exportar definición de tabla Project
 exports.Piece = Piece; // exportar definición de tabla Piece
 exports.Task = Task; // exportar definición de tabla Task
+exports.Member = Member; // exportar definición de tabla Member
 
 // sequelize.sync() crea e inicializa la tabla en DB
 sequelize.sync().then(function() {
@@ -82,6 +90,10 @@ sequelize.sync().then(function() {
 			User.create({
 			  nombre: 'Admin',
 			  pass: '1234'
+			});
+			User.create({
+				nombre: 'Seghis',
+				pass: '1234'
 			});
 			Quiz.create({
 			  pregunta: 'Capital de Italia',
@@ -102,9 +114,16 @@ sequelize.sync().then(function() {
 			Piece.create({
 				pie_nombre: 'General',
 				pie_url: 'general'
+			});
+			Member.create({
+				mem_rol:'0',
+				UserId:'1',
+				ProjectId:'1'
 			})
 			.then(function(){console.log('Base de datos inicializada')});
 		};
+
+
 
 	});
 });

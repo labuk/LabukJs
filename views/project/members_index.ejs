@@ -1,0 +1,39 @@
+<% include partial_promenu %><p>
+
+<p>
+Miembros
+</p>
+
+
+<h2> Lista de Miembros </h2>
+
+<!-- Formulario Nuevo Miembro -->
+<button id="displayText" class="submit" style="display: block" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Nuevo Miembro </button>
+<div id="toggleText" style="display: none">
+<a id="closeText" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Cerrar</a>
+	<form method="post" action="/project/<%= project.pro_url %>/members/create">
+	  <label for="nom" class="rem">Nombre:</label>
+		<select id="so" name="member[UserId]">
+		  <option value="" selected="selected">- selecciona -</option>
+			<% var i; if (users) { for (i=0; i < users.length; i++){ %>
+					<option value="<%= users[i].id %>"><%= users[i].nombre %></option>
+			<% }} %>
+		</select>
+		<p>
+		<label for="nom" class="rem">Rol:</label>
+		<input type="radio" name="member[mem_rol]" value="0" > Administrador
+		<input type="radio" name="member[mem_rol]" value="0" > Miembro
+		<input type="radio" name="member[mem_rol]" value="0" > Colaborador
+		</p>
+	  <input type="submit" value="Salvar" />
+	</form>
+</div>
+
+<% var i; if (members) { for (i=0; i < members.length; i++){ %>
+	<table>
+		<tr>
+			<td> <%= members[i].User.nombre %> </td>
+			<td> <%= members[i].mem_rol %> </td>
+		</tr>
+	</table>
+<% }} %>

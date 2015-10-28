@@ -56,6 +56,43 @@ exports.show_pro = function(req, res){
 	res.render('project/project_main',{ project: req.project, errors: []});
 };
 
+// GET /project/:pro_url/members
+exports.members = function(req, res){
+	// Muestra piezas
+	models.Member.findAll({
+		where:{ ProjectId: req.project.id },
+		include: [{model: models.User, attributes: ['nombre']}]
+	}).then(function(members){
+		// Crea los datos del form
+		var member = models.Member.build(
+			{mem_rol: "Rol", UserId: "UserId"}
+		);
+		// Lista posibles nuevos miembros
+		models.User.findAll().then(function(users){
+			res.render('project/members_index', {members: members, member: member, users: users, project: req.project, errors: []});
+	})}).catch(function(error){next(error);})
+};
+
+// POST /project/:pro_url/members/create
+exports.members_create = function(req,res){
+
+	var member = models.Member.build({
+			mem_rol: req.body.member.mem_rol,
+			ProjectId: req.project.id,
+			UserId: req.body.member.UserId
+		});
+
+	member.validate().then(function(err){
+		if (err) {
+			res.render('project/members_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos
+			member.save().then(function(){
+			res.redirect('/project/'+req.params.pro_url+'/members');})
+		}
+	});
+};
+
 // GET /project/:pro_url/pieces
 exports.pieces = function(req, res){
 	// Muestra piezas

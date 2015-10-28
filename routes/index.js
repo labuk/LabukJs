@@ -50,6 +50,8 @@ router.get('/project', projectController.index); // lista de proyectos
 router.get('/project/new', sessionController.loginRequired,projectController.new); // formulario nuevo proyecto
 router.post('/project/create', sessionController.loginRequired,projectController.create); // crear proyecto
 router.get('/project/:pro_url', sessionController.loginRequired,projectController.show_pro); // index proyecto :pro_url
+router.get('/project/:pro_url/members', sessionController.loginRequired,projectController.members); // index miembros del proyecto
+router.post('/project/:pro_url/members/create', sessionController.loginRequired,projectController.members_create); // crear miembro
 router.get('/project/:pro_url/pieces', sessionController.loginRequired,projectController.pieces); // index piezas del proyecto
 router.post('/project/:pro_url/pieces/create', sessionController.loginRequired,projectController.piece_create); // crear piece
 router.put('/project/:pro_url/pieces/:pieceId(\\d+)', sessionController.loginRequired, projectController.piece_update); //editar piece
