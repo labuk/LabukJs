@@ -4,6 +4,9 @@ var models = require('../models/models.js');
 // Cargamos Sequelize
 var sequelize = require('sequelize');
 
+// Cargamos Moments
+var moment = require('moment');
+
 // Autoload - Factoriza el código si la ruta incluye :pro_url
 exports.load = function(req, res, next, pro_url){
 	models.Project.find({
@@ -243,3 +246,33 @@ exports.task_destroy = function(req,res){
 			res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.body.piece.pie_url);
 		}).catch(function(error){next(error)});
 })};
+
+// GET /project/:pro_url/logs
+exports.logs = function(req, res){
+	// Muestra logs
+	models.Log.findAll({
+		where:{ ProjectId: req.project.id },
+		include: [{model: models.User, attributes: ['nombre']}]
+	}).then(function(logs){
+		res.render('project/logs_index', {logs: logs, project: req.project, moment: moment, errors: []});
+	}).catch(function(error){next(error);})
+};
+
+// POST /project/:pro_url/log/create
+exports.log_create = function(req,res){
+	var log = models.Log.build({
+			log_entrada: req.body.log.log_entrada,
+			ProjectId: req.project.id,
+			UserId: req.session.user.id
+	});
+
+	log.validate().then(function(err){
+		if (err) {
+			res.render('project/log_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos pregunta y respuesta
+			log.save().then(function(){
+			res.redirect('/project/'+req.params.pro_url+'/logs');})
+		}
+	});
+};

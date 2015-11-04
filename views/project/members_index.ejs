@@ -22,8 +22,8 @@ Miembros
 		<p>
 		<label for="nom" class="rem">Rol:</label>
 		<input type="radio" name="member[mem_rol]" value="0" > Administrador
-		<input type="radio" name="member[mem_rol]" value="0" > Miembro
-		<input type="radio" name="member[mem_rol]" value="0" > Colaborador
+		<input type="radio" name="member[mem_rol]" value="1" > Miembro
+		<input type="radio" name="member[mem_rol]" value="2" > Colaborador
 		</p>
 	  <input type="submit" value="Salvar" />
 	</form>
@@ -33,7 +33,7 @@ Miembros
 	<table>
 		<tr>
 			<td> <%= members[i].User.nombre %> </td>
-			<td> <%= members[i].mem_rol %> </td>
+			<td> <script>document.write( get_rol(<%= members[i].mem_rol %>) );</script> </td>
 		</tr>
 	</table>
 <% }} %>

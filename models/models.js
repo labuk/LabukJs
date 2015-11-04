@@ -57,13 +57,13 @@ var Member = sequelize.import(member_path);
 	// Relación Member - Project/User
 	Member.belongsTo(User);
 	Member.belongsTo(Project);
-	Project.hasMany(Member);
+	//Project.hasMany(Member);
 // Importar la definición de la tabla Piece en project/piece.js
 var piece_path = path.join(__dirname, 'project/piece')
 var Piece = sequelize.import(piece_path);
 	// Relación Piece - Project/User
 	Piece.belongsTo(Project);
-	Project.hasMany(Piece);
+	//Project.hasMany(Piece);
 	Piece.belongsTo(User);
 // Importar la definición de la tabla Task en project/task.js
 var task_path = path.join(__dirname, 'project/task')
@@ -71,6 +71,13 @@ var Task = sequelize.import(task_path);
 	// Relación Task - Piece
 	Task.belongsTo(Piece);
 	//Task.belongsTo(User);
+// Importar la definición de la tabla Log en project/log.js
+var log_path = path.join(__dirname, 'project/log')
+var Log = sequelize.import(log_path);
+	// Relación Log - Project
+	Log.belongsTo(Project);
+	Log.belongsTo(User);
+
 
 // Fin -- Project
 
@@ -81,6 +88,7 @@ exports.Project = Project; // exportar definición de tabla Project
 exports.Piece = Piece; // exportar definición de tabla Piece
 exports.Task = Task; // exportar definición de tabla Task
 exports.Member = Member; // exportar definición de tabla Member
+exports.Log = Log; // exportar definición de tabla Member
 
 // sequelize.sync() crea e inicializa la tabla en DB
 sequelize.sync().then(function() {

@@ -72,11 +72,10 @@
 <% }} %>
 </table>
 
+<!-- Formulario Añadir Task -->
 <button id="displayText-1" class="submit" style="display: block" type="button" onclick="$('#toggleText-1').toggle(); $('#displayText-1').toggle();">Nueva Tarea </button>
-
 <div id="toggleText-1" style="display: none">
 <a id="closeText-1" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText-1').toggle(); $('#displayText-1').toggle();">Cerrar</a>
-
 <form method="post" action="/project/<%= project.pro_url %>/tasks/<%= piece.pie_url %>/create">
   <label for="tar" class="rem">Tarea:</label><p>
   <textarea rows="4" cols="50" name="task[tas_tarea]" placeholder="Descripción <%= task.tas_tarea%>"></textarea><p>

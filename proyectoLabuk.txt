@@ -30,5 +30,17 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
 // 13-10-2015
   - Añadimos la posibilidad de borrar las piezas.
 
+// 15-10-2015
+  - Añadimos la prioridad a las piezas. En la página mostramos la prioridad haciendo con una llamada a una función js creada.
+
+// 18-10-2015
+  - Añadimos tablón de tareas para mostrarlas de forma más compacta.
+
+// 21-10-2015
+  - Editar y borrar tareas
+
 // 28-10-2015
   - Añadimos miembros a los proyectos.
+
+// 05-11-2015
+  - Añadimos logbook a los proyectos. Los mostramos agrupados por fechas.

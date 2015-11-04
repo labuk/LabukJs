@@ -61,6 +61,10 @@ router.post('/project/:pro_url/tasks/:pie_url/create', sessionController.loginRe
 router.get('/project/:pro_url/tasks', sessionController.loginRequired,projectController.tasks); // index tablón tareas
 router.put('/project/:pro_url/tasks/:taskId(\\d+)', sessionController.loginRequired, projectController.task_update); //editar tarea
 router.delete('/project/:pro_url/tasks/:taskId(\\d+)', sessionController.loginRequired, projectController.task_destroy); //borrar tarea
+router.get('/project/:pro_url/logs', sessionController.loginRequired,projectController.logs); // index tablón tareas
+router.post('/project/:pro_url/logs/create', sessionController.loginRequired,projectController.log_create); // crear log
+
+
 // GET author page
 router.get('/author', function(req, res){
   res.render('author', {errors: []});

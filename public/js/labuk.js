@@ -6,3 +6,11 @@ function get_prioridad(prioridad) {
 	if (prioridad === 3) {return 'Laborioso';}
 	if (prioridad === 4) {return 'Desechado';}
 };
+
+// Function Rol
+function get_rol(rol) {
+	if (rol === 0) {return 'Administrador';}
+	if (rol === 1) {return 'Mimbro';}
+	if (rol === 2) {return 'Colaborador';}
+	if (rol === 3) {return 'Seguidor';}
+};
