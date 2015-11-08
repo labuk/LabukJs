@@ -28,5 +28,5 @@
     "express-session": "~1.0.3",
     "jquery": "~2.1.4",
     "moment": "~2.0.0"
-  }
+    }
 }

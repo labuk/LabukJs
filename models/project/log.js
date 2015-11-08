@@ -1,4 +1,4 @@
-// Definición del modelo Pieces
+// Definición del modelo Logs
 
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define('Log',

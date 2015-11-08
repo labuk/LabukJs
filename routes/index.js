@@ -6,7 +6,7 @@ var commentController = require('../controllers/comment_controller');
 var userController = require('../controllers/user_controller');
 var sessionController = require('../controllers/session_controller');
 var projectController = require('../controllers/project_controller');
-
+var blogController = require('../controllers/blog_controller');
 
 // GET home page
 router.get('/', function(req, res) {
@@ -61,9 +61,12 @@ router.post('/project/:pro_url/tasks/:pie_url/create', sessionController.loginRe
 router.get('/project/:pro_url/tasks', sessionController.loginRequired,projectController.tasks); // index tablón tareas
 router.put('/project/:pro_url/tasks/:taskId(\\d+)', sessionController.loginRequired, projectController.task_update); //editar tarea
 router.delete('/project/:pro_url/tasks/:taskId(\\d+)', sessionController.loginRequired, projectController.task_destroy); //borrar tarea
-router.get('/project/:pro_url/logs', sessionController.loginRequired,projectController.logs); // index tablón tareas
+router.get('/project/:pro_url/logs', sessionController.loginRequired,projectController.logs); // index log
 router.post('/project/:pro_url/logs/create', sessionController.loginRequired,projectController.log_create); // crear log
-
+router.get('/project/:pro_url/ideas', sessionController.loginRequired,projectController.ideas); // index ideas
+router.post('/project/:pro_url/ideas/create', sessionController.loginRequired,projectController.idea_create); // crear idea
+router.get('/project/:pro_url/board', sessionController.loginRequired,projectController.board); // index tablón
+router.post('/project/:pro_url/posts/create', sessionController.loginRequired,blogController.post_create); // crear idea
 
 // GET author page
 router.get('/author', function(req, res){

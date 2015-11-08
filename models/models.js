@@ -57,13 +57,11 @@ var Member = sequelize.import(member_path);
 	// Relación Member - Project/User
 	Member.belongsTo(User);
 	Member.belongsTo(Project);
-	//Project.hasMany(Member);
 // Importar la definición de la tabla Piece en project/piece.js
 var piece_path = path.join(__dirname, 'project/piece')
 var Piece = sequelize.import(piece_path);
 	// Relación Piece - Project/User
 	Piece.belongsTo(Project);
-	//Project.hasMany(Piece);
 	Piece.belongsTo(User);
 // Importar la definición de la tabla Task en project/task.js
 var task_path = path.join(__dirname, 'project/task')
@@ -74,21 +72,40 @@ var Task = sequelize.import(task_path);
 // Importar la definición de la tabla Log en project/log.js
 var log_path = path.join(__dirname, 'project/log')
 var Log = sequelize.import(log_path);
-	// Relación Log - Project
+	// Relación Log - Project / User
 	Log.belongsTo(Project);
 	Log.belongsTo(User);
-
+	// Importar la definición de la tabla Idea en project/idea.js
+	var idea_path = path.join(__dirname, 'project/idea')
+	var Idea = sequelize.import(idea_path);
+		// Relación Log - Project
+		Idea.belongsTo(Project);
 
 // Fin -- Project
 
+// Sección Blog
+// Importar la definición de la tabla Post en blog/post.js
+var post_path = path.join(__dirname, 'blog/post')
+var Post = sequelize.import(post_path);
+	// Relación Post - Project / User
+	Post.belongsTo(Project);
+	Post.belongsTo(User);
+// Fin -- Blog
+
+// Exportar General DB
 exports.User = User; // exportar definición de tabla Comment
 exports.Quiz = Quiz; // exportar definición de tabla Quiz
 exports.Comment = Comment; // exportar definición de tabla Comment
+// Exportar Project DB
 exports.Project = Project; // exportar definición de tabla Project
 exports.Piece = Piece; // exportar definición de tabla Piece
 exports.Task = Task; // exportar definición de tabla Task
 exports.Member = Member; // exportar definición de tabla Member
 exports.Log = Log; // exportar definición de tabla Member
+exports.Idea = Idea; // exportar definición de tabla Idea
+// Exportar Blog DB
+exports.Post = Post; // exportar definición de tabla Post
+
 
 // sequelize.sync() crea e inicializa la tabla en DB
 sequelize.sync().then(function() {

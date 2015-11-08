@@ -276,3 +276,48 @@ exports.log_create = function(req,res){
 		}
 	});
 };
+
+// GET /project/:pro_url/ideas
+exports.ideas = function(req, res){
+	var limit = req.limit | 3;
+	var pag = {current: req.query.pag | 0, total: 0 };
+	var offset = pag.current*limit | 0;
+
+	//models.Idea.findAll({
+	models.Idea.findAndCountAll({
+		where:{ ProjectId: req.project.id },
+		offset: offset,
+		limit: limit
+	}).then(function(ideas){
+		pag.total = ideas.count/limit;
+		console.log (pag);
+		res.render('project/ideas_index', {ideas: ideas.rows, pag: pag, project: req.project, errors: []});
+	}).catch(function(error){next(error);})
+};
+
+// POST /project/:pro_url/idea/create
+exports.idea_create = function(req,res){
+	var idea = models.Idea.build({
+			ide_idea: req.body.idea.ide_idea,
+			ProjectId: req.project.id
+	});
+	idea.validate().then(function(err){
+		if (err) {
+			res.render('project/log_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos pregunta y respuesta
+			idea.save().then(function(){
+			res.redirect('/project/'+req.params.pro_url+'/ideas');})
+		}
+	});
+};
+
+// GET /project/:pro_url/board
+exports.board = function(req, res){
+	models.Post.findAll({
+		where:{ ProjectId: req.project.id },
+		include: [{model: models.User, attributes: ['nombre']}]
+	}).then(function(posts){
+		res.render('project/board_index', {posts: posts, project: req.project, moment: moment, errors: []});
+	}).catch(function(error){next(error);})
+};

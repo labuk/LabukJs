@@ -43,4 +43,11 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
   - Añadimos miembros a los proyectos.
 
 // 05-11-2015
-  - Añadimos logbook a los proyectos. Los mostramos agrupados por fechas.
+  - Añadimos logbook a los proyectos.
+  - Ordenamos los logs agrupados por fechas (verificar orden). Añadimos el middleware 'moment' para formatear la fecha.
+
+
+// (06/08)-11-2015
+  - Añadimos el cajón de ideas a los proyectos.
+  - Añadimos paginación a las ideas.
+  - Añadimos noticias a los proyectos, así como la posibilidad de añadir noticias nuevas.

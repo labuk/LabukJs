@@ -1,0 +1,35 @@
+<% include partial_promenu %><p>
+
+<h2> Tablón noticias </h2>
+
+<!-- Formulario Añadir Post -->
+<button id="displayText-1" class="submit" style="display: block" type="button" onclick="$('#toggleText-1').toggle(); $('#displayText-1').toggle();">Nueva Noticia </button>
+<div id="toggleText-1" style="display: none">
+<a id="closeText-1" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText-1').toggle(); $('#displayText-1').toggle();">Cerrar</a>
+<form method="post" action="/project/<%= project.pro_url %>/posts/create">
+  <label for="tar" class="rem">Noticia:</label><p>
+  <input type="text" rows="4" cols="50" name="post[pos_titulo]" placeholder="Título"><p>
+  <textarea rows="4" cols="50" name="post[pos_resumen]" placeholder="Resumen"></textarea><p>
+  <textarea rows="4" cols="50" name="post[pos_contenido]" placeholder="Contenido"></textarea><p>
+  <input type="submit" value="Salvar" />
+</form>
+</div>
+<% var i; if (posts) { for (i=0; i < posts.length; i++){ %>
+	<table>
+		<tr>
+			<td> <%= posts[i].pos_titulo %> </td>
+		</tr>
+		<tr>
+			<td> <%= posts[i].User.nombre %> </td>
+		</tr>
+    <tr>
+      <td> <%= moment(posts[i].updatedAt).format("YYYY/MM/DD") %> </td>
+    </tr>
+    <tr>
+      <td> <%= posts[i].pos_resumen %> </td>
+    </tr>
+    <tr>
+      <td> <%= posts[i].pos_contenido %> </td>
+    </tr>
+	</table>
+<% }} %>
