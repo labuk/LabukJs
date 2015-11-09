@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var quizController = require('../controllers/quiz_controller');
-var commentController = require('../controllers/comment_controller');
 var userController = require('../controllers/user_controller');
 var sessionController = require('../controllers/session_controller');
 var projectController = require('../controllers/project_controller');
@@ -10,30 +8,11 @@ var blogController = require('../controllers/blog_controller');
 
 // GET home page
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Quiz' , errors: []});
+  res.render('index', { title: 'Labuk' , errors: []});
 });
 
 // Autoload de comandos
-router.param('quizId', quizController.load); //Si existe parametro quizId hace el autoload
-router.param('commentId', commentController.load); //Si existe parametro commentId hace el autoload
 router.param('pro_url', projectController.load); //Si existe parametro pro_url hace el autoload
-
-// Definicion de rutas /quizes
-router.get('/quizes', quizController.index);
-router.get('/quizes/:quizId(\\d+)', quizController.show);
-router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
-router.get('/quizes/new', sessionController.loginRequired, quizController.new); //new quiz
-router.post('/quizes/create', sessionController.loginRequired, quizController.create); //post quiz
-router.get('/quizes/:quizId(\\d+)/edit', sessionController.loginRequired, quizController.edit); //edit quiz
-router.put('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.update); //put quiz
-router.delete('/quizes/:quizId(\\d+)', sessionController.loginRequired, quizController.destroy); //delete quiz
-router.get('/quizes/statistics', quizController.statistics);
-
-// Definicion de rutas /comment
-router.get('/quizes/:quizId(\\d+)/comments/new', commentController.new);
-router.post('/quizes/:quizId(\\d+)/comments', commentController.create);
-router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish', sessionController.loginRequired,commentController.publish);
-	// debería ser pur ya que actualizamos los datos al hacer publish
 
 // Definición de rutas de usuario
 router.get('/user', userController.index); // lista de usuarios
@@ -69,7 +48,11 @@ router.post('/project/:pro_url/logs/create', sessionController.loginRequired, se
 router.get('/project/:pro_url/ideas', sessionController.loginRequired, sessionController.memberRequired, projectController.ideas); // index ideas
 router.post('/project/:pro_url/ideas/create', sessionController.loginRequired, sessionController.memberRequired, projectController.idea_create); // crear idea
 router.get('/project/:pro_url/board', sessionController.loginRequired,sessionController.memberRequired, projectController.board); // index tablón
+
+// Definición de rutas de Blog
 router.post('/project/:pro_url/posts/create', sessionController.loginRequired, sessionController.memberRequired, blogController.post_create); // crear idea
+router.get('/project/:pro_url/posts/:pos_url', sessionController.loginRequired, sessionController.memberRequired, blogController.show_post); // crear idea
+router.post('/project/:pro_url/comments/:pos_url/create', sessionController.loginRequired, sessionController.memberRequired, blogController.comment_create); // crear idea
 
 // GET author page
 router.get('/author', function(req, res){

@@ -1,0 +1,44 @@
+<% include ../project/partial_promenu %><p>
+
+<h3>Post </h3>
+
+<%  if (post) {  %>
+	<table>
+		<tr>
+			<td><%= post.pos_titulo %> </td>
+		</tr>
+		<tr>
+			<td> <%= post.User.nombre %> </td>
+		</tr>
+    <tr>
+      <td> <%= moment(post.updatedAt).format("YYYY/MM/DD") %> </td>
+    </tr>
+    <tr>
+      <td> <%= post.pos_resumen %> </td>
+    </tr>
+    <tr>
+      <td> <%= post.pos_contenido %> </td>
+    </tr>
+	</table>
+<% } %>
+
+<h4>Comentarios</h4>
+
+<!-- Formulario Nueva Idea -->
+	<form method="post" action="/project/<%= project.pro_url %>/comments/<%= post.pos_url %>/create">
+	  <label for="nom" class="rem">Nuevo Comentario:</label><br>
+		<textarea rows="4" cols="50" name="comment[com_texto]" placeholder="Comentario"></textarea><p>
+		<input type="hidden" name ="comment[PostId]" value="<%= post.id %>" />
+	  <input type="submit" value="Salvar" />
+	</form>
+
+
+<% var i; if (comments) { for (i=0; i < comments.length; i++){ %>
+	<table>
+
+		<tr>
+			<td><%= comments[i].com_texto %> </td>
+		</tr>
+
+	</table>
+<% }} %>

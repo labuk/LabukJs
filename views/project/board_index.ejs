@@ -17,7 +17,7 @@
 <% var i; if (posts) { for (i=0; i < posts.length; i++){ %>
 	<table>
 		<tr>
-			<td> <%= posts[i].pos_titulo %> </td>
+			<td> <a href="/project/<%= project.pro_url %>/posts/<%= posts[i].pos_url %>"> <%= posts[i].pos_titulo %> </a></td>
 		</tr>
 		<tr>
 			<td> <%= posts[i].User.nombre %> </td>

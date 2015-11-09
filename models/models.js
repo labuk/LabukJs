@@ -29,24 +29,6 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 var user_path = path.join(__dirname, 'user')
 var User = sequelize.import(user_path);
 
-// Importar la definición de la tabla Quiz en quiz.js
-var quiz_path = path.join(__dirname, 'quiz')
-var Quiz = sequelize.import(quiz_path);
-
-// Importar la definición de la tabla Comment en comment.js
-var comment_path = path.join(__dirname, 'comment')
-var Comment = sequelize.import(comment_path);
-
-// Relación Quiz - Comment
-Comment.belongsTo(Quiz);
-Quiz.hasMany(Comment);
-
-// Relación User - Quiz/Comment
-Quiz.belongsTo(User);
-User.hasMany(Quiz);
-Comment.belongsTo(User);
-User.hasMany(Comment);
-
 // Sección de Project
 // Importar la definición de la tabla Proyect en project/proyect.js
 var project_path = path.join(__dirname, 'project/project')
@@ -90,12 +72,14 @@ var Post = sequelize.import(post_path);
 	// Relación Post - Project / User
 	Post.belongsTo(Project);
 	Post.belongsTo(User);
+var comment_path = path.join(__dirname, 'blog/comment')
+var Comment = sequelize.import(comment_path);
+	// Relación Comment - Post
+	Comment.belongsTo(Post);
 // Fin -- Blog
 
 // Exportar General DB
 exports.User = User; // exportar definición de tabla Comment
-exports.Quiz = Quiz; // exportar definición de tabla Quiz
-exports.Comment = Comment; // exportar definición de tabla Comment
 // Exportar Project DB
 exports.Project = Project; // exportar definición de tabla Project
 exports.Piece = Piece; // exportar definición de tabla Piece
@@ -105,33 +89,22 @@ exports.Log = Log; // exportar definición de tabla Member
 exports.Idea = Idea; // exportar definición de tabla Idea
 // Exportar Blog DB
 exports.Post = Post; // exportar definición de tabla Post
-
+exports.Comment = Comment; // exportar definición de tabla Post
 
 // sequelize.sync() crea e inicializa la tabla en DB
 sequelize.sync().then(function() {
 	// succes(..) ejecuta el manejador una vez creada la tabla
-	Quiz.count().then(function (count){
+
+	Project.count().then(function (count){
 		if (count === 0){ // la tabla se inicializa solo si está vacía
 			User.create({
-			  nombre: 'Admin',
-			  pass: '1234'
+				nombre: 'Admin',
+				pass: '1234'
 			});
 			User.create({
 				nombre: 'Seghis',
 				pass: '1234'
 			});
-			Quiz.create({
-			  pregunta: 'Capital de Italia',
-			  respuesta: 'Roma',
-			  tematica: 'Humanidades',
-			  UserId: '1'
-			})
-			.then(function(){console.log('Base de datos inicializada')});
-		};
-	});
-
-	Project.count().then(function (count){
-		if (count === 0){ // la tabla se inicializa solo si está vacía
 			Project.create({
 				pro_nombre: 'Labuk',
 				pro_url: 'labuk'

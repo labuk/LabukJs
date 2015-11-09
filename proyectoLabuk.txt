@@ -55,3 +55,8 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
 
 // 09-11-2015
   - Añadimos portada pública a los proyectos.
+
+// 10-11-2015
+  - Añadimos una página individual para los post dentro del proyecto.
+  - Añadimos commentarios a los post.
+  - Aliminamos la parte del Proyecto Quiz.
