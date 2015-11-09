@@ -2,7 +2,7 @@ Añadir proyecto: <p>
 
 <form method="post" action="/project/create">
   <label for="nom" class="rem">Nombre:</label>
-  <input type="text" id="nom" name="project[pro_nombre]" value="<%= project.pro_nombre%>" /> </p>
+  <input type="text" id="nom" name="project[pro_nombre]" placeholder="<%= project.pro_nombre%>" /> </p>
   <a href="/project"><button type="button">Cancelar</button></a>
   <input type="submit" value="Salvar" />
 </form>

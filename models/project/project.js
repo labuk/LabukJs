@@ -9,6 +9,9 @@ module.exports = function(sequelize, DataTypes){
 			pro_url:  {
 				type: DataTypes.STRING,
 				validate: {notEmpty: {msg: "-> Falta url"}}
+			},
+			pro_portada:  {
+				type: DataTypes.BOOLEAN
 			}
 		});
 }

@@ -7,6 +7,7 @@ exports.post_create = function(req,res){
 			pos_titulo: req.body.post.pos_titulo,
       pos_resumen: req.body.post.pos_resumen,
       pos_contenido: req.body.post.pos_contenido,
+			pos_url: req.body.post.pos_titulo.replace(/\s+/g, '-').toLowerCase(),
 			ProjectId: req.project.id,
 			UserId: req.session.user.id
 	});

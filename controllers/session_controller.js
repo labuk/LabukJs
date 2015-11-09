@@ -1,3 +1,6 @@
+// Importamos modelo DB
+var models = require('../models/models.js');
+
 // MW de autorización de accesos HTTP restringidos
 exports.loginRequired = function (req, res, next){
 	if (req.session.user) {
@@ -5,6 +8,21 @@ exports.loginRequired = function (req, res, next){
 	} else {
 	  res.redirect('/login');
 	}
+};
+
+// MW de autorización de acceso restringido a proyecto
+exports.memberRequired = function (req, res, next){
+	models.Member.findOne({
+		where:{ ProjectId: req.project.id, UserId: req.session.user.id }
+	}).then(function(member){
+		if (member) {
+			console.log ('Si');
+		  next();
+		} else {
+			console.log ('No');
+		  res.redirect('/project/'+req.params.pro_url+'/front');
+		}
+	});
 };
 
 // GET /login

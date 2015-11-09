@@ -51,3 +51,7 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
   - Añadimos el cajón de ideas a los proyectos.
   - Añadimos paginación a las ideas.
   - Añadimos noticias a los proyectos, así como la posibilidad de añadir noticias nuevas.
+  - Falta página para el post.
+
+// 09-11-2015
+  - Añadimos portada pública a los proyectos.

@@ -35,7 +35,7 @@ exports.new = function(req,res){
 	res.render('project/new', {project: project, errors: []});
 };
 
-// GET /project/create
+// POST /project/create
 exports.create = function(req,res){
 
 	// Sustituimos espacios por '-' y todo en minúscula.
@@ -57,6 +57,36 @@ exports.create = function(req,res){
 // GET /project/:pro_url
 exports.show_pro = function(req, res){
 	res.render('project/project_main',{ project: req.project, errors: []});
+};
+
+// GET /project/:pro_url
+exports.show_front = function(req, res){
+	res.render('project/project_front',{ project: req.project, errors: []});
+};
+
+// PUT /project/:pro_url/update
+exports.project_update = function(req,res){
+
+		req.project.pro_portada = req.body.project.pro_portada || req.project.pro_portada;
+		req.project.pro_nombre = req.body.project.pro_nombre || req.project.pro_nombre;
+		if (req.body.project.pro_nombre) {
+			req.project.pro_url = req.body.project.pro_nombre.replace(/\s+/g, '-').toLowerCase();
+		}
+
+		req.project.validate().then(function(err){
+			if (err) {
+				res.render('project/pieces_index', {piece: piece, project: req.project, errors: err.errors});
+			} else {
+				// cambia en DB los campos pregunta y respuesta
+				req.project.save({fields: ["pro_nombre","pro_url","pro_portada"]}).then(function(){
+					res.redirect('/project/'+req.params.pro_url+'/manage');
+			})}
+		});
+};
+
+// GET /project/:pro_url/manage
+exports.manage = function(req, res){
+	res.render('project/manage_project',{ project: req.project, errors: []});
 };
 
 // GET /project/:pro_url/members
