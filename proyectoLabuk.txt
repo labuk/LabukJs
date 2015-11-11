@@ -59,4 +59,7 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
 // 10-11-2015
   - Añadimos una página individual para los post dentro del proyecto.
   - Añadimos commentarios a los post.
-  - Aliminamos la parte del Proyecto Quiz.
+  - Eliminamos la parte del Proyecto Quiz.
+
+// 11-11-2015
+  - Implementamos bootstrap para el Css con la plantilla DashBoard.
