@@ -1,34 +1,52 @@
 <% include partial_promenu %><p>
 
-<h2 class="page-header"> Lista de Miembros </h2>
+	<script>
+	$('#project_menu a:contains("Miembros")').parent().addClass("active");
+	</script>
+
+<h2 class="page-header">
+	Lista de Miembros
+	<button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal3">Añadir Miembro</button>
+</h2>
 
 <!-- Formulario Nuevo Miembro -->
-<button id="displayText" class="submit" style="display: block" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Nuevo Miembro </button>
-<div id="toggleText" style="display: none">
-<a id="closeText" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText').toggle(); $('#displayText').toggle();">Cerrar</a>
-	<form method="post" action="/project/<%= project.pro_url %>/members/create">
-	  <label for="nom" class="rem">Nombre:</label>
-		<select id="so" name="member[UserId]">
-		  <option value="" selected="selected">- selecciona -</option>
-			<% var i; if (users) { for (i=0; i < users.length; i++){ %>
-					<option value="<%= users[i].id %>"><%= users[i].nombre %></option>
-			<% }} %>
-		</select>
-		<p>
-		<label for="nom" class="rem">Rol:</label>
-		<input type="radio" name="member[mem_rol]" value="0" > Administrador
-		<input type="radio" name="member[mem_rol]" value="1" > Miembro
-		<input type="radio" name="member[mem_rol]" value="2" > Colaborador
-		</p>
-	  <input type="submit" value="Salvar" />
-	</form>
+<div id="myModal3" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Añadir Miembro</h4>
+      </div>
+      <div class="modal-body">
+				<form role="form" method="post" action="/project/<%= project.pro_url %>/members/create">
+          <div class="form-group">
+            <label class="sr-only">Nombre Miembro</label>
+						<select class="form-control" name="member[UserId]">
+							<option value="" selected="selected">- selecciona -</option>
+							<% var i; if (users) { for (i=0; i < users.length; i++){ %>
+									<option value="<%= users[i].id %>"><%= users[i].nombre %></option>
+							<% }} %>
+						</select>
+          </div>
+					<div class="form-group">
+						<label class="control-label">Rol:</label>
+						<input type="radio" name="member[mem_rol]" value="0" > Administrador
+						<input type="radio" name="member[mem_rol]" value="1" > Miembro
+						<input type="radio" name="member[mem_rol]" value="2" > Colaborador
+          	<input type="submit" class="form-control btn btn-success" value="Salvar" />
+					</div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
+<table class="table table-striped table-condensed">
 <% var i; if (members) { for (i=0; i < members.length; i++){ %>
-	<table>
 		<tr>
 			<td> <%= members[i].User.nombre %> </td>
 			<td> <script>document.write( get_rol(<%= members[i].mem_rol %>) );</script> </td>
 		</tr>
-	</table>
 <% }} %>
+</table>

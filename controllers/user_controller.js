@@ -1,6 +1,9 @@
 // Importamos modelo DB
 var models = require('../models/models.js');
 
+// Cargamos Moments
+var moment = require('moment');
+
 // GET /user
 exports.index = function(req, res){
 	models.User.findAll().then(function(users){
@@ -31,8 +34,14 @@ exports.create = function(req,res){
 	}).catch(function(error){next(error)});
 };
 
-
-
+// GET /user/myprofile
+exports.myprofile = function(req,res){
+	models.User.find({
+		where:{ id: 1 }
+	}).then(function(user){
+		res.render('user/myprofile', {user: user, moment: moment, errors: []});
+	}).catch(function(error){next(error);});
+};
 
 // Comprueba si el usuario esta registrado en users
 // Si autenticación falla o hay errores se ejecuta callback(error)

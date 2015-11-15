@@ -1,4 +1,7 @@
-<h2 class="page-header"> Página de proyectos </h2>
+<h2 class="page-header">
+	Página de proyectos
+	<a href="/project/new"><button type="button" class="btn btn-info pull-right">Crear Proyecto</button></a>
+</h2>
 
 <table>
 <% var i; for (i=0; i < projects.length; i++){ %>
@@ -7,5 +10,3 @@
 	</tr>
 <% } %>
 </table>
-
-<a href="/project/new"><button type="button">Crear proyecto</button></a>

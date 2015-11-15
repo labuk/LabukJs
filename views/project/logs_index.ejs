@@ -1,29 +1,49 @@
 <% include partial_promenu %><p>
 
-<h2 class="page-header"> LogBook </h2>
+  <script>
+  $('#project_menu a:contains("Logbook")').parent().addClass("active");
+  </script>
+
+<h2 class="page-header">
+  LogBook
+  <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal">Nuevo Log</button>
+</h2>
 
 <!-- Formulario Añadir Log -->
-<button id="displayText-1" class="submit" style="display: block" type="button" onclick="$('#toggleText-1').toggle(); $('#displayText-1').toggle();">Nueva Entrada </button>
-<div id="toggleText-1" style="display: none">
-<a id="closeText-1" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText-1').toggle(); $('#displayText-1').toggle();">Cerrar</a>
-<form method="post" action="/project/<%= project.pro_url %>/logs/create">
-  <label for="tar" class="rem">Log:</label><p>
-  <textarea rows="4" cols="50" name="log[log_entrada]" placeholder="Entrada"></textarea><p>
-  <input type="submit" value="Salvar" />
-</form>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Nuevo Log</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" method="post" action="/project/<%= project.pro_url %>/logs/create">
+          <div class="form-group">
+            <textarea class="form-control" rows="3" name="log[log_entrada]" placeholder="Entrada"></textarea>
+          </div>
+          <input type="submit" class="form-control btn btn-success" value="Salvar" />
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
-<% var i,time_log; if (logs) { for (i=0; i < logs.length; i++){ %>
-	<table>
+
+  <table class="table table-striped table-condensed">
+    <% var i,time_log; if (logs) { for (i=0; i < logs.length; i++){ %>
 		<% time_this = moment(logs[i].createdAt).format("YYYY/MM/DD"); if (time_log !== time_this) { time_log = time_this; %>
-			<tr>
-				<td> <h3><%= moment(logs[i].createdAt).format("DD/MM/YYYY") %> </h3></td>
-			</tr>
+      <thead>
+  			<tr>
+  				<th> <h3><%= moment(logs[i].createdAt).format("DD/MM/YYYY") %> </h3></th>
+          <th></th>
+  			</tr>
+      </thead>
 		<% }%>
 		<tr>
 			<td> <%= logs[i].log_entrada %> </td>
-		</tr>
-		<tr>
 			<td> <%= logs[i].User.nombre %> </td>
 		</tr>
+
+    <% }} %>
 	</table>
-<% }} %>

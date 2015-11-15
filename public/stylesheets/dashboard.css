@@ -12,6 +12,10 @@ body {
  * Global add-ons
  */
 
+.pull-right {
+   margin-left: 10px;
+ }
+
 .sub-header {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;

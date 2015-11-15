@@ -1,16 +1,17 @@
 <% include partial_promenu %><p>
-
+<script>
+$('#project_menu a:contains("Tareas")').parent().addClass("active");
+</script>
 <h2 class="page-header">Tablón de tareas</h2>
 
-<ul>
-  <li><h4>En cola</h4></li>
+<h4 class="page-header">En cola</h4>
   <% var i; if (tasks) { for (i=0; i < tasks.length; i++){ %>
     <% if (tasks[i].tas_estado === 0) {  %>
-  	<ul>
-      <li>
+  	<ul class="list-group col-md-3">
+      <li class="list-group-item">
       <span><%= tasks[i].id %></span>
   	  <span><%= tasks[i].tas_tarea %></span>
-      <span><%= tasks[i].tas_estado %></span>
+      <span><script>document.write( get_estado(<%= tasks[i].tas_estado %>) );</script></span>
       <span>
         <form id="change_form<%= tasks[i].id %>" method="post" action="/project/<%= project.pro_url %>/tasks/<%= tasks[i].id %>?_method=put">
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado+1 %>");
@@ -23,11 +24,13 @@
   	</ul>
   <% }}} %>
 
-  <li><h4>En desarrollo</h4></li>
+<div class="clearfix"></div>
+
+<h4 class="page-header">En desarrollo</h4>
   <% if (tasks) { for (i=0; i < tasks.length; i++){ %>
     <% if (tasks[i].tas_estado === 1) {  %>
-    <ul>
-      <li>
+    <ul class="list-group col-md-3">
+      <li class="list-group-item">
       <span><%= tasks[i].id %></span>
       <span><%= tasks[i].tas_tarea %></span>
       <span><%= tasks[i].tas_estado %></span>
@@ -38,38 +41,42 @@
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado+1 %>");
                      $("#change_form<%= tasks[i].id %>").submit();' title="Bajar estado"> ▼ </a>
           <input type="hidden" id="change_hidden<%= tasks[i].id %>" name="task[tas_estado]" value="">
+          <input type="hidden" name="task[flag_tab]" value="1">
         </form>
       </span>
       </li>
     </ul>
   <% }}} %>
+<div class="clearfix"></div>
 
-  <li><h4>Boceto</h4></li>
+<h4 class="page-header">Boceto</h4>
   <% if (tasks) { for (i=0; i < tasks.length; i++){ %>
     <% if (tasks[i].tas_estado === 2) {  %>
-    <ul>
-      <li>
+    <ul class="list-group col-md-3">
+      <li class="list-group-item">
       <span><%= tasks[i].id %></span>
       <span><%= tasks[i].tas_tarea %></span>
       <span><%= tasks[i].tas_estado %></span>
       <span>
         <form id="change_form<%= tasks[i].id %>" method="post" action="/project/<%= project.pro_url %>/tasks/<%= tasks[i].id %>?_method=put">
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado-1 %>");
-                     $("#change_form<%= tasks[i].id %>").submit();' title="Subir estado">  ▲ </a>
+                     $("#change_form<%= tasks[i].id %>").submit();' title="Subir estado"> ▲ </a>
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado+1 %>");
                      $("#change_form<%= tasks[i].id %>").submit();' title="Bajar estado"> ▼ </a>
           <input type="hidden" id="change_hidden<%= tasks[i].id %>" name="task[tas_estado]" value="">
+          <input type="hidden" name="task[flag_tab]" value="1">
         </form>
       </span>
       </li>
     </ul>
   <% }}} %>
+<div class="clearfix"></div>
 
-  <li><h4>Perfinalo</h4></li>
+<h4 class="page-header">Perfilado</h4>
   <% if (tasks) { for (i=0; i < tasks.length; i++){ %>
     <% if (tasks[i].tas_estado === 3) {  %>
-    <ul>
-      <li>
+    <ul class="list-group col-md-3">
+      <li class="list-group-item">
       <span><%= tasks[i].id %></span>
       <span><%= tasks[i].tas_tarea %></span>
       <span><%= tasks[i].tas_estado %></span>
@@ -80,17 +87,19 @@
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado+1 %>");
                      $("#change_form<%= tasks[i].id %>").submit();' title="Bajar estado"> ▼ </a>
           <input type="hidden" id="change_hidden<%= tasks[i].id %>" name="task[tas_estado]" value="">
+          <input type="hidden" name="task[flag_tab]" value="1">
         </form>
       </span>
       </li>
     </ul>
   <% }}} %>
+<div class="clearfix"></div>
 
-  <li><h4>Terminado</h4></li>
+<h4 class="page-header">Terminado</h4>
   <% if (tasks) { for (i=0; i < tasks.length; i++){ %>
     <% if (tasks[i].tas_estado === 4) {  %>
-    <ul>
-      <li>
+    <ul class="list-group col-md-3">
+      <li class="list-group-item">
       <span><%= tasks[i].id %></span>
       <span><%= tasks[i].tas_tarea %></span>
       <span><%= tasks[i].tas_estado %></span>
@@ -101,9 +110,10 @@
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado+1 %>");
                      $("#change_form<%= tasks[i].id %>").submit();' title="Bajar estado"> ▼ </a>
           <input type="hidden" id="change_hidden<%= tasks[i].id %>" name="task[tas_estado]" value="">
+          <input type="hidden" name="task[flag_tab]" value="1">
         </form>
       </span>
       </li>
     </ul>
   <% }}} %>
-</ul>
+<div class="clearfix"></div>

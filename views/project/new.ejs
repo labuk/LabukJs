@@ -1,8 +1,13 @@
-Añadir proyecto: <p>
+<h2 class="page-header">
+  Añadir proyecto
+</h2>
 
-<form method="post" action="/project/create">
-  <label for="nom" class="rem">Nombre:</label>
-  <input type="text" id="nom" name="project[pro_nombre]" placeholder="<%= project.pro_nombre%>" /> </p>
-  <a href="/project"><button type="button">Cancelar</button></a>
-  <input type="submit" value="Salvar" />
+<!-- Formulario Añadir Proyecto -->
+<form role="post" method="post" action="/project/create">
+  <div class="form-group">
+    <label class="sr-only">Nombre Proyecto</label>
+    <input type="text" class="form-control" name="project[pro_nombre]" placeholder="<%= project.pro_nombre%>" />
+  </div>
+  <a href="/project"><button class="btn btn-danger" type="button">Cancelar</button></a>
+  <input type="submit" class="btn btn-success" value="Salvar" />
 </form>

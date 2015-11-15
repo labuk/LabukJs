@@ -63,3 +63,8 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
 
 // 11-11-2015
   - Implementamos bootstrap para el Css con la plantilla DashBoard.
+
+// 12-11-2015
+  - Creamos página de My perfil.
+  - Modificamos las tablas y los formularios para qe tenga el formato de Bootstrap.
+  - Los formularios los añadimos a un popup llamado modal.

@@ -18,6 +18,7 @@ router.param('pro_url', projectController.load); //Si existe parametro pro_url h
 router.get('/user', userController.index); // lista de usuarios
 router.get('/user/new', userController.new); // formulario nuevo usuario
 router.post('/user/create', userController.create); // crear usuario
+router.get('/user/myprofile', userController.myprofile); // crear usuario
 
 // Definicion de rutas de session
 router.get('/login', sessionController.new); // formulario login

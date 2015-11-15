@@ -1,35 +1,55 @@
 <% include partial_promenu %><p>
 
-<h2 class="page-header"> Tablón noticias </h2>
+  <script>
+  $('#project_menu a:contains("Tablón")').parent().addClass("active");
+  </script>
+
+<h2 class="page-header">
+  Tablón noticias
+  <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal">Nueva Noticia</button>
+</h2>
 
 <!-- Formulario Añadir Post -->
-<button id="displayText-1" class="submit" style="display: block" type="button" onclick="$('#toggleText-1').toggle(); $('#displayText-1').toggle();">Nueva Noticia </button>
-<div id="toggleText-1" style="display: none">
-<a id="closeText-1" class="submit" href="#" style="	float: right;" type="button" onclick="$('#toggleText-1').toggle(); $('#displayText-1').toggle();">Cerrar</a>
-<form method="post" action="/project/<%= project.pro_url %>/posts/create">
-  <label for="tar" class="rem">Noticia:</label><p>
-  <input type="text" rows="4" cols="50" name="post[pos_titulo]" placeholder="Título"><p>
-  <textarea rows="4" cols="50" name="post[pos_resumen]" placeholder="Resumen"></textarea><p>
-  <textarea rows="4" cols="50" name="post[pos_contenido]" placeholder="Contenido"></textarea><p>
-  <input type="submit" value="Salvar" />
-</form>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Nueva Noticia</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" method="post" action="/project/<%= project.pro_url %>/posts/create">
+          <div class="form-group">
+            <label class="sr-only">Nombre Noticia</label>
+            <input type="text" class="form-control" name="post[pos_titulo]" placeholder="Título">
+          </div>
+          <div class="form-group">
+            <label class="sr-only">Resumen</label>
+            <textarea class="form-control" rows="2" name="post[pos_resumen]" placeholder="Resumen"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="sr-only">Contenido</label>
+            <textarea class="form-control" rows="4" name="post[pos_contenido]" placeholder="Contenido"></textarea>
+          </div>
+          <input type="submit" class="form-control btn btn-success" value="Salvar" />
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+
 <% var i; if (posts) { for (i=0; i < posts.length; i++){ %>
-	<table>
-		<tr>
-			<td> <a href="/project/<%= project.pro_url %>/posts/<%= posts[i].pos_url %>"> <%= posts[i].pos_titulo %> </a></td>
-		</tr>
-		<tr>
-			<td> <%= posts[i].User.nombre %> </td>
-		</tr>
-    <tr>
-      <td> <%= moment(posts[i].updatedAt).format("YYYY/MM/DD") %> </td>
-    </tr>
-    <tr>
-      <td> <%= posts[i].pos_resumen %> </td>
-    </tr>
-    <tr>
-      <td> <%= posts[i].pos_contenido %> </td>
-    </tr>
-	</table>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="text-capitalize">
+        <a col-md-offset-4 href="/project/<%= project.pro_url %>/posts/<%= posts[i].pos_url %>"> <%= posts[i].pos_titulo %> </a>
+      </h3>
+      <span class="col-md-offset-1"><%= moment(posts[i].updatedAt).format("DD/MM/YYYY") %> por <%= posts[i].User.nombre %></span>
+    </div>
+    <div class="panel-body">
+      <%= posts[i].pos_resumen %>
+      <p><a class="btn btn-link btn-sm" role="button" href="/project/<%= project.pro_url %>/posts/<%= posts[i].pos_url %>">Leer más...</a></p>
+    </div>
+  </div>
 <% }} %>

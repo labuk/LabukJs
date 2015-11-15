@@ -7,6 +7,15 @@ function get_prioridad(prioridad) {
 	if (prioridad === 4) {return 'Desechado';}
 };
 
+// Function Estado
+function get_estado(estado) {
+	if (estado === 0) {return 'En cola';}
+	if (estado === 1) {return 'En desarrollo';}
+	if (estado === 2) {return 'Boceto';}
+	if (estado === 3) {return 'Perfilado';}
+	if (estado === 4) {return 'Terminado';}
+};
+
 // Function Rol
 function get_rol(rol) {
 	if (rol === 0) {return 'Administrador';}

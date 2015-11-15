@@ -9,13 +9,21 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>Labuk - coworking</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/stylesheets/dashboard.css" rel="stylesheet">
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/js/labuk.js"></script>
 
   </head>
 
@@ -40,7 +48,7 @@
               <li><a href="/login"> Login </a></li>
               <li><a href="/user/new"> Nuevo usuario </a></li>
             <%} else {%>
-              <li><a href="#"><%= session.user.username %></a></li>
+              <li><a class="text-capitalize" href="/user/myprofile"><%= session.user.username %></a></li>
               <li><a href="/logout">Logout</a></li>
             <% } %>
             <li><a href="#">Help</a></li>
@@ -86,10 +94,5 @@
       </div>
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
   </body>
 </html>

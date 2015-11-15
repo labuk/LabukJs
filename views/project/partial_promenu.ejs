@@ -6,14 +6,18 @@
   <% } %>
   </h2>
 
-   <span><a href="/project/<%= project.pro_url%> ">Principal</a></span>
-   <span><a href="/project/<%= project.pro_url%>/pieces ">Piezas</a></span>
-   <span><a href="/project/<%= project.pro_url%>/ideas ">Ideas</a></span>
-   <span><a href="/project/<%= project.pro_url%>/tasks ">Tareas</a></span>
-   <span><a href="/project/<%= project.pro_url%>/members ">Miembros</a></span>
-   <span><a href="/project/<%= project.pro_url%>/logs ">Logbook</a></span>
-   <span><a href="/project/<%= project.pro_url%>/board ">Tablón</a></span>
-   <span><a href="/project/<%= project.pro_url%>/pieces ">Encuesta</a></span>
-   <span><a href="/project/<%= project.pro_url%>/pieces ">Problemas</a></span>
-   <span><a href="/project/<%= project.pro_url%>/manage ">Gestión</a></span>
+  <ul id="project_menu" class="nav nav-pills">
+    <li><a href="/project/<%= project.pro_url%> ">Resumen</a></li>
+    <li><a href="/project/<%= project.pro_url%>/pieces ">Piezas</a></li>
+    <li><a href="/project/<%= project.pro_url%>/ideas ">Ideas</a></li>
+    <li><a href="/project/<%= project.pro_url%>/tasks ">Tareas</a></li>
+    <li><a href="/project/<%= project.pro_url%>/members ">Miembros</a></li>
+    <li><a href="/project/<%= project.pro_url%>/logs ">Logbook</a></li>
+    <li><a href="/project/<%= project.pro_url%>/board ">Tablón</a></li>
+    <li><a href="/project/<%= project.pro_url%>/pieces ">Encuesta</a></li>
+    <li><a href="/project/<%= project.pro_url%>/pieces ">Problemas</a></li>
+    <li><a href="/project/<%= project.pro_url%>/manage ">Gestión</a></li>
+  </ul>
+
+
 </nav>
