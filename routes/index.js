@@ -39,7 +39,7 @@ router.get('/project/:pro_url/pieces', sessionController.loginRequired, sessionC
 router.post('/project/:pro_url/pieces/create', sessionController.loginRequired, sessionController.memberRequired, projectController.piece_create); // crear piece
 router.put('/project/:pro_url/pieces/:pieceId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.piece_update); //editar piece
 router.delete('/project/:pro_url/pieces/:pieceId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.piece_destroy); //borrar piece
-router.get('/project/:pro_url/pieces/:pie_url', sessionController.loginRequired, sessionController.memberRequired, projectController.show_pie); // index proyecto :pro_url
+router.get('/project/:pro_url/pieces/:pie_url', sessionController.loginRequired, sessionController.memberRequired, projectController.show_pie); // index piece :pie_url
 router.post('/project/:pro_url/tasks/:pie_url/create', sessionController.loginRequired,sessionController.memberRequired, projectController.task_create); // crear tarea
 router.get('/project/:pro_url/tasks', sessionController.loginRequired, sessionController.memberRequired, projectController.tasks); // index tablón tareas
 router.put('/project/:pro_url/tasks/:taskId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.task_update); //editar tarea
@@ -49,6 +49,13 @@ router.post('/project/:pro_url/logs/create', sessionController.loginRequired, se
 router.get('/project/:pro_url/ideas', sessionController.loginRequired, sessionController.memberRequired, projectController.ideas); // index ideas
 router.post('/project/:pro_url/ideas/create', sessionController.loginRequired, sessionController.memberRequired, projectController.idea_create); // crear idea
 router.get('/project/:pro_url/board', sessionController.loginRequired,sessionController.memberRequired, projectController.board); // index tablón
+router.get('/project/:pro_url/problems', sessionController.loginRequired, sessionController.memberRequired, projectController.problems); // index problem
+router.get('/project/:pro_url/problems/:problemId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.show_problem); // index problem :problemId
+router.post('/project/:pro_url/problems/:pie_url/create', sessionController.loginRequired, sessionController.memberRequired, projectController.problem_create); // crear problem
+router.delete('/project/:pro_url/problems/:problemId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.problem_destroy); //borrar problem
+router.post('/project/:pro_url/problems/:problemId(\\d+)/answer/create', sessionController.loginRequired, sessionController.memberRequired, projectController.answer_create); // crear answer
+router.put('/project/:pro_url/problems/:problemId(\\d+)/answer/:answerId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.answer_update); //editar answer
+router.delete('/project/:pro_url/problems/:problemId(\\d+)/answer/:answerId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.answer_destroy); //borrar answer
 
 // Definición de rutas de Blog
 router.post('/project/:pro_url/posts/create', sessionController.loginRequired, sessionController.memberRequired, blogController.post_create); // crear idea

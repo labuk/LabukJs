@@ -1,0 +1,130 @@
+<% include partial_promenu %><p>
+
+	<script>
+	$('#project_menu a:contains("Problemas")').parent().addClass("active");
+	</script>
+
+<h2 class="page-header">
+	Problema
+	<button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal3">Borrar Problema</button>
+</h2>
+
+<!-- Formulario Borrar Problema -->
+<div id="myModal3" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Borrar Problema</h4>
+			</div>
+			<div class="modal-body">
+				<p class="form-control-static">Borrar Problema?</p>
+				<form role="form" method="post" action="/project/<%= project.pro_url %>/problems/<%= problem.id %>?_method=delete">
+					<button type="submit" class="form-control btn btn-danger">Borrar</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<table class="table table-striped table-condensed">
+<% var i; if (problem) {  %>
+		<tr>
+			<td> <%= problem.prb_problema %> </td>
+			<td> <%= problem.prb_estado %> </td>
+		</tr>
+<% } %>
+</table>
+
+<h3 class="page-header">
+  Soluciones
+  <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal">Añadir Solución</button>
+</h3>
+
+<!-- Formulario Añadir Solución -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Añadir Solución</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" method="post" action="/project/<%= project.pro_url %>/problems/<%= problem.id %>/answer/create">
+          <div class="form-group">
+            <label class="sr-only">Solución</label>
+            <textarea class="form-control" rows="3" name="answer[ans_solucion]" placeholder="Descripción <%= answer.ans_solucion %>"></textarea>
+            <input type="hidden" name="answer[ans_estado]" value="0"/>
+            <input type="hidden" name="answer[ProblemId]" value="<%= problem.id%>"/>
+          </div>
+          <input type="submit" class="form-control btn btn-success" value="Salvar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-striped table-condensed">
+<% var i; if (answers) {  for(i=0; i < answers.length; i++) {%>
+		<tr>
+			<td> <%= answers[i].ans_solucion %> <%= answers[i].id %></td>
+			<td> <script>document.write( get_answer(<%= answers[i].ans_estado %>) );</script> </td>
+
+			<td class="col-md-1">
+	      <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#myModal2">Borrar Solución</button>
+	      <!-- Formulario Borrar Answer -->
+	      <div id="myModal2" class="modal fade" role="dialog">
+	        <div class="modal-dialog">
+	          <!-- Modal content-->
+	          <div class="modal-content">
+	            <div class="modal-header">
+	              <button type="button" class="close" data-dismiss="modal">&times;</button>
+	              <h4 class="modal-title">Borrar Solución</h4>
+	            </div>
+	            <div class="modal-body">
+	              <p class="form-control-static">Borrar Solución?</p>
+	              <form role="form" method="post" action="/project/<%= project.pro_url %>/problems/<%= problem.id %>/answer/<%= answers[i].id %>?_method=delete">
+	                <button type="submit" class="form-control btn btn-danger">Borrar</button>
+	              </form>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </td>
+
+			<td class="col-md-1">
+			<!-- Formulario Editar Answer -->
+			<button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#myModal1_<%= answers[i].id %>">Editar Solución</button>
+			<div id="myModal1_<%= answers[i].id %>" class="modal fade" role="dialog">
+				<div class="modal-dialog">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Editar Solución</h4>
+						</div>
+						<div class="modal-body">
+							<form role="form" id="change_form<%= answers[i].id %>" method="post" action="/project/<%= project.pro_url %>/problems/<%= problem.id %>/answer/<%= answers[i].id %>?_method=put">
+								<div class="form-group">
+									<label class="sr-only">Solución</label>
+									<input type="text" class="form-control" name="answer[ans_solucion]" value="<%= answers[i].ans_solucion%>" />
+								</div>
+								<div class="form-group">
+									<label class="control-label">Estado:</label>
+									<input id="check<%= answers[i].id %>0" type="radio" name="answer[ans_estado]" value="0" > Pendiente revisión
+									<input id="check<%= answers[i].id %>1" type="radio" name="answer[ans_estado]" value="1" > Solución
+									<input id="check<%= answers[i].id %>2" type="radio" name="answer[ans_estado]" value="2" > Error
+									<script>$('input#check<%= answers[i].id %><%= answers[i].ans_estado %>').prop('checked', true);</script>
+								</div>
+								<input type="submit" class="form-control btn btn-success" value="Editar" />
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			</td>
+		</tr>
+<% }} %>
+</table>

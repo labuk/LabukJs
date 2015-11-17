@@ -57,11 +57,22 @@ var Log = sequelize.import(log_path);
 	// Relación Log - Project / User
 	Log.belongsTo(Project);
 	Log.belongsTo(User);
-	// Importar la definición de la tabla Idea en project/idea.js
-	var idea_path = path.join(__dirname, 'project/idea')
-	var Idea = sequelize.import(idea_path);
-		// Relación Log - Project
-		Idea.belongsTo(Project);
+// Importar la definición de la tabla Idea en project/idea.js
+var idea_path = path.join(__dirname, 'project/idea')
+var Idea = sequelize.import(idea_path);
+	// Relación Idea - Project
+	Idea.belongsTo(Project);
+// Importar la definición de la tabla Idea en project/problem.js
+var problem_path = path.join(__dirname, 'project/problem')
+var Problem = sequelize.import(problem_path);
+	// Relación Problem - Project/Piece
+	Problem.belongsTo(Project);
+	Problem.belongsTo(Piece);
+// Importar la definición de la tabla Idea en project/problem.js
+var answer_path = path.join(__dirname, 'project/answer')
+var Answer = sequelize.import(answer_path);
+	// Relación Answer - Problem
+	Answer.belongsTo(Answer);
 
 // Fin -- Project
 
@@ -87,6 +98,8 @@ exports.Task = Task; // exportar definición de tabla Task
 exports.Member = Member; // exportar definición de tabla Member
 exports.Log = Log; // exportar definición de tabla Member
 exports.Idea = Idea; // exportar definición de tabla Idea
+exports.Problem = Problem; // exportar definición de tabla Problem
+exports.Answer = Answer; // exportar definición de tabla Idea
 // Exportar Blog DB
 exports.Post = Post; // exportar definición de tabla Post
 exports.Comment = Comment; // exportar definición de tabla Post

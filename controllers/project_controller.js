@@ -210,10 +210,13 @@ exports.show_pie = function(req, res){
 			models.Task.findAll({
 					where: { PieceId: piece.id },
 				}).then(function(tasks){
-					//console.log(tasks);
-					var task = models.Task.build( {tas_tarea: "Tarea", PieceId: "PieceId"} );
-					res.render('project/piece_main',{ piece: piece, project: req.project, task: task, tasks: tasks, errors: []});
-		})} else { next(new Error('No existe piece ')); }
+					models.Problem.findAll({
+							where: { PieceId: piece.id },
+						}).then(function(problems){
+							var task = models.Task.build( {tas_tarea: "Tarea", PieceId: "PieceId"} );
+							var problem = models.Problem.build( {prb_problema: "Problema", prb_estado: "Estado", PieceId: "PieceId", ProjectId: "ProjectId"} )
+							res.render('project/piece_main',{ piece: piece, project: req.project, task: task, tasks: tasks, problem: problem, problems: problems, errors: []});
+		})})} else { next(new Error('No existe piece ')); }
 		}).catch(function(error){ next(error);} );
 };
 
@@ -351,3 +354,96 @@ exports.board = function(req, res){
 		res.render('project/board_index', {posts: posts, project: req.project, moment: moment, errors: []});
 	}).catch(function(error){next(error);})
 };
+
+// GET /project/:pro_url/problems
+exports.problems = function(req, res){
+	models.Problem.findAll({
+		where:{ ProjectId: req.project.id },
+	}).then(function(problems){
+		res.render('project/problems_index', {problems: problems, project: req.project, errors: []});
+	}).catch(function(error){next(error);})
+};
+
+// GET /project/:pro_url/problems/:problemId
+exports.show_problem = function(req, res){
+	models.Problem.find({
+		where:{ ProjectId: req.project.id, id: req.params.problemId },
+	}).then(function(problem){
+		models.Answer.findAll({
+			//where:{ ProblemId: req.params.problemId }, // TEST - Cascade para destroy
+		}).then(function(answers){
+			var answer = models.Answer.build( {ans_solucion: "Solución", ans_estado: "Estado", ProblemId: "ProblemId"} )
+			res.render('project/problems_main', {problem: problem, answer: answer, answers: answers, project: req.project, errors: []});
+	})}).catch(function(error){next(error);})
+};
+
+// POST /project/:pro_url/problem/:pie_url/create
+exports.problem_create = function(req,res){
+
+	var problem = models.Problem.build(req.body.problem);
+
+	problem.validate().then(function(err){
+		if (err) {
+			res.render('project/pieces_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos pregunta y respuesta
+			problem.save().then(function(){
+			res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.params.pie_url);})
+		}
+	});
+}
+
+// DELETE /project/:pro_url/problems/:problemId
+exports.problem_destroy = function(req,res){
+	models.Problem.find({
+		where:{ id: req.params.problemId }
+	}).then(function(problem){
+	 	problem.destroy().then(function() {
+			res.redirect('/project/'+req.params.pro_url+'/problems/');
+		}).catch(function(error){next(error)});
+})};
+
+// POST /project/:pro_url/problems/:problemId/answer/create
+exports.answer_create = function(req,res){
+
+	var answer = models.Answer.build(req.body.answer);
+
+	answer.validate().then(function(err){
+		if (err) {
+			res.render('project/pieces_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos pregunta y respuesta
+			answer.save().then(function(){
+			res.redirect('/project/'+req.params.pro_url+'/problems/'+req.params.problemId);})
+		}
+	});
+}
+
+// PUT /project/:pro_url/problems/:problemId/answer/:answerId
+exports.answer_update = function(req,res){
+	models.Answer.find({
+		where:{ id: req.params.answerId }
+	}).then(function(answer){
+		answer.ans_tarea = req.body.answer.ans_solucion;
+		answer.ans_estado = req.body.answer.ans_estado;
+		answer.validate().then(function(err){
+			if (err) {
+				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
+			} else {
+				// cambia en DB los campos pregunta y respuesta
+				answer.save({fields: ["ans_solucion","ans_estado"] }).then(function(){
+				res.redirect('/project/'+req.params.pro_url+'/problems/'+req.params.problemId);
+			});
+		}
+	})});
+};
+
+// DELETE /project/:pro_url/problems/:problemId/answer/:answerId
+exports.answer_destroy = function(req,res){
+	models.Answer.find({
+		where:{ id: req.params.answerId }
+	}).then(function(answer){
+	 	answer.destroy().then(function() {
+			res.redirect('/project/'+req.params.pro_url+'/problems/'+req.params.problemId);
+		}).catch(function(error){next(error)});
+})};
