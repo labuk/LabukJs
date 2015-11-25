@@ -56,6 +56,14 @@ router.delete('/project/:pro_url/problems/:problemId(\\d+)', sessionController.l
 router.post('/project/:pro_url/problems/:problemId(\\d+)/answer/create', sessionController.loginRequired, sessionController.memberRequired, projectController.answer_create); // crear answer
 router.put('/project/:pro_url/problems/:problemId(\\d+)/answer/:answerId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.answer_update); //editar answer
 router.delete('/project/:pro_url/problems/:problemId(\\d+)/answer/:answerId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.answer_destroy); //borrar answer
+router.get('/project/:pro_url/polls', sessionController.loginRequired, sessionController.memberRequired, projectController.polls); // index polls
+router.post('/project/:pro_url/polls/create', sessionController.loginRequired, sessionController.memberRequired, projectController.poll_create); // crear poll
+router.get('/project/:pro_url/polls/:pollId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.show_poll); // index poll :pollId
+router.post('/project/:pro_url/polls/:pollId(\\d+)/option/create', sessionController.loginRequired, sessionController.memberRequired, projectController.option_create); // crear option
+router.put('/project/:pro_url/polls/:pollId(\\d+)/option/:optionId', sessionController.loginRequired, sessionController.memberRequired, projectController.option_update); //editar tarea
+router.post('/project/:pro_url/polls/:pollId(\\d+)/vote/create', sessionController.loginRequired, sessionController.memberRequired, projectController.vote_create); // crear vote
+router.put('/project/:pro_url/polls/:pollId(\\d+)/vote/:voteId', sessionController.loginRequired, sessionController.memberRequired, projectController.vote_update); //editar vote
+
 
 // Definición de rutas de Blog
 router.post('/project/:pro_url/posts/create', sessionController.loginRequired, sessionController.memberRequired, blogController.post_create); // crear idea

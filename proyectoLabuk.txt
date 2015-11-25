@@ -1,0 +1,84 @@
+@@ -1,70 +0,0 @@
+﻿// Proyecto Quiz
+quiz-2015-sergio.herokuapp.com
+https://github.com/labuk/proyectoQuiz
+
+//05-10-2015
+Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
+  - Creamos la página principal de proyectos, donde se presentan en lista.
+  - Creo el formulario de creación de proyectos.
+  - Hago una página por proyecto relativa al :projectId (cambiar por url).
+
+//06-10-2015
+  - Creamos un url para el proyecto substituyendo los espacios y utilizando minúsculas con:
+      str = str.replace(/\s+/g, '-').toLowerCase();
+  - Creamos la parte para añadir piezas al proyecto. Listamos las piezas, creamos nuevas y con una página propia para cada pieza.
+  - Creamos el menú dentro del proyecto.
+  - Falta enlazar las piezas con su proyecto.
+
+// 07-10-2015
+  - Enlazamos las piezas con su correspondiente proyecto.
+  - Mostramos el nombre de usuario que ha creado la pieza mediante include: [{model: models.***, attributes: ['***']}]
+  - Creamos una sesion para no tener que hacer login siempre en app.js
+
+// 08-10-2015
+  - Creamos el modelo y las páginas de tareas referentes a una pieza.
+  - Añadimos el pop up para las nuevas tareas: <div id="toggleText" style="display: none"></div>
+
+// 09-10-2015
+  - Añadimos la posibilidad de editar las piezas.
+
+// 13-10-2015
+  - Añadimos la posibilidad de borrar las piezas.
+
+// 15-10-2015
+  - Añadimos la prioridad a las piezas. En la página mostramos la prioridad haciendo con una llamada a una función js creada.
+
+// 18-10-2015
+  - Añadimos tablón de tareas para mostrarlas de forma más compacta.
+
+// 21-10-2015
+  - Editar y borrar tareas
+
+// 28-10-2015
+  - Añadimos miembros a los proyectos.
+
+// 05-11-2015
+  - Añadimos logbook a los proyectos.
+  - Ordenamos los logs agrupados por fechas (verificar orden). Añadimos el middleware 'moment' para formatear la fecha.
+
+
+// (06/08)-11-2015
+  - Añadimos el cajón de ideas a los proyectos.
+  - Añadimos paginación a las ideas.
+  - Añadimos noticias a los proyectos, así como la posibilidad de añadir noticias nuevas.
+  - Falta página para el post.
+
+// 09-11-2015
+  - Añadimos portada pública a los proyectos.
+
+// 10-11-2015
+  - Añadimos una página individual para los post dentro del proyecto.
+  - Añadimos commentarios a los post.
+  - Eliminamos la parte del Proyecto Quiz.
+
+// 11-11-2015
+  - Implementamos bootstrap para el Css con la plantilla DashBoard.
+
+// 16-11-2015
+  - Creamos página de My perfil.
+  - Modificamos las tablas y los formularios para que tenga el formato de Bootstrap.
+  - Los formularios los añadimos a un popup llamado modal.
+  - Añadimos los botones para abrir los formularios en los header correspondientes.
+
+// 18-11-2015
+  - Añadimos los problemas para las piezas.
+  - Creamos una página para gestionar problemas.
+  - Añadimos la parte de las posibles soluciones al problema.
+&  - Falta mirar como borrar las partes en cascada.
+
+// 26-11-2015
+  - Añadimos las encuentas en el proyecto.
+  - Las respuestas de la encuesta se añaden en la misma encuesta.
+  - Montamos el sistema de votos, para nuevos votantes y para modificar el mismo.
+&  - Falta editar y borrar la pregunta de la encuesta y las respuestas.

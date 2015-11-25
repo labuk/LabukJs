@@ -73,7 +73,6 @@ var answer_path = path.join(__dirname, 'project/answer')
 var Answer = sequelize.import(answer_path);
 	// Relación Answer - Problem
 	Answer.belongsTo(Answer);
-
 // Fin -- Project
 
 // Sección Blog
@@ -89,6 +88,26 @@ var Comment = sequelize.import(comment_path);
 	Comment.belongsTo(Post);
 // Fin -- Blog
 
+// Sección Poll
+// Importar la definición de la tabla Post en poll/poll.js
+var poll_path = path.join(__dirname, 'poll/poll')
+var Poll = sequelize.import(poll_path);
+	// Relación Post - Project / User
+	Poll.belongsTo(Project);
+	Poll.belongsTo(User);
+// Importar la definición de la tabla Post en poll/option.js
+var option_path = path.join(__dirname, 'poll/option')
+var Option = sequelize.import(option_path);
+	// Relación Post - Project / User
+	Option.belongsTo(Poll);
+// Importar la definición de la tabla Post en poll/vote.js
+var vote_path = path.join(__dirname, 'poll/vote')
+var Vote = sequelize.import(vote_path);
+	// Relación Post - Project / User
+	Vote.belongsTo(Poll);
+	Vote.belongsTo(User);
+// Fin -- Poll
+
 // Exportar General DB
 exports.User = User; // exportar definición de tabla Comment
 // Exportar Project DB
@@ -102,7 +121,11 @@ exports.Problem = Problem; // exportar definición de tabla Problem
 exports.Answer = Answer; // exportar definición de tabla Idea
 // Exportar Blog DB
 exports.Post = Post; // exportar definición de tabla Post
-exports.Comment = Comment; // exportar definición de tabla Post
+exports.Comment = Comment; // exportar definición de tabla Comment
+// Exportar Poll DB
+exports.Poll = Poll; // exportar definición de tabla Poll
+exports.Option = Option; // exportar definición de tabla Option
+exports.Vote = Vote; // exportar definición de tabla Vote
 
 // sequelize.sync() crea e inicializa la tabla en DB
 sequelize.sync().then(function() {

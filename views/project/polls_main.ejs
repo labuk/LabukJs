@@ -1,0 +1,75 @@
+<% include partial_promenu %><p>
+
+	<script>
+	$('#project_menu a:contains("Encuesta")').parent().addClass("active");
+	</script>
+
+<h2 class="page-header">
+	Encuesta
+</h2>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+		<h3><%= poll.pol_pregunta %>
+		<div class="clearfix">
+			<button id="ver_resultados" class="btn btn-default pull-right" style="display:none" onclick="$('#ver_resultados').toggle(); $('#resultados_encuesta').toggle(); ">Ver Resultados</button>
+			<button id="ver_nueva" class="btn btn-default pull-right" onclick="$('#nueva_respuesta').toggle();">Nueva Respuesta</button>
+		</div>
+		</h3>
+	</div>
+  <div id="resultados_encuesta" class="panel-body">
+		<button type="button" class="close" aria-hidden="true" onclick="$('#ver_resultados').toggle(); $('#resultados_encuesta').toggle();" >&times;</button>
+		<% var i; if (options) { for (i=0; i < options.length; i++){ %>
+		<p><%= options[i].opt_respuesta %></p>
+		<div class="progress progress-striped">
+		  <div class="progress-bar progress-bar-warning" role="progressbar"
+		       aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+		       style="width: <%= options[i].opt_votos/poll.pol_votos*100 %>%">
+					 <%= options[i].opt_votos %> votos
+		    <span class="sr-only">40% completado (éxito)</span>
+		  </div>
+		</div>
+		<% }} %>
+  </div>
+
+  <ul class="list-group">
+		<li id="nueva_respuesta" style="display:none" class="list-group-item">
+		<form role="form" method="post" action="/project/<%= project.pro_url %>/polls/<%= poll.id %>/option/create">
+			<div class="form-group">
+				<textarea class="form-control" rows="3" name="option[opt_respuesta]" placeholder="Respuesta"></textarea>
+				<input type="hidden" name="option[opt_votos]" value="0" >
+				<input type="hidden" name="option[PollId]" value="<%= poll.id %>" >
+			</div>
+			<div class="form-group">
+				<input type="submit" class="btn btn-success" value="Salvar" />
+			</div>
+		</form>
+		</li>
+		<form id="salvar_voto" role="form" method="post" action="/project/<%= project.pro_url %>/polls/<%= poll.id %>/vote/create">
+			<% var i; if (options) { for (i=0; i < options.length; i++){ %>
+				<li class="list-group-item"><div class="radio-inline"><input type="radio" id="check<%= options[i].id %>" name="vote[vot_voto]" value="<%= options[i].id %>" > <%= options[i].opt_respuesta %> </div></li>
+				<li class="list-group-item"><%= options[i].opt_votos %></li>
+			<% }} %>
+			<script>$('#check<%= votes.vot_voto %>').prop('checked', true);</script>
+			<input type="hidden" name="vote[PollId]" value="<%= poll.id %>" >
+			<input type="hidden" name="vote[old_option]" value="<%= votes.vot_voto %>" >
+			<li class="list-group-item"><input id="salvar_voto" type="submit" class="btn btn-success" value="Salvar Voto" /></li>
+		</form>
+		<form id="cambiar_voto" role="form" method="post" action="/project/<%= project.pro_url %>/polls/<%= poll.id %>/vote/<%= votes.id %>?_method=put">
+			<% var i; if (options) { for (i=0; i < options.length; i++){ %>
+				<li class="list-group-item"><div class="radio-inline"><input type="radio" id="check<%= options[i].id %>" name="vote[vot_voto]" value="<%= options[i].id %>" > <%= options[i].opt_respuesta %> </div></li>
+			<% }} %>
+			<script>$('#check<%= votes.vot_voto %>').prop('checked', true);</script>
+			<input type="hidden" name="vote[PollId]" value="<%= poll.id %>" >
+			<input type="hidden" name="vote[old_option]" value="<%= votes.vot_voto %>" >
+			<li class="list-group-item"><input type="submit" class="btn btn-success" value="Cambiar Voto" /></li>
+		</form>
+  </ul>
+</div>
+
+<% if (votes) {  %>
+	<script>$('#salvar_voto').toggle();</script>
+<% } else { %>
+	<script>$('#cambiar_voto').toggle();</script>
+	<script>$('#ver_resultados').toggle(); $('#resultados_encuesta').toggle();</script>
+<% } %>

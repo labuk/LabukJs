@@ -447,3 +447,121 @@ exports.answer_destroy = function(req,res){
 			res.redirect('/project/'+req.params.pro_url+'/problems/'+req.params.problemId);
 		}).catch(function(error){next(error)});
 })};
+
+
+// GET /project/:pro_url/polls
+exports.polls = function(req, res){
+	models.Poll.findAll({
+		where:{ ProjectId: req.project.id },
+	}).then(function(polls){
+		var poll = models.Poll.build( {pol_pregunta: "Pregunta", pol_votos: "Votos", ProjectId: "ProjectId"} )
+		res.render('project/polls_index', {polls: polls,poll: poll, project: req.project, errors: []});
+	}).catch(function(error){next(error);})
+};
+
+
+// POST /project/:pro_url/polls/create
+exports.poll_create = function(req,res){
+	var poll = models.Poll.build(req.body.poll);
+	poll.validate().then(function(err){
+		if (err) {
+			res.render('project/pieces_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos pregunta y respuesta
+			poll.save().then(function(){
+			res.redirect('/project/'+req.params.pro_url+'/polls/'+poll.id);})
+		}
+	});
+}
+
+// GET /project/:pro_url/polls/:pollId
+exports.show_poll = function(req, res){
+	models.Poll.findOne({
+		where:{ id: req.params.pollId },
+	}).then(function(poll){
+		models.Option.findAll({
+			where:{ Pollid: req.params.pollId },
+		}).then(function(options){
+			models.Vote.findOne({
+				where:{ Pollid: req.params.pollId, UserId: req.session.user.id }
+			}).then(function(votes){
+				if (!votes){var votes = 0;}
+				var vote = models.Vote.build( {vot_voto: "Voto", PollId: "PollId"} )
+				var option = models.Option.build( {opt_respuesta: "Respuesta", opt_votos: "Votos", PollId: "PollId"} )
+				res.render('project/polls_main', {poll: poll, option: option, options: options, vote: vote, votes: votes, project: req.project, errors: []});
+	})})}).catch(function(error){next(error);})
+};
+
+// POST /project/:pro_url/polls/:pollId/option/create
+exports.option_create = function(req,res){
+	var option = models.Option.build(req.body.option);
+	option.validate().then(function(err){
+		if (err) {
+			res.render('project/pieces_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos pregunta y respuesta
+			option.save().then(function(){
+			res.redirect('/project/'+ req.params.pro_url+'/polls/'+ req.params.pollId);})
+		}
+	});
+}
+
+// PUT /project/:pro_url/polls/:pollId/option/:optionId
+exports.option_update = function(req,res){
+	models.Option.find({
+		where:{ id: req.params.optionId }
+	}).then(function(option){
+		option.opt_respuesta = req.body.option.opt_respuesta;
+		option.opt_votos = req.body.option.opt_votos;
+		option.validate().then(function(err){
+			if (err) {
+				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
+			} else {
+				// cambia en DB los campos pregunta y respuesta
+				option.save({fields: ["ans_solucion","ans_estado"] }).then(function(){
+				res.redirect('/project/'+ req.params.pro_url+'/polls/'+ req.params.pollId);
+			});
+		}
+	})});
+};
+
+// POST /project/:pro_url/polls/:pollId/vote/create
+exports.vote_create = function(req,res){
+	var vote = models.Vote.build(req.body.vote);
+	vote.UserId = req.session.user.id;
+	vote.validate().then(function(err){
+		if (err) {
+			res.render('project/pieces_index', {piece: piece, errors: err.errors});
+		} else {
+			sequelize.Promise.all([
+		 		models.Option.findOne( {where: { id: req.body.vote.vot_voto }} ),
+				models.Poll.findOne( {where: { id: req.body.vote.PollId }} )
+			]).then(function(result){
+				result[0].opt_votos = result[0].opt_votos + 1;
+				result[1].pol_votos = result[1].pol_votos + 1;
+				result[0].save({fields: ["opt_votos"] }).then(function(){
+					result[1].save({fields: ["pol_votos"] }).then(function(){
+						vote.save().then(function(){
+							res.redirect('/project/'+ req.params.pro_url+'/polls/'+ req.params.pollId);
+		})})})})}
+	});
+}
+
+// PUT /project/:pro_url/polls/:pollId/vote/:voteId
+exports.vote_update = function(req,res){
+	console.log(req.params.voteId);
+	sequelize.Promise.all([
+		models.Vote.findOne( {where: { id: req.params.voteId }} ),
+		models.Option.findOne( {where: { id: req.body.vote.vot_voto }} ),
+		models.Option.findOne( {where: { id: req.body.vote.old_option }} )
+	]).then(function(result){
+			result[0].vot_voto = req.body.vote.vot_voto;
+			result[1].opt_votos = result[1].opt_votos + 1;
+			result[2].opt_votos = result[2].opt_votos - 1;
+			result[1].save({fields: ["opt_votos"] }).then(function(){
+				result[2].save({fields: ["opt_votos"] }).then(function(){
+					result[0].save({fields: ["vot_voto"] }).then(function(){
+						res.redirect('/project/'+ req.params.pro_url+'/polls/'+ req.params.pollId);
+		})})})
+	});
+}

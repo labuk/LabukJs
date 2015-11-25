@@ -1,4 +1,4 @@
-// Definición del modelo Problem
+// Definición del modelo Answer
 
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define('Answer',
