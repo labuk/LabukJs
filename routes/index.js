@@ -18,7 +18,8 @@ router.param('pro_url', projectController.load); //Si existe parametro pro_url h
 router.get('/user', userController.index); // lista de usuarios
 router.get('/user/new', userController.new); // formulario nuevo usuario
 router.post('/user/create', userController.create); // crear usuario
-router.get('/user/myprofile', userController.myprofile); // crear usuario
+router.get('/user/myprofile', userController.myprofile); // perfil mi usuario
+router.get('/user/profile/:userId', userController.show_profile); // perfil usuario :userId
 
 // Definicion de rutas de session
 router.get('/login', sessionController.new); // formulario login
@@ -30,6 +31,7 @@ router.get('/project', projectController.index); // lista de proyectos
 router.get('/project/new', sessionController.loginRequired,projectController.new); // formulario nuevo proyecto
 router.post('/project/create', sessionController.loginRequired,projectController.create); // crear proyecto
 router.get('/project/:pro_url', sessionController.loginRequired, sessionController.memberRequired, projectController.show_pro); // index proyecto :pro_url
+router.delete('/project/:pro_url/:projectId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.project_destroy); //borrar project
 router.get('/project/:pro_url/front', sessionController.loginRequired, projectController.show_front); // portada proyecto :pro_url
 router.get('/project/:pro_url/manage', sessionController.loginRequired, sessionController.memberRequired, projectController.manage); // index modificar proyecto
 router.put('/project/:pro_url/update', sessionController.loginRequired, sessionController.memberRequired, projectController.project_update); //editar proyecto
@@ -59,8 +61,11 @@ router.delete('/project/:pro_url/problems/:problemId(\\d+)/answer/:answerId(\\d+
 router.get('/project/:pro_url/polls', sessionController.loginRequired, sessionController.memberRequired, projectController.polls); // index polls
 router.post('/project/:pro_url/polls/create', sessionController.loginRequired, sessionController.memberRequired, projectController.poll_create); // crear poll
 router.get('/project/:pro_url/polls/:pollId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.show_poll); // index poll :pollId
+router.put('/project/:pro_url/polls/:pollId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.poll_update); // index poll :pollId
+router.delete('/project/:pro_url/polls/:pollId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.poll_destroy); // index poll :pollId
 router.post('/project/:pro_url/polls/:pollId(\\d+)/option/create', sessionController.loginRequired, sessionController.memberRequired, projectController.option_create); // crear option
-router.put('/project/:pro_url/polls/:pollId(\\d+)/option/:optionId', sessionController.loginRequired, sessionController.memberRequired, projectController.option_update); //editar tarea
+router.put('/project/:pro_url/polls/:pollId(\\d+)/option/:optionId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.option_update); //editar option
+router.delete('/project/:pro_url/polls/:pollId(\\d+)/option/:optionId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.option_destroy); //borrar option
 router.post('/project/:pro_url/polls/:pollId(\\d+)/vote/create', sessionController.loginRequired, sessionController.memberRequired, projectController.vote_create); // crear vote
 router.put('/project/:pro_url/polls/:pollId(\\d+)/vote/:voteId', sessionController.loginRequired, sessionController.memberRequired, projectController.vote_update); //editar vote
 

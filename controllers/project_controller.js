@@ -48,9 +48,11 @@ exports.create = function(req,res){
 			res.render('project/new', {project: project, errors: err.errors});
 		} else {
 			// guarda en DB los campos pregunta y respuesta
-			project.save({fields: ["pro_nombre", "pro_url"]}).then(function(){
-			res.redirect('/project');})
-		}
+			project.save().then(function(projectId){
+			var member = models.Member.build({mem_rol: 0, ProjectId: projectId.id, UserId: req.session.user.id});
+			member.save().then(function(){
+				res.redirect('/project/'+req.body.project.pro_url);
+		})})}
 	});
 };
 
@@ -59,7 +61,7 @@ exports.show_pro = function(req, res){
 	res.render('project/project_main',{ project: req.project, errors: []});
 };
 
-// GET /project/:pro_url
+// GET /project/:pro_url/front
 exports.show_front = function(req, res){
 	res.render('project/project_front',{ project: req.project, errors: []});
 };
@@ -83,6 +85,16 @@ exports.project_update = function(req,res){
 			})}
 		});
 };
+
+// DELETE /project/:pro_url/:projectId
+exports.project_destroy = function(req,res){
+	models.Project.find({
+		where:{ id: req.params.projectId }
+	}).then(function(project){
+	 	project.destroy().then(function() {
+			res.redirect('/project');
+		}).catch(function(error){next(error)});
+})};
 
 // GET /project/:pro_url/manage
 exports.manage = function(req, res){
@@ -492,6 +504,34 @@ exports.show_poll = function(req, res){
 	})})}).catch(function(error){next(error);})
 };
 
+// PUT /project/:pro_url/polls/:pollId
+exports.poll_update = function(req,res){
+	models.Poll.find({
+		where:{ id: req.params.pollId }
+	}).then(function(poll){
+		poll.pol_pregunta = req.body.poll.pol_pregunta;
+		poll.validate().then(function(err){
+			if (err) {
+				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
+			} else {
+				// cambia en DB los campos pregunta y respuesta
+				poll.save({fields: ["pol_pregunta"] }).then(function(){
+				res.redirect('/project/'+ req.params.pro_url+'/polls/'+ req.params.pollId);
+			});
+		}
+	})});
+};
+
+// DELETE /project/:pro_url/polls/:pollId
+exports.poll_destroy = function(req,res){
+	models.Poll.find({
+		where:{ id: req.params.pollId }
+	}).then(function(poll){
+	 	poll.destroy().then(function() {
+			res.redirect('/project/'+req.params.pro_url+'/polls');
+		}).catch(function(error){next(error)});
+})};
+
 // POST /project/:pro_url/polls/:pollId/option/create
 exports.option_create = function(req,res){
 	var option = models.Option.build(req.body.option);
@@ -524,6 +564,16 @@ exports.option_update = function(req,res){
 		}
 	})});
 };
+
+// DELETE /project/:pro_url/polls/:pollId/option/:optionId
+exports.option_destroy = function(req,res){
+	models.Option.find({
+		where:{ id: req.params.optionId }
+	}).then(function(option){
+	 	option.destroy().then(function() {
+			res.redirect('/project/'+req.params.pro_url+'/polls/'+req.params.pollId);
+		}).catch(function(error){next(error)});
+})};
 
 // POST /project/:pro_url/polls/:pollId/vote/create
 exports.vote_create = function(req,res){

@@ -43,6 +43,15 @@ exports.myprofile = function(req,res){
 	}).catch(function(error){next(error);});
 };
 
+// GET /user/profile/:UserId
+exports.show_profile = function(req,res){
+	models.User.find({
+		where:{ id: req.params.userId }
+	}).then(function(user){
+		res.render('user/profile', {user: user, moment: moment, errors: []});
+	}).catch(function(error){next(error);});
+};
+
 // Comprueba si el usuario esta registrado en users
 // Si autenticación falla o hay errores se ejecuta callback(error)
 exports.autenticar = function(login, password, callback){

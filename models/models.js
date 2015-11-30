@@ -33,46 +33,62 @@ var User = sequelize.import(user_path);
 // Importar la definición de la tabla Proyect en project/proyect.js
 var project_path = path.join(__dirname, 'project/project')
 var Project = sequelize.import(project_path);
+
 // Importar la definición de la tabla Member en project/member.js
 var member_path = path.join(__dirname, 'project/member')
 var Member = sequelize.import(member_path);
 	// Relación Member - Project/User
 	Member.belongsTo(User);
 	Member.belongsTo(Project);
+		Project.hasOne(Member, {onDelete: 'cascade', hooks:true});
+
 // Importar la definición de la tabla Piece en project/piece.js
 var piece_path = path.join(__dirname, 'project/piece')
 var Piece = sequelize.import(piece_path);
 	// Relación Piece - Project/User
 	Piece.belongsTo(Project);
 	Piece.belongsTo(User);
+		Project.hasOne(Piece, {onDelete: 'cascade', hooks:true});
+
 // Importar la definición de la tabla Task en project/task.js
 var task_path = path.join(__dirname, 'project/task')
 var Task = sequelize.import(task_path);
 	// Relación Task - Piece
 	Task.belongsTo(Piece);
+		Piece.hasOne(Task, {onDelete: 'cascade', hooks:true});
 	//Task.belongsTo(User);
+
 // Importar la definición de la tabla Log en project/log.js
 var log_path = path.join(__dirname, 'project/log')
 var Log = sequelize.import(log_path);
 	// Relación Log - Project / User
 	Log.belongsTo(Project);
+		Project.hasOne(Log, {onDelete: 'cascade', hooks:true});
 	Log.belongsTo(User);
+
 // Importar la definición de la tabla Idea en project/idea.js
 var idea_path = path.join(__dirname, 'project/idea')
 var Idea = sequelize.import(idea_path);
 	// Relación Idea - Project
 	Idea.belongsTo(Project);
+		Project.hasOne(Idea, {onDelete: 'cascade', hooks:true});
+
 // Importar la definición de la tabla Idea en project/problem.js
 var problem_path = path.join(__dirname, 'project/problem')
 var Problem = sequelize.import(problem_path);
 	// Relación Problem - Project/Piece
 	Problem.belongsTo(Project);
+		Project.hasOne(Problem, {onDelete: 'cascade', hooks:true});
 	Problem.belongsTo(Piece);
+		Piece.hasOne(Problem, {onDelete: 'cascade', hooks:true});
+
 // Importar la definición de la tabla Idea en project/problem.js
 var answer_path = path.join(__dirname, 'project/answer')
 var Answer = sequelize.import(answer_path);
 	// Relación Answer - Problem
-	Answer.belongsTo(Answer);
+	Answer.belongsTo(Problem);
+		Problem.hasOne(Answer, {onDelete: 'cascade', hooks:true});
+
 // Fin -- Project
 
 // Sección Blog
@@ -94,18 +110,24 @@ var poll_path = path.join(__dirname, 'poll/poll')
 var Poll = sequelize.import(poll_path);
 	// Relación Post - Project / User
 	Poll.belongsTo(Project);
+		Project.hasOne(Poll, {onDelete: 'cascade', hooks:true});
 	Poll.belongsTo(User);
+
 // Importar la definición de la tabla Post en poll/option.js
 var option_path = path.join(__dirname, 'poll/option')
 var Option = sequelize.import(option_path);
 	// Relación Post - Project / User
 	Option.belongsTo(Poll);
+		Poll.hasOne(Option, {onDelete: 'cascade', hooks:true});
+
 // Importar la definición de la tabla Post en poll/vote.js
 var vote_path = path.join(__dirname, 'poll/vote')
 var Vote = sequelize.import(vote_path);
 	// Relación Post - Project / User
 	Vote.belongsTo(Poll);
+		Poll.hasOne(Vote, {onDelete: 'cascade', hooks:true});
 	Vote.belongsTo(User);
+
 // Fin -- Poll
 
 // Exportar General DB

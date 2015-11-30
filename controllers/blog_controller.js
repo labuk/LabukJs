@@ -32,6 +32,7 @@ exports.show_post = function(req, res){
 		  where: { pos_url: req.params.pos_url },
 			include: [{model: models.Project, attributes: ['pro_nombre','pro_url']},{model: models.User, attributes: ['nombre']}]
 		}).then(function(post){
+			console.log(post);
 			if(post) {
 				models.Comment.findAll({
 					  where: { PostId: post.id },

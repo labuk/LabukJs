@@ -34,6 +34,7 @@
 						<input type="radio" name="member[mem_rol]" value="0" > Administrador
 						<input type="radio" name="member[mem_rol]" value="1" > Miembro
 						<input type="radio" name="member[mem_rol]" value="2" > Colaborador
+						<input type="radio" name="member[mem_rol]" value="3" > Antiguo Miembro
           	<input type="submit" class="form-control btn btn-success" value="Salvar" />
 					</div>
         </form>
@@ -45,7 +46,7 @@
 <table class="table table-striped table-condensed">
 <% var i; if (members) { for (i=0; i < members.length; i++){ %>
 		<tr>
-			<td> <%= members[i].User.nombre %> </td>
+			<td> <a href="/user/profile/<%= users[i].id %>"><%= members[i].User.nombre %></a> </td>
 			<td> <script>document.write( get_rol(<%= members[i].mem_rol %>) );</script> </td>
 		</tr>
 <% }} %>

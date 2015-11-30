@@ -75,10 +75,18 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
   - Añadimos los problemas para las piezas.
   - Creamos una página para gestionar problemas.
   - Añadimos la parte de las posibles soluciones al problema.
-&  - Falta mirar como borrar las partes en cascada.
+  - Falta mirar como borrar las partes en cascada.
 
 // 26-11-2015
   - Añadimos las encuentas en el proyecto.
   - Las respuestas de la encuesta se añaden en la misma encuesta.
   - Montamos el sistema de votos, para nuevos votantes y para modificar el mismo.
-&  - Falta editar y borrar la pregunta de la encuesta y las respuestas.
+  - Falta editar y borrar la pregunta de la encuesta y las respuestas.
+
+// 27-11-2015
+  - Borrar las partes en cascada. Añadimos "Project.hasOne(Piece, {onDelete: 'cascade', hooks:true});" para añadir la cascada.
+  - Borrar el proyecto desde la página de gestión.
+  - Al crear un proyecto, añadir el usuario que lo crea como administrador.
+  - Añadir una página para los perfiles de usuario.
+  - Borrar y editar encuestas.
+$  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la encuesta en otra página.
