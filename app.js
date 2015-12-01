@@ -65,7 +65,6 @@ app.use(function(req, res, next) {
 	req.session.autologout = Date.now();
 	next();
     }
-
 });
 
 // Instalar enrutadores

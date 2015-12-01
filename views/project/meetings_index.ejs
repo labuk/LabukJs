@@ -1,0 +1,79 @@
+<% include partial_promenu %><p>
+
+	<script>
+	$('#project_menu a:contains("Sala de Reuniones")').parent().addClass("active");
+	</script>
+
+	<h2 class="page-header">
+	  Chat de grupo
+	</h2>
+
+	<style>
+		form#chat { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+		form#chat input { border: 0; padding: 10px; width: 60%; margin-right: .5%; }
+		form#chat button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+		#messages { list-style-type: none; margin: 0; padding: 0; }
+		#messages li { padding: 5px 10px; }
+		#messages li:nth-child(odd) { background: #eee; }
+	</style>
+
+	<div class="row">
+		<div class="col-xs-10">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					CHAT
+				</div>
+				<div id="listMessages" class="panel-body">
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-2">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					USUARIOS
+				</div>
+				<div id="listUsers" class="panel-body">
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<form id="newMessage" action="">
+		<div class="row">
+		  <div class="col-xs-8">
+		    <input id="Message" type="text" class="form-control" placeholder="Mensaje" autocomplete="off" />
+		  </div>
+		  <div class="col-xs-4">
+		    <button class="btn btn-success" type="submit">Send</button>
+		  </div>
+		</div>
+	</form>
+
+
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		var $users = $('#listUsers');
+		var $messages = $('#listMessages');
+	  var socket = io();
+		socket.on('connect', function () {
+	    socket.emit('newUser', '<%= user %>');
+  	});
+		$('#newMessage').submit(function(){
+			socket.emit('sendMessage', $('#Message').val());
+			$('#Message').val('');
+			return false;
+		});
+		socket.on('newMessage', function(data){
+			$messages.append('<b>'+data.nick+'</b>: '+data.msg+'</br>');
+		});
+		// Nuevo usuario
+		socket.on('newUser', function(user){
+			var html = '';
+			 for (var username in user) {
+					 html += username + '<br/>';
+			 }
+			 $users.html(html);
+		});
+	</script>

@@ -615,3 +615,9 @@ exports.vote_update = function(req,res){
 		})})})
 	});
 }
+
+
+// GET /project/:pro_url/meetings
+exports.meetings = function(req,res) {
+	res.render('project/meetings_index', {project: req.project, user: req.session.user.username, errors: []});
+}
