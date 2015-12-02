@@ -58,10 +58,10 @@
 		var $messages = $('#listMessages');
 	  var socket = io();
 		socket.on('connect', function () {
-	    socket.emit('newUser', '<%= user %>');
+	    socket.emit('newUser', '<%= user %>','Project_<%= project.id %>');
   	});
 		$('#newMessage').submit(function(){
-			socket.emit('sendMessage', $('#Message').val());
+			socket.emit('sendMessage', $('#Message').val(), 'Project_<%= project.id %>');
 			$('#Message').val('');
 			return false;
 		});
@@ -71,9 +71,10 @@
 		// Nuevo usuario
 		socket.on('newUser', function(user){
 			var html = '';
-			 for (var username in user) {
-					 html += username + '<br/>';
-			 }
-			 $users.html(html);
+			for (var username in user) {
+				console.log(username);
+				html += username + '<br/>';
+			}
+			$users.html(html);
 		});
 	</script>

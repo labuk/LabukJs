@@ -44,7 +44,7 @@ app.use(function(req, res, next){
    next();
 
    //Creamos session para no tener que hacer login
-   req.session.user = { id:'1', username:'admin'};
+   //req.session.user = { id:'1', username:'admin'};
 
 });
 
