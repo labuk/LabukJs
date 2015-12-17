@@ -9,6 +9,10 @@ module.exports = function(sequelize, DataTypes){
 			tas_estado:  {
 				type: DataTypes.INTEGER,
 				validate: {notEmpty: {msg: "-> Falta Estado"}}
+			},
+			tas_todos: {
+				type: DataTypes.INTEGER,
+				validate: {notEmpty: {msg: "-> Falta Estado"}}
 			}
 		});
 }

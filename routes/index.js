@@ -30,9 +30,9 @@ router.get('/logout', sessionController.destroy); // destruir session - lo ideal
 router.get('/project', projectController.index); // lista de proyectos
 router.get('/project/new', sessionController.loginRequired,projectController.new); // formulario nuevo proyecto
 router.post('/project/create', sessionController.loginRequired,projectController.create); // crear proyecto
-router.get('/project/:pro_url', sessionController.loginRequired, sessionController.memberRequired, projectController.show_pro); // index proyecto :pro_url
+router.get('/project/:pro_url', sessionController.memberRequired, sessionController.loginRequired, projectController.show_pro); // index proyecto :pro_url
 router.delete('/project/:pro_url/:projectId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.project_destroy); //borrar project
-router.get('/project/:pro_url/front', sessionController.loginRequired, projectController.show_front); // portada proyecto :pro_url
+router.get('/project/:pro_url/front', projectController.show_front); // portada proyecto :pro_url
 router.get('/project/:pro_url/manage', sessionController.loginRequired, sessionController.memberRequired, projectController.manage); // index modificar proyecto
 router.put('/project/:pro_url/update', sessionController.loginRequired, sessionController.memberRequired, projectController.project_update); //editar proyecto
 router.get('/project/:pro_url/members', sessionController.loginRequired, sessionController.memberRequired, projectController.members); // index miembros del proyecto

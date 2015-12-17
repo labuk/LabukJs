@@ -33,6 +33,15 @@
             <div class="radio-inline"><input id="check<%= piece.id %>4" type="radio" name="piece[pie_prioridad]" value="4" > Desechado </div>
             <script>$('#check<%= piece.id %><%= piece.pie_prioridad %>').prop('checked', true);</script>
 					</div>
+          <div class="form-group">
+						<label class="control-label">Responsable:</label>
+						<select class="form-control" name="piece[UserId]">
+						  <option value="<%= piece.UserId%>">Responsable Actual - <%= piece.User.nombre%> </option>
+							<% var i; if (members) { for (i=0; i < members.length; i++){ %>
+						  	<option value="<%= members[i].UserId %>"><%= members[i].User.nombre %></option>
+							<% }} %>
+						</select>
+					</div>
 					<input type="submit" class="form-control btn btn-success" value="Editar" />
 				</form>
       </div>
@@ -118,6 +127,27 @@
             <label class="sr-only">Tarea</label>
             <textarea class="form-control" rows="3" name="task[tas_tarea]" placeholder="Descripción <%= task.tas_tarea%>"></textarea>
           </div>
+          <div class="form-group">
+            <label class="control-label">Autor:</label><br>
+            <input type="checkbox" id="checkboxTodos" name="task[tas_todos]" value="1"> Todos los miembros?
+            <script type="text/javascript">
+              $("#checkboxTodos").change(function() {
+                  if(this.checked) {
+                  $('#miembrosTodos').hide();
+                } else {
+                  $('#miembrosTodos').show();
+                }
+              });
+            </script>
+          </div>
+          <div class="form-group">
+            <select id="miembrosTodos" class="form-control" name="task[UserId]">
+              <option value="0">Selecciona autor - Yo </option>
+              <% var i; if (members) { for (i=0; i < members.length; i++){ %>
+                <option value="<%= members[i].UserId %>"><%= members[i].User.nombre %></option>
+              <% }} %>
+            </select>
+          </div>
           <input type="hidden" id="tar" name="task[tas_estado]" value="0"/>
           <input type="hidden" id="tar" name="task[PieceId]" value="<%= piece.id%>"/>
           <input type="submit" class="form-control btn btn-success" value="Salvar" />
@@ -131,7 +161,14 @@
 <% var i; if (tasks) { for (i=0; i < tasks.length; i++){ %>
 	<tr>
 	  <td><%= tasks[i].tas_tarea %></td>
-    <td class="col-md-2"><script>document.write( get_estado(<%= tasks[i].tas_estado %>) );</script></td>
+    <td class="col-md-1">
+      <% if (tasks[i].tas_todos == "1") { %>
+        Todos
+      <% } else { %>
+        <%= tasks[i].User.nombre %></script>
+      <% } %>
+    </td>
+    <td class="col-md-1"><script>document.write( get_estado(<%= tasks[i].tas_estado %>) );</script></td>
     <td class="col-md-1">
       <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#myModal4">Borrar Tarea</button>
       <!-- Formulario Borrar Task -->
@@ -180,6 +217,27 @@
                 <input id="check<%= tasks[i].id %>4" type="radio" name="task[tas_estado]" value="4" > terminado
                 <script>$('input#check<%= tasks[i].id %><%= tasks[i].tas_estado %>').prop('checked', true);</script>
     					</div>
+              <div class="form-group">
+                <label class="control-label">Autor:</label><br>
+                <input type="checkbox" id="checkboxTodos_Task" name="task[tas_todos]" value="1"> Todos los miembros?
+                <script type="text/javascript">
+                  $("#checkboxTodos_Task").change(function() {
+                      if(this.checked) {
+                      $('#miembrosTodos_Task').hide();
+                    } else {
+                      $('#miembrosTodos_Task').show();
+                    }
+                  });
+                </script>
+              </div>
+              <div class="form-group">
+                <select id="miembrosTodos_Task" class="form-control" name="task[UserId]">
+                  <option value="<%= tasks[i].UserId%>">Autor Actual - <%= tasks[i].User.nombre%> </option>
+                  <% var j; if (members) { for (j=0; j < members.length; j++){ %>
+                    <option value="<%= members[j].UserId %>"><%= members[j].User.nombre %></option>
+                  <% }} %>
+                </select>
+              </div>
               <input type="hidden" id="tar" name="piece[pie_url]" value="<%= piece.pie_url%>"/>
     					<input type="submit" class="form-control btn btn-success" value="Editar" />
     				</form>

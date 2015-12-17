@@ -90,3 +90,7 @@ Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
   - Añadir una página para los perfiles de usuario.
   - Borrar y editar encuestas.
 $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la encuesta en otra página.
+
+// 17-12-2015
+  - Añadimos sesión inicial para Anon. Permite gestionar la entrada a portada de los proyectos (sin sesión no se podía comprobar si pertenicía al proyecto.)
+  - Añadir la posibilidad de elegir responsables en piezas y tareas.

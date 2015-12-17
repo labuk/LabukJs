@@ -55,8 +55,8 @@ var task_path = path.join(__dirname, 'project/task')
 var Task = sequelize.import(task_path);
 	// Relación Task - Piece
 	Task.belongsTo(Piece);
+	Task.belongsTo(User);
 		Piece.hasOne(Task, {onDelete: 'cascade', hooks:true});
-	//Task.belongsTo(User);
 
 // Importar la definición de la tabla Log en project/log.js
 var log_path = path.join(__dirname, 'project/log')

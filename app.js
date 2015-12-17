@@ -39,12 +39,18 @@ app.use(function(req, res, next){
 	req.session.redir = req.path;
    }
 
+   if (!req.session.user) { // Sesion para no hacer login continuo
+     req.session.user = { id:'1', username:'Admin'};
+     req.session.autologout = Date.now();
+   }
+
    // Hacer visible req.session en las vistas
    res.locals.session = req.session;
    next();
 
-   //Creamos session para no tener que hacer login
-   //req.session.user = { id:'1', username:'admin'};
+   //Creamos session para usuario Anonimo
+   //if (!req.session.user) {req.session.user = { id:'0', username:'anon'};}
+   if (!req.session.user) {req.session.user = { id:'1', username:'Admin'};} // Sesion para no hacer login continuo
 
 });
 

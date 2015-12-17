@@ -3,7 +3,7 @@ var models = require('../models/models.js');
 
 // MW de autorización de accesos HTTP restringidos
 exports.loginRequired = function (req, res, next){
-	if (req.session.user) {
+	if (req.session.user.id > 0) {
 	  next();
 	} else {
 	  res.redirect('/login');
@@ -16,10 +16,8 @@ exports.memberRequired = function (req, res, next){
 		where:{ ProjectId: req.project.id, UserId: req.session.user.id }
 	}).then(function(member){
 		if (member) {
-			console.log ('Si');
 		  next();
 		} else {
-			console.log ('No');
 		  res.redirect('/project/'+req.params.pro_url+'/front');
 		}
 	});
@@ -49,8 +47,11 @@ exports.create = function(req,res){
 		return;
 	  }
 
+		console.log('Session creada');
+
 	  // Crear req.session.user y guardar campos id y username
 	  // La sesion se define por la existencia de: req.session.user
+		delete req.session.user; // Destruimos session por si había alguna activa.
 	  req.session.user = { id:user.id, username:user.nombre};
 	  res.redirect(req.session.redir.toString()); // redireccionamos a path anterior a login
 	});

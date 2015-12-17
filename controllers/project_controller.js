@@ -103,7 +103,7 @@ exports.manage = function(req, res){
 
 // GET /project/:pro_url/members
 exports.members = function(req, res){
-	// Muestra piezas
+	// Buscar Miembros
 	models.Member.findAll({
 		where:{ ProjectId: req.project.id },
 		include: [{model: models.User, attributes: ['nombre']}]
@@ -145,12 +145,16 @@ exports.pieces = function(req, res){
 		where:{ ProjectId: req.project.id },
 		include: [{model: models.User, attributes: ['nombre']}]
 	}).then(function(pieces){
-		// Crea los datos del form
-		var piece = models.Piece.build(
-			{pie_nombre: "Nombre", pie_url: "Url", pie_prioridad: "Prioridad"}
-		);
-		res.render('project/pieces_index', {pieces: pieces, piece: piece, project: req.project, errors: []});
-	}).catch(function(error){next(error);})
+		models.Member.findAll({
+			where:{ ProjectId: req.project.id },
+			include: [{model: models.User, attributes: ['nombre']}]
+		}).then(function(members){
+			// Crea los datos del form
+			var piece = models.Piece.build(
+				{pie_nombre: "Nombre", pie_url: "Url", pie_prioridad: "Prioridad"}
+			);
+			res.render('project/pieces_index', {pieces: pieces, piece: piece, members: members, project: req.project, errors: []});
+	})}).catch(function(error){next(error);})
 };
 
 
@@ -160,12 +164,15 @@ exports.piece_create = function(req,res){
 	// Sustituimos espacios por '-' y todo en minúscula.
 	req.body.piece.pie_url = req.body.piece.pie_nombre.replace(/\s+/g, '-').toLowerCase();
 
+	// Permite Seleccionar al user de la session sin hacer nada en el formulario
+	var PieceUserId = req.body.piece.UserId != 0 ? req.body.piece.UserId : req.session.user.id;
+
 	var piece = models.Piece.build({
 				pie_nombre: req.body.piece.pie_nombre,
 				pie_url: req.body.piece.pie_url,
 				pie_prioridad: req.body.piece.pie_prioridad,
 				ProjectId: req.project.id,
-				UserId: req.session.user.id
+				UserId: PieceUserId
 		});
 
 	piece.validate().then(function(err){
@@ -184,7 +191,6 @@ exports.piece_update = function(req,res){
 	models.Piece.find({
 		where:{ id: req.params.pieceId }
 	}).then(function(piece){
-		console.log (req.body.piece);
 		piece.pie_nombre = req.body.piece.pie_nombre;
 		piece.pie_prioridad = req.body.piece.pie_prioridad
 		piece.pie_url = req.body.piece.pie_nombre.replace(/\s+/g, '-').toLowerCase();
@@ -202,11 +208,9 @@ exports.piece_update = function(req,res){
 
 // DELETE /project/:pro_url/pieces/:pieceId
 exports.piece_destroy = function(req,res){
-	console.log('Busqueda');
 	models.Piece.find({
 		where:{ id: req.params.pieceId }
 	}).then(function(piece){
-		console.log('Borrar');
 	 	piece.destroy().then(function() {
 			res.redirect('/project/'+req.params.pro_url+'/pieces');
 		}).catch(function(error){next(error)});
@@ -221,19 +225,32 @@ exports.show_pie = function(req, res){
 		if (piece){
 			models.Task.findAll({
 					where: { PieceId: piece.id },
+					include: [{model: models.User, attributes: ['nombre']}]
 				}).then(function(tasks){
 					models.Problem.findAll({
 							where: { PieceId: piece.id },
 						}).then(function(problems){
-							var task = models.Task.build( {tas_tarea: "Tarea", PieceId: "PieceId"} );
-							var problem = models.Problem.build( {prb_problema: "Problema", prb_estado: "Estado", PieceId: "PieceId", ProjectId: "ProjectId"} )
-							res.render('project/piece_main',{ piece: piece, project: req.project, task: task, tasks: tasks, problem: problem, problems: problems, errors: []});
-		})})} else { next(new Error('No existe piece ')); }
+							models.Member.findAll({
+								where:{ ProjectId: req.project.id },
+								include: [{model: models.User, attributes: ['nombre']}]
+							}).then(function(members){
+								var task = models.Task.build( {tas_tarea: "Tarea", tas_todos:"Todos", PieceId: "PieceId"} );
+								var problem = models.Problem.build( {prb_problema: "Problema", prb_estado: "Estado", PieceId: "PieceId", ProjectId: "ProjectId"} )
+								res.render('project/piece_main',{ piece: piece, project: req.project, task: task, tasks: tasks, members: members, problem: problem, problems: problems, errors: []});
+		})})})} else { next(new Error('No existe piece')); }
 		}).catch(function(error){ next(error);} );
 };
 
 // POST /project/:pro_url/task/create
 exports.task_create = function(req,res){
+
+	// Permite Seleccionar al user de la session sin hacer nada en el formulario y en el caso Todod
+	req.body.task.UserId = req.body.task.UserId != 0 ? req.body.task.UserId : req.session.user.id;
+
+	// Crea la variable Todos con 0
+	if (!req.body.task.tas_todos) {
+		req.body.task.tas_todos = '0';
+	}
 
 	var task = models.Task.build(req.body.task);
 
