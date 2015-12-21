@@ -46,6 +46,8 @@ router.post('/project/:pro_url/tasks/:pie_url/create', sessionController.loginRe
 router.get('/project/:pro_url/tasks', sessionController.loginRequired, sessionController.memberRequired, projectController.tasks); // index tablón tareas
 router.put('/project/:pro_url/tasks/:taskId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.task_update); //editar tarea
 router.delete('/project/:pro_url/tasks/:taskId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.task_destroy); //borrar tarea
+router.post('/project/:pro_url/notes/:pie_url/create', sessionController.loginRequired, sessionController.memberRequired, projectController.note_create); // crear nota
+router.delete('/project/:pro_url/notes/:noteId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.note_destroy); //borrar nota
 router.get('/project/:pro_url/logs', sessionController.loginRequired, sessionController.memberRequired, projectController.logs); // index log
 router.post('/project/:pro_url/logs/create', sessionController.loginRequired, sessionController.memberRequired, projectController.log_create); // crear log
 router.get('/project/:pro_url/ideas', sessionController.loginRequired, sessionController.memberRequired, projectController.ideas); // index ideas

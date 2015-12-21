@@ -53,10 +53,18 @@ var Piece = sequelize.import(piece_path);
 // Importar la definición de la tabla Task en project/task.js
 var task_path = path.join(__dirname, 'project/task')
 var Task = sequelize.import(task_path);
-	// Relación Task - Piece
+	// Relación Task - Piece/User
 	Task.belongsTo(Piece);
 	Task.belongsTo(User);
 		Piece.hasOne(Task, {onDelete: 'cascade', hooks:true});
+
+// Importar la definición de la tabla Notes en project/notes.js
+var note_path = path.join(__dirname, 'project/note')
+var Note = sequelize.import(note_path);
+	// Relación Notes - Piece/User
+	Note.belongsTo(Piece);
+	Note.belongsTo(User);
+		Piece.hasOne(Note, {onDelete: 'cascade', hooks:true});
 
 // Importar la definición de la tabla Log en project/log.js
 var log_path = path.join(__dirname, 'project/log')
@@ -136,6 +144,7 @@ exports.User = User; // exportar definición de tabla Comment
 exports.Project = Project; // exportar definición de tabla Project
 exports.Piece = Piece; // exportar definición de tabla Piece
 exports.Task = Task; // exportar definición de tabla Task
+exports.Note = Note; // exportar definición de tabla Note
 exports.Member = Member; // exportar definición de tabla Member
 exports.Log = Log; // exportar definición de tabla Member
 exports.Idea = Idea; // exportar definición de tabla Idea
@@ -166,10 +175,6 @@ sequelize.sync().then(function() {
 			Project.create({
 				pro_nombre: 'Labuk',
 				pro_url: 'labuk'
-			});
-			Piece.create({
-				pie_nombre: 'General',
-				pie_url: 'general'
 			});
 			Member.create({
 				mem_rol:'0',

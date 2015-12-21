@@ -58,7 +58,16 @@ exports.create = function(req,res){
 
 // GET /project/:pro_url
 exports.show_pro = function(req, res){
-	res.render('project/project_main',{ project: req.project, errors: []});
+	models.Task.findAll({
+		where: { UserId: req.session.user.id, tas_todos: 0},
+		include: [{model: models.Piece, where: {ProjectId: req.project.id}}]
+	}).then(function(tasks){
+		models.Task.findAll({
+			where: { tas_todos: 1},
+			include: [{model: models.Piece, where: {ProjectId: req.project.id}}]
+		}).then(function(tasks_all){
+			res.render('project/project_main',{ project: req.project, tasks: tasks, tasks_all: tasks_all, errors: []});
+	})}).catch(function(error){next(error);})
 };
 
 // GET /project/:pro_url/front
@@ -234,10 +243,15 @@ exports.show_pie = function(req, res){
 								where:{ ProjectId: req.project.id },
 								include: [{model: models.User, attributes: ['nombre']}]
 							}).then(function(members){
-								var task = models.Task.build( {tas_tarea: "Tarea", tas_todos:"Todos", PieceId: "PieceId"} );
-								var problem = models.Problem.build( {prb_problema: "Problema", prb_estado: "Estado", PieceId: "PieceId", ProjectId: "ProjectId"} )
-								res.render('project/piece_main',{ piece: piece, project: req.project, task: task, tasks: tasks, members: members, problem: problem, problems: problems, errors: []});
-		})})})} else { next(new Error('No existe piece')); }
+								models.Note.findAll({
+									where:{ PieceId: piece.id },
+									include: [{model: models.User, attributes: ['nombre']}]
+								}).then(function(notes){
+									var task = models.Task.build( {tas_tarea: "Tarea", tas_todos:"Todos", PieceId: "PieceId"} );
+									var note = models.Note.build( {not_nota: "Nota"} );
+									var problem = models.Problem.build( {prb_problema: "Problema", prb_estado: "Estado", PieceId: "PieceId", ProjectId: "ProjectId"} )
+									res.render('project/piece_main',{ piece: piece, session_user: req.session.user, project: req.project, task: task, tasks: tasks, members: members, note: note, notes: notes, problem: problem, problems: problems, errors: []});
+		})})})})} else { next(new Error('No existe piece')); }
 		}).catch(function(error){ next(error);} );
 };
 
@@ -305,6 +319,33 @@ exports.task_destroy = function(req,res){
 		where:{ id: req.params.taskId }
 	}).then(function(task){
 	 	task.destroy().then(function() {
+			res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.body.piece.pie_url);
+		}).catch(function(error){next(error)});
+})};
+
+// POST /project/:pro_url/note/:pie_url/create
+exports.note_create = function(req,res){
+
+	req.body.note.UserId = req.session.user.id;
+	var note = models.Note.build(req.body.note);
+
+	note.validate().then(function(err){
+		if (err) {
+			res.render('project/pieces_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos pregunta y respuesta
+			note.save().then(function(){
+			res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.params.pie_url);})
+		}
+	});
+}
+
+// DELETE /project/:pro_url/notes/:noteId
+exports.note_destroy = function(req,res){
+	models.Note.find({
+		where:{ id: req.params.noteId }
+	}).then(function(note){
+	 	note.destroy().then(function() {
 			res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.body.piece.pie_url);
 		}).catch(function(error){next(error)});
 })};

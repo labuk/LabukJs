@@ -94,3 +94,7 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
 // 17-12-2015
   - Añadimos sesión inicial para Anon. Permite gestionar la entrada a portada de los proyectos (sin sesión no se podía comprobar si pertenicía al proyecto.)
   - Añadir la posibilidad de elegir responsables en piezas y tareas.
+
+// 21-12-2015
+  - Añado mis tareas y las tareas generales a la portada del proyecto.
+  - Añado Notas en as piezas, así como la posibilidad de borrarlas por su autor.
