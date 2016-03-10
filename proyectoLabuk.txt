@@ -97,4 +97,10 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
 
 // 21-12-2015
   - Añado mis tareas y las tareas generales a la portada del proyecto.
-  - Añado Notas en as piezas, así como la posibilidad de borrarlas por su autor.
+  - Añado Notas en las piezas, así como la posibilidad de borrarlas por su autor.
+
+// 5-03-2016
+  - Añado la posibilidad de añadir contactos/amigos.
+  - Enviar y aceptar solicitudes de contacto.
+  - Soluciono problema con Nuevos usuarios. No se creaban bien.
+  - Mejoro la opción de crear una session fija o empezar desde Anon (en app.js)

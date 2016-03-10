@@ -20,7 +20,7 @@ exports.new = function(req,res){
 exports.create = function(req,res){
  	var user = models.User.build(
 		{ nombre: req.body.nombre,
-		  pass: req.params.password
+		  pass: req.body.password
 		});
 
 	user.validate().then(function(err){
@@ -29,7 +29,7 @@ exports.create = function(req,res){
 		} else {
 			// guarda en DB los campos pregunta y respuesta
 			user.save().then(function(){
-			res.redirect('/quizes');})
+			res.redirect('/project');})
 		}
 	}).catch(function(error){next(error)});
 };
@@ -37,19 +37,40 @@ exports.create = function(req,res){
 // GET /user/myprofile
 exports.myprofile = function(req,res){
 	models.User.find({
-		where:{ id: 1 }
+		where:{ id: req.session.user.id }
 	}).then(function(user){
 		res.render('user/myprofile', {user: user, moment: moment, errors: []});
 	}).catch(function(error){next(error);});
 };
 
+// POST /user/avatar
+exports.upload_avatar = function(req,res){
+	console.log("Avatar");
+	console.log(req.file);
+	console.log(req.files);
+	console.log(req.body);
+	models.User.find({
+		where:{ id: req.session.user.id }
+	}).then(function(user){
+		res.redirect('/user/myprofile');
+	}).catch(function(error){next(error);});
+};
+
 // GET /user/profile/:UserId
 exports.show_profile = function(req,res){
+	if (req.params.userId == req.session.user.id) {
+		res.redirect('/user/myprofile');
+	}
+
 	models.User.find({
 		where:{ id: req.params.userId }
 	}).then(function(user){
-		res.render('user/profile', {user: user, moment: moment, errors: []});
-	}).catch(function(error){next(error);});
+		models.Contact.find({
+			where:{ con_contact: req.session.user.id,
+							UserId: req.params.userId }
+		}).then(function(contact){
+			res.render('user/profile', {user: user, contact: contact, moment: moment, errors: []});
+	})}).catch(function(error){next(error);});
 };
 
 // Comprueba si el usuario esta registrado en users

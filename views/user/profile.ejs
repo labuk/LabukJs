@@ -1,5 +1,20 @@
 
-<h2 class="page-header"> Perfil </h2>
+<h2 class="page-header">
+  Perfil
+  <% if (contact) {  %>
+    <% if (contact.con_block == 0) { %>
+      <button type="button" class="btn btn-warning pull-right" >Esperando contestación</button>
+    <% }  %>
+    <% if (contact.con_block == 1) {  %>
+      <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#myModal1">Solicitud recibida. Aceptar?</button>
+    <% }  %>
+    <% if (contact.con_block == 2) { %>
+      <button type="button" class="btn btn-success pull-right" >Amigos</button>
+    <% }  %>
+  <% } else {  %>
+  <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal">Nuevo contacto</button>
+  <% }  %>
+</h2>
 
 <dl class="dl-horizontal">
   <dt>Imagen</dt>
@@ -7,3 +22,44 @@
   <dd>Mail</dd>
   <dd>Cosas varias</dd>
 </dl>
+
+<!-- Formulario Nuevo Contacto -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Nuevo contacto</h4>
+      </div>
+      <div class="modal-body">
+        <form role="post" method="post" action="/contact/create">
+          <input type="hidden" name="contact[UserId]" value="<%= user.id %>" >
+          <input type="submit" class="form-control btn btn-success" value="Nuevo contacto" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if (contact) {  %>
+<!-- Formulario Añadir Contacto -->
+<div id="myModal1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Aceptar contacto</h4>
+      </div>
+      <div class="modal-body">
+        <form role="post" method="post" action="/contact/update_allow">
+          <input type="hidden" name="contact[id]" value="<%= contact.id %>" >
+          <input type="hidden" name="contact[UserId]" value="<%= user.id %>" >
+          <input type="submit" class="form-control btn btn-success" value="Aceptar amigos" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<% }  %>

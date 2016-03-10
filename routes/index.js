@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var multer  = require('multer');
+var upload = multer({ dest: '/images/avatar/' });
 
 var userController = require('../controllers/user_controller');
 var sessionController = require('../controllers/session_controller');
 var projectController = require('../controllers/project_controller');
 var blogController = require('../controllers/blog_controller');
+var contactController = require('../controllers/contact_controller');
 
 // GET home page
 router.get('/', function(req, res) {
@@ -19,6 +22,7 @@ router.get('/user', userController.index); // lista de usuarios
 router.get('/user/new', userController.new); // formulario nuevo usuario
 router.post('/user/create', userController.create); // crear usuario
 router.get('/user/myprofile', userController.myprofile); // perfil mi usuario
+router.post('/user/avatar', upload.single('avatar'), userController.upload_avatar); // perfil mi usuario
 router.get('/user/profile/:userId', userController.show_profile); // perfil usuario :userId
 
 // Definicion de rutas de session
@@ -76,6 +80,11 @@ router.get('/project/:pro_url/meetings', sessionController.loginRequired,session
 router.post('/project/:pro_url/posts/create', sessionController.loginRequired, sessionController.memberRequired, blogController.post_create); // crear idea
 router.get('/project/:pro_url/posts/:pos_url', sessionController.loginRequired, sessionController.memberRequired, blogController.show_post); // crear idea
 router.post('/project/:pro_url/comments/:pos_url/create', sessionController.loginRequired, sessionController.memberRequired, blogController.comment_create); // crear idea
+
+// Definición de rutas de Contact
+router.get('/contact', sessionController.loginRequired, contactController.index); // lista de contactos
+router.post('/contact/create', sessionController.loginRequired, contactController.create); // crear contacto
+router.post('/contact/update_allow', sessionController.loginRequired, contactController.update_allow); // crear contacto
 
 // GET author page
 router.get('/author', function(req, res){

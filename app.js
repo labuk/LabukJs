@@ -23,6 +23,7 @@ app.set('view engine', 'ejs');
 // uncomment after placing your favicon in /public
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
+app.use(bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('Quiz 2015'));
@@ -40,17 +41,18 @@ app.use(function(req, res, next){
    }
 
    if (!req.session.user) { // Sesion para no hacer login continuo
-     req.session.user = { id:'1', username:'Admin'};
+   //Creamos session para usuario Anonimo
+      //req.session.user = { id:'0', username:'anon'};
+      req.session.user = { id:'1', username:'Admin'};
      req.session.autologout = Date.now();
    }
 
    // Hacer visible req.session en las vistas
    res.locals.session = req.session;
-   next();
 
-   //Creamos session para usuario Anonimo
-   //if (!req.session.user) {req.session.user = { id:'0', username:'anon'};}
-   if (!req.session.user) {req.session.user = { id:'1', username:'Admin'};} // Sesion para no hacer login continuo
+
+
+   next();
 
 });
 

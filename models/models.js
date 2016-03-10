@@ -138,6 +138,16 @@ var Vote = sequelize.import(vote_path);
 
 // Fin -- Poll
 
+// Sección Contact
+// Importar la definición de la tabla Post en poll/vote.js
+var contact_path = path.join(__dirname, 'contact/contact')
+var Contact = sequelize.import(contact_path);
+	// Relación Contact - User
+	Contact.belongsTo(User);
+// Fin -- Contact
+
+
+
 // Exportar General DB
 exports.User = User; // exportar definición de tabla Comment
 // Exportar Project DB
@@ -157,6 +167,8 @@ exports.Comment = Comment; // exportar definición de tabla Comment
 exports.Poll = Poll; // exportar definición de tabla Poll
 exports.Option = Option; // exportar definición de tabla Option
 exports.Vote = Vote; // exportar definición de tabla Vote
+// Exportar Contact DB
+exports.Contact = Contact; // exportar definición de tabla Contact
 
 // sequelize.sync() crea e inicializa la tabla en DB
 sequelize.sync().then(function() {
@@ -180,6 +192,11 @@ sequelize.sync().then(function() {
 				mem_rol:'0',
 				UserId:'1',
 				ProjectId:'1'
+			});
+			Contact.create({
+				con_contact:'2',
+				UserId: '1',
+				con_block:'1'
 			})
 			.then(function(){console.log('Base de datos inicializada')});
 		};

@@ -1,0 +1,22 @@
+<h2 class="page-header"> Contactos </h2>
+
+<% var i; if (contacts) { for (i=0; i < contacts.length; i++){ %>
+<tr>
+  <%  if (contacts[i].con_block == 0) { %>
+    <td> Enviada</td>
+    <td> <a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a> </td>
+  <% } %>
+  <%  if (contacts[i].con_block == 1) { %>
+    <td> Pendiente. Aceptas?</td>
+    <td> <a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a> </td>
+  <% } %>
+</tr>
+<% }} %>
+
+<% var i; if (contacts) { for (i=0; i < contacts.length; i++){ %>
+<tr>
+  <%  if (contacts[i].con_block == 2) { %>
+    <td> <a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a> </td>
+  <% } %>
+</tr>
+<% }} %>
