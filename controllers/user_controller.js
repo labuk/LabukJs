@@ -4,6 +4,9 @@ var models = require('../models/models.js');
 // Cargamos Moments
 var moment = require('moment');
 
+// Cargamos Jimp
+var jimp = require("jimp");
+
 // GET /user
 exports.index = function(req, res){
 	models.User.findAll().then(function(users){
@@ -34,25 +37,32 @@ exports.create = function(req,res){
 	}).catch(function(error){next(error)});
 };
 
+// POST /user/avatar
+exports.upload_avatar = function(req,res){
+	models.User.find({
+		where:{ id: req.session.user.id }
+	}).then(function(user){
+		user.avatar = req.file.filename;
+		jimp.read("./public/images/avatar/user-"+req.session.user.id+".bmp").then(function (avatar) {
+			console.log("Jimp");
+			console.log(req.body);
+		//if (err) throw err;
+		avatar.resize(parseInt(req.body.t), jimp.AUTO)
+					.crop(parseInt(req.body.x), parseInt(req.body.y), parseInt(req.body.w), parseInt(req.body.h))				// crop
+					.resize(300, 300)            // resize
+					.write("./public/images/avatar/user-"+req.session.user.id+".bmp"); // save
+		}).then(function(){
+			user.save({fields: ["avatar"] }).then(function(){
+				res.redirect('/user/myprofile');
+	})})}).catch(function(error){next(error);});
+};
+
 // GET /user/myprofile
 exports.myprofile = function(req,res){
 	models.User.find({
 		where:{ id: req.session.user.id }
 	}).then(function(user){
 		res.render('user/myprofile', {user: user, moment: moment, errors: []});
-	}).catch(function(error){next(error);});
-};
-
-// POST /user/avatar
-exports.upload_avatar = function(req,res){
-	console.log("Avatar");
-	console.log(req.file);
-	console.log(req.files);
-	console.log(req.body);
-	models.User.find({
-		where:{ id: req.session.user.id }
-	}).then(function(user){
-		res.redirect('/user/myprofile');
 	}).catch(function(error){next(error);});
 };
 

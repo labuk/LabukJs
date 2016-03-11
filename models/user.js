@@ -10,6 +10,10 @@ module.exports = function(sequelize, DataTypes){
 		  pass: {
 			type: DataTypes.STRING,
 			validate: {notEmpty: {msg: "-> Falta Contraseña"}}
-		  }
+			},
+			avatar: {
+			type: DataTypes.STRING,
+			validate: {notEmpty: {msg: "-> Falta Avatar"}}
+			}
 		});
 }

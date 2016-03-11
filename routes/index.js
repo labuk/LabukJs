@@ -1,7 +1,17 @@
 var express = require('express');
 var router = express.Router();
 var multer  = require('multer');
-var upload = multer({ dest: '/images/avatar/' });
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/images/avatar/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, 'user-'+req.session.user.id+'.bmp')
+  }
+})
+
+var upload = multer({ storage: storage })
 
 var userController = require('../controllers/user_controller');
 var sessionController = require('../controllers/session_controller');

@@ -104,3 +104,10 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Enviar y aceptar solicitudes de contacto.
   - Soluciono problema con Nuevos usuarios. No se creaban bien.
   - Mejoro la opción de crear una session fija o empezar desde Anon (en app.js)
+
+// 11-03-2016
+  - Añado una imagen de avatar al perfil.
+  - Creo el formulario para subir y editar la imagen.
+  - Añado la posibilidad de seleccionar parte de la imagen con JCrop.
+  - Modifico la imagen con Jimp. Cortar y redimensionar.
+  - Utilizo multer para subir la imagen al disco.

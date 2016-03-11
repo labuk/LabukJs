@@ -3,21 +3,47 @@
 
 <h2 class="page-header">
   Mi perfil
-  <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal">Editar Perfil</button>
+  <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal">Cambiar Foto</button>
 </h2>
 
-<script>
-// Utilizar JCrop de js para cortar la foto y Multer de nodejs para subir el archivo.
-  var loadFile = function(event) {
-    var output = document.getElementById('avatar');
-    output.src = URL.createObjectURL(event.target.files[0]);
-  };
-</script>
-
 <script language="Javascript">
-    jQuery(function($) {
-        $('#avatar').Jcrop();
-    });
+
+    var jcrop_api;
+
+    // Utilizar JCrop de js para cortar la foto y Multer de nodejs para subir el archivo.
+    var loadFile = function(event) {
+      var output = document.getElementById('avatar');
+      output.src = URL.createObjectURL(event.target.files[0]);
+      console.log('loadFile');
+      if (jcrop_api) jcrop_api.destroy();
+      initJcrop();
+
+    };
+
+    function initJcrop() {
+        $('#avatar').Jcrop({
+           onChange:   showCoords,
+           onSelect:   showCoords,
+           aspectRatio: 1/1
+         }, function() {
+           jcrop_api = this;
+           console.log(jcrop_api);
+        });
+    };
+
+    function changeJcrop(url) {
+      jcrop_api.setImage(url);
+    }
+
+    function showCoords(c)
+    {
+      $('#x').val(c.x);
+      $('#y').val(c.y);
+      $('#w').val(c.w);
+      $('#h').val(c.h);
+      $('#t').val($('#avatar').width());
+    };
+
 </script>
 
 <!-- Formulario Borrar Problema -->
@@ -27,25 +53,45 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Editar Perfil</h4>
+				<h4 class="modal-title">Foto de Perfil</h4>
 			</div>
 			<div class="modal-body">
-				<p class="form-control-static">Imagen de avatar</p>
-				<form role="form" method="post" action="/user/avatar">
+				<form role="form" enctype="multipart/form-data" method="post" action="/user/avatar">
+          <input type="hidden" id="x" name="x" value="">
+          <input type="hidden" id="y" name="y" value="">
+          <input type="hidden" id="w" name="w" value="">
+          <input type="hidden" id="h" name="h" value="">
+          <input type="hidden" id="t" name="t" value="">
           <div class="form-group">
-            <input type="file" name="avatar"  accept="image/*" onchange="loadFile(event)">
-            <img id="avatar"  width="80%" class="img-thumbnail" />
+            <span class="btn btn-default btn-file pull-right">
+              + <input type="file" name="avatar" accept="image/*" onchange="loadFile(event)">
+            </span>
+            <button type="submit" class="btn btn-success">Guardar cambios</button>
           </div>
-					<button type="submit" class="form-control btn btn-success">Editar</button>
 				</form>
+        <% if (user.avatar) { %>
+          <img id="avatar" src="/images/avatar/<%= user.avatar %>" width="100%" />
+        <% } else { %>
+          <img id="avatar" width="100%" />
+        <% } %>
 			</div>
 		</div>
 	</div>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>Imagen</dt>
-  <dd><h3><%= user.nombre %><h3></dd>
-  <dd>Mail</dd>
-  <dd>Cosas varias</dd>
-</dl>
+<div class="row">
+  <div class="col-xs-6 col-md-3">
+    <% if (user.avatar) { %>
+      <img src="/images/avatar/<%= user.avatar %>"  width="100%" class="img-thumbnail" />
+    <% } else { %>
+      <img src="/images/avatar/avatar.jpeg"  width="100%" class="img-thumbnail" />
+    <% } %>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-9">
+    <dl>
+      <dd><h3><%= user.nombre %><h3></dd>
+      <dd>Mail</dd>
+      <dd>Cosas varias</dd>
+    </dl>
+  </div>
+</div>
