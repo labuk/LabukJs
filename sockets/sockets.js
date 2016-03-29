@@ -1,6 +1,7 @@
 // User Chat
 var nicknames = {};
 exports = module.exports = function(io){
+
   io.on('connection', function(socket){
 
     socket.on('newUser', function(user,projectId){

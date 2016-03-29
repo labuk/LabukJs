@@ -37,21 +37,18 @@ app.use(function(req, res, next){
 
    //guardar path en session.redir para despues de login
    if (!req.path.match(/\/login|\/logout/)) {
-	req.session.redir = req.path;
+     req.session.redir = req.path;
    }
 
    if (!req.session.user) { // Sesion para no hacer login continuo
    //Creamos session para usuario Anonimo
-      //req.session.user = { id:'0', username:'anon'};
-      req.session.user = { id:'1', username:'Admin'};
-     req.session.autologout = Date.now();
+      req.session.user = { id:'0', username:'anon'};
+      //req.session.user = { id:'1', username:'Admin'};
+      req.session.autologout = Date.now();
    }
 
    // Hacer visible req.session en las vistas
    res.locals.session = req.session;
-
-
-
    next();
 
 });

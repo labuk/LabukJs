@@ -111,3 +111,10 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Añado la posibilidad de seleccionar parte de la imagen con JCrop.
   - Modifico la imagen con Jimp. Cortar y redimensionar.
   - Utilizo multer para subir la imagen al disco.
+
+// 12-03-2016
+  - Crear un chat entre contactos.
+  - Guardar conversación de chat en DB.
+  - Utilizar AJAX para no refrescar la página.
+  - Notificar mensajes con un shocket
+  - Mensajes leidos y no leidos.

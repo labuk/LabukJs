@@ -29,3 +29,4 @@ serverSecure.listen(8443, function() {
 
 // Sockets
 var sockets = require('../sockets/sockets')(io);
+var sockets_contact = require('../sockets/message_sockets')(io);
