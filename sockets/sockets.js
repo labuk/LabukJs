@@ -8,7 +8,7 @@ exports = module.exports = function(io){
       socket.join(projectId);
       socket.nickname = user;
       socket.projectId = projectId;
-      nicknames[socket.projectId] = {};
+      nicknames[socket.projectId] = nicknames[socket.projectId] || {};
       nicknames[socket.projectId][socket.nickname] = 1;
       io.in(projectId).emit('newUser', nicknames[socket.projectId]);
     });

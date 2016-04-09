@@ -3,10 +3,22 @@
 	<a href="/project/new"><button type="button" class="btn btn-info pull-right">Crear Proyecto</button></a>
 </h2>
 
-<table>
+<section id="portfolio">
+
 <% var i; for (i=0; i < projects.length; i++){ %>
-	<tr>
-	  <td><a href="project/<%= projects[i].pro_url %>"> <%= projects[i].pro_nombre %></a></td>
-	</tr>
+
+	<div class="col-sm-4 portfolio-item">
+			<a href="project/<%= projects[i].pro_url %>" class="portfolio-link" >
+					<div class="caption">
+							<div class="caption-content">
+									<h3><%= projects[i].pro_nombre %>
+									<br><small>Eslogan</small></h3>
+							</div>
+					</div>
+					<img src="images/logo/game_s.png" class="img-responsive img-circle" alt="">
+			</a>
+	</div>
+
 <% } %>
-</table>
+
+</section>

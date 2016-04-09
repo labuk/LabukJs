@@ -44,9 +44,6 @@ exports.upload_avatar = function(req,res){
 	}).then(function(user){
 		user.avatar = req.file.filename;
 		jimp.read("./public/images/avatar/user-"+req.session.user.id+".bmp").then(function (avatar) {
-			console.log("Jimp");
-			console.log(req.body);
-		//if (err) throw err;
 		avatar.resize(parseInt(req.body.t), jimp.AUTO)
 					.crop(parseInt(req.body.x), parseInt(req.body.y), parseInt(req.body.w), parseInt(req.body.h))				// crop
 					.resize(300, 300)            // resize

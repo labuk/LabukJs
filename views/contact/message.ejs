@@ -54,8 +54,13 @@
   </div>
 </form>
 
-<script src="/socket.io/socket.io.js"></script>
 <script>
+
+  socket.emit('newConversation', <%= contact.con_message %>);
+
+  socket.on('emitMessage', function(data){
+    $messages.prepend('<b> '+data.nick+':</b> '+data.msg+'</br>');
+  });
 
   var $messages = $('#listMessages');
   $('#newMessage').submit(function(e){
@@ -73,13 +78,6 @@
     $('#Message').val('');
     return false;
 
-  });
-
-  $(window).load(function() {
-    socket.emit('newConversation', <%= contact.con_message %>);
-    socket.on('emitMessage', function(data){
-      $messages.prepend('<b> '+data.nick+':</b> '+data.msg+'</br>');
-    });
   });
 
 </script>

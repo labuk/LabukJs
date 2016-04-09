@@ -1,19 +1,27 @@
-<h2 class="page-header">Nuevo usuario</h2>
 
-<form method="post" action="/user/create">
+<div class="row">
+	<div class="col-sm-8 col-md-6 col-md-offset-1">
+	<header>
+	<div class="container-fluid">
+		<h2 class="page-header">Nuevo Usuario</h2>
 
-	<div class="field">
-	  <label for="login">Nombre:</label><br/>
-	  <input type="text" id="nombre" name="nombre" size="30" />
+		<form role="form" method="post" action="/user/create">
+
+			<div class="form-group">
+				<label class="control-label">Nombre</label>
+				<input type="text" class="form-control" name="nombre" size="30" />
+			</div>
+
+			<div class="form-group">
+				<label class="control-label">Password</label>
+				<input type="password" class="form-control" name="password" size="30" />
+			</div>
+
+			<input type="submit" class="form-control btn btn-primary" value="Nuevo Usuario" />
+
+		</form>
+
 	</div>
-
-	<div class="field">
-	  <label for="password">Password:</label><br/>
-	  <input type="password" id="password" name="password" size="30" />
+	</header>
 	</div>
-
-	<div class="actions">
-	  <input type="submit" name="commit" value="Login" />
-	</div>
-
-</form>
+</div>

@@ -7,7 +7,6 @@ body {
   padding-top: 50px;
 }
 
-
 /*
  * Global add-ons
  */
@@ -27,8 +26,30 @@ body {
  */
 .navbar-fixed-top {
   border: 0;
+  background-color: #07123A;
 }
 
+.navbar-header {
+  float: left !important;
+}
+
+.navbar-nav>li {
+    float: left !important;
+}
+
+.navbar-right {
+    float: right!important;
+    margin-right: -15px;
+}
+
+.navbar-brand{
+  line-height: 26px;
+}
+
+.dropdown-menu-title{
+  text-align: center;
+  background-color: #aaa;
+}
 /*
  * Sidebar
  */
@@ -36,22 +57,21 @@ body {
 /* Hide for mobile, show later */
 .sidebar {
   display: none;
+  position: fixed;
+  /*top: 51px;*/
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  overflow-x: hidden;
+  overflow-y: hidden; /* Scrollable contents if viewport is shorter than content. */
+  background-color: #333;
+  border-right: 1px solid #eee;
 }
-@media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    display: block;
-    padding: 20px;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    background-color: #f5f5f5;
-    border-right: 1px solid #eee;
-  }
+
+.sidebar a{
+  color: #aaa;
 }
+
 
 /* Sidebar navigation */
 .nav-sidebar {
@@ -59,10 +79,7 @@ body {
   margin-bottom: 20px;
   margin-left: -20px;
 }
-.nav-sidebar > li > a {
-  padding-right: 20px;
-  padding-left: 20px;
-}
+
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
@@ -74,36 +91,53 @@ body {
 /*
  * Main content
  */
-
 .main {
   padding: 20px;
 }
+
+.page-header {
+  margin-top: 10px;
+}
+
+/* Media */
 @media (min-width: 768px) {
+
   .main {
     padding-right: 40px;
     padding-left: 40px;
   }
-}
-.main .page-header {
-  margin-top: 0;
+
+  .sidebar {
+    display: block;
+    height: auto;
+  }
+
 }
 
+@media (min-width: 992px) {
 
-/*
- * Placeholder dashboard ideas
- */
+  .nav-sidebar > li > a {
+    padding-left: 20px;
+  }
 
-.placeholders {
-  margin-bottom: 30px;
-  text-align: center;
-}
-.placeholders h4 {
-  margin-bottom: 0;
-}
-.placeholder {
-  margin-bottom: 20px;
-}
-.placeholder img {
-  display: inline-block;
-  border-radius: 50%;
+  .nav {
+    font-size: x-large;
+  }
+
+ }
+
+@media (max-width: 992px) {
+
+  .nav {
+    font-size: xx-large;
+    text-align: center;
+  }
+
+ }
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+  }
+
 }

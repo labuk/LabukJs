@@ -7,6 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+		<meta name="keyword" content="Networking">
     <link rel="icon" href="../../favicon.ico">
 
     <title>Labuk - coworking</title>
@@ -16,6 +17,8 @@
 
     <!-- Custom styles for this template -->
     <link href="/stylesheets/dashboard.css" rel="stylesheet">
+    <link href="/stylesheets/simple-sidebar.css" rel="stylesheet">
+    <link href="/stylesheets/freelancer.css" rel="stylesheet">
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -25,82 +28,125 @@
 
     <script src="/js/labuk.js"></script>
 
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+    </script>
+
   </head>
 
   <body>
 
+    <div class="row">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+          <% if(session.user.id != 0){%>
+          <a href="#menu-toggle" class="btn navbar-brand" id="menu-toggle"><span class="glyphicon glyphicon-th"></span></a>
+          <a class="navbar-brand" href="/project">Labuk</a>
+          <% } else { %>
           <a class="navbar-brand" href="/">Labuk</a>
+          <% } %>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/contact">Contacts<span id="countMessage" class="badge pull-right"></span></a></li>
-            <% if(session.user.id == 0){%>
-              <li><a href="/login"> Login </a></li>
-              <li><a href="/user/new"> Nuevo usuario </a></li>
-            <%} else {%>
-              <li><a class="text-capitalize" href="/user/myprofile"><%= session.user.username %></a></li>
-              <li><a href="/logout">Logout</a></li>
-            <% } %>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Help</a></li>
-          </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <!-- start: Notification -->
+          <li>
+            <a class="btn" href="/contact/">
+              <% if(session.user.id != 0){%>
+              <span class="glyphicon glyphicon-bell"></span>
+              <% } %>
+              <span id="countMessage" class="badge"></span>
+            </a>
+          </li>
+          <!-- end: Notification -->
 
-        </div>
+					<!-- start: User Dropdown -->
+					<li class="dropdown ">
+						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+							<span class="glyphicon glyphicon-user"></span>
+							<% if(session.user.id == 0){%>
+								Enter
+							<%} else {%>
+								<%= session.user.username %>
+							<% } %>
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<% if(session.user.id == 0){%>
+								<li><a href="/login"><i class="glyphicon glyphicon-off"></i> Log In</a></li>
+								<li><a href="/user/new"><i class="glyphicon glyphicon-user"></i> Nuevo usuario</a></li>
+							<%} else {%>
+								<li><a href="/user/myprofile"><i class="glyphicon glyphicon-user"></i> Profile</a></li>
+								<li><a href="/logout"><i class="glyphicon glyphicon-off"></i> Logout</a></li>
+							<% } %>
+						</ul>
+					</li>
+					<!-- end: User Dropdown -->
+          </ul>
       </div>
     </nav>
+  </div>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="/project">Proyectos<span class="sr-only">(current)</span></a></li>
-            <li><a href="/user">Usuarios</a></li>
-            <li><a href="/author">Créditos</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="https://github.com/labuk/proyectoQuiz/">¿Que es un Quiz?</a></li>
-          </ul>
+
+    <div id="wrapper">
+<% if(session.user.id != 0){%>
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li><a href="/project"><span class="glyphicon glyphicon-wrench"></span><span class="hidden-tablet"> Proyectos</span></a></li>
+                <li><a href="/contact"><span class="glyphicon glyphicon-envelope"></span><span class="hidden-tablet"> Messages</span></a></li>
+                <li><a href="/user"><span class="glyphicon glyphicon-user"></span><span class="hidden-tablet"> Usuarios</span></a></li>
+                <li><a href="/author"><span class="glyphicon glyphicon-asterisk"></span><span class="hidden-tablet"> Créditos</span></a></li>
+              </ul>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <!-- /#sidebar-wrapper -->
+<% } %>
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
 
-          <% console.log('Error: '+errors.length); if (errors.length) { %>
-          <span id='ErrorMsgs'>
-          <% for (var i in errors) { %>
-              <% if (errors[i].message) { %>
-                   Corregir errores: <br/>
-                   <span> <%- errors[i].message %> </span><br/>
-              <% } else { %>
-                   <span> <%- errors[i].mess_logout %> </span><br/>
-              <% } %>
-          <% } %>
-          </span>
-          <% } %>
+                        <% console.log('Error: '+errors.length); if (errors.length) { %>
+                          <span id='ErrorMsgs'>
+                          <% for (var i in errors) { %>
+                              <% if (errors[i].message) { %>
+                                   Corregir errores: <br/>
+                                   <span> <%- errors[i].message %> </span><br/>
+                              <% } else { %>
+                                   <span> <%- errors[i].mess_logout %> </span><br/>
+                              <% } %>
+                          <% } %>
+                          </span>
+                        <% } %>
 
-          <%- body%>
+                        <%- body%>
 
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+        <!-- /#page-content-wrapper -->
+
     </div>
+    <!-- /#wrapper -->
+
 
   </body>
 
-  <script src="/socket.io/socket.io.js"></script>
+  <!-- Menu Toggle Script -->
+  <script>
+  $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+  });
+  </script>
+
 	<script>
 
     var $countMessages = $("#countMessage");
-
     var count = 0;
 
-    var socket = io();
     socket.on('connect', function () {
       socket.emit('newSession', '<%= session.user.id %>', '<%= session.user.username %>');
     });
