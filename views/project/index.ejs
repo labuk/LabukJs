@@ -15,7 +15,11 @@
 									<br><small>Eslogan</small></h3>
 							</div>
 					</div>
-					<img src="images/logo/game_s.png" class="img-responsive img-circle" alt="">
+					<% if (projects[i].pro_logo) { %>
+						<img src="/images/logo/<%= projects[i].pro_logo %>"class="img-responsive img-circle"/>
+					<% } else { %>
+						<img src="/images/logo/logo.png" class="img-responsive img-circle" />
+					<% } %>
 			</a>
 	</div>
 

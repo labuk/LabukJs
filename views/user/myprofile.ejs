@@ -1,4 +1,3 @@
-<script src="/js/jquery.Jcrop.min.js"></script>
 <link rel="stylesheet" href="/stylesheets/jquery.Jcrop.css" type="text/css" />
 
 <h2 class="page-header">
@@ -6,47 +5,24 @@
   <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal">Cambiar Foto</button>
 </h2>
 
-<script language="Javascript">
+<div class="row">
+  <div class="col-xs-6 col-md-3">
+    <% if (user.avatar) { %>
+      <img src="/images/avatar/<%= user.avatar %>"  width="100%" class="img-thumbnail" />
+    <% } else { %>
+      <img src="/images/avatar/avatar.jpeg"  width="100%" class="img-thumbnail" />
+    <% } %>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-9">
+    <dl>
+      <dd><h3><%= user.nombre %><h3></dd>
+      <dd>Mail</dd>
+      <dd>Cosas varias</dd>
+    </dl>
+  </div>
+</div>
 
-    var jcrop_api;
-
-    // Utilizar JCrop de js para cortar la foto y Multer de nodejs para subir el archivo.
-    var loadFile = function(event) {
-      var output = document.getElementById('avatar');
-      output.src = URL.createObjectURL(event.target.files[0]);
-      console.log('loadFile');
-      if (jcrop_api) jcrop_api.destroy();
-      initJcrop();
-
-    };
-
-    function initJcrop() {
-        $('#avatar').Jcrop({
-           onChange:   showCoords,
-           onSelect:   showCoords,
-           aspectRatio: 1/1
-         }, function() {
-           jcrop_api = this;
-           console.log(jcrop_api);
-        });
-    };
-
-    function changeJcrop(url) {
-      jcrop_api.setImage(url);
-    }
-
-    function showCoords(c)
-    {
-      $('#x').val(c.x);
-      $('#y').val(c.y);
-      $('#w').val(c.w);
-      $('#h').val(c.h);
-      $('#t').val($('#avatar').width());
-    };
-
-</script>
-
-<!-- Formulario Borrar Problema -->
+<!-- Formulario Avatar -->
 <div id="myModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
@@ -66,11 +42,11 @@
             <span class="btn btn-default btn-file pull-right">
               + <input type="file" name="avatar" accept="image/*" onchange="loadFile(event)">
             </span>
-            <button type="submit" class="btn btn-success">Guardar cambios</button>
+            <button type="submit" id="btn_avatar" class="btn btn-success" disabled="disabled">Guardar cambios</button>
           </div>
 				</form>
         <% if (user.avatar) { %>
-          <img id="avatar" src="/images/avatar/<%= user.avatar %>" width="100%" />
+          <img id="avatar" src="/images/avatar/<%= user.avatar %>" width="100%" height="auto"/>
         <% } else { %>
           <img id="avatar" width="100%" />
         <% } %>
@@ -79,19 +55,43 @@
 	</div>
 </div>
 
-<div class="row">
-  <div class="col-xs-6 col-md-3">
-    <% if (user.avatar) { %>
-      <img src="/images/avatar/<%= user.avatar %>"  width="100%" class="img-thumbnail" />
-    <% } else { %>
-      <img src="/images/avatar/avatar.jpeg"  width="100%" class="img-thumbnail" />
-    <% } %>
-  </div>
-  <div class="col-xs-12 col-sm-6 col-md-9">
-    <dl>
-      <dd><h3><%= user.nombre %><h3></dd>
-      <dd>Mail</dd>
-      <dd>Cosas varias</dd>
-    </dl>
-  </div>
-</div>
+<script src="/js/jquery.Jcrop.min.js"></script>
+<script language="Javascript">
+
+    var api;
+
+    // Utilizar JCrop de js para cortar la foto y Multer de nodejs para subir el archivo.
+    var loadFile = function(event) {
+      if(api) api.destroy();
+      $('#avatar').removeAttr('style');
+      var output = document.getElementById('avatar');
+      output.src = URL.createObjectURL(event.target.files[0]);
+      initJcrop();
+      $('#btn_avatar').prop("disabled", false);
+      //$('.jcrop-holder img').attr("src", output.src);
+
+    };
+
+    function initJcrop() {
+
+        $('#avatar').Jcrop({
+           onChange:   showCoords,
+           onSelect:   showCoords,
+           setSelect:   [ 0, 0, 600, 600 ],
+           aspectRatio: 1/1
+         }, function(){
+           api = this;
+         });
+
+    };
+
+    function showCoords(c)
+    {
+      $('#x').val(c.x);
+      $('#y').val(c.y);
+      $('#w').val(c.w);
+      $('#h').val(c.h);
+      $('#t').val($('#avatar').width());
+    };
+
+</script>

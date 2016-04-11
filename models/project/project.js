@@ -12,6 +12,9 @@ module.exports = function(sequelize, DataTypes){
 			},
 			pro_portada:  {
 				type: DataTypes.BOOLEAN
+			},
+			pro_logo:  {
+				type: DataTypes.STRING
 			}
 		});
 }

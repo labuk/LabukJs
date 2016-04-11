@@ -2,16 +2,25 @@ var express = require('express');
 var router = express.Router();
 var multer  = require('multer');
 
-var storage = multer.diskStorage({
+var storage_avatar = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './public/images/avatar/')
   },
   filename: function (req, file, cb) {
     cb(null, 'user-'+req.session.user.id+'.bmp')
   }
-})
+});
+var upload_avatar = multer({ storage: storage_avatar });
 
-var upload = multer({ storage: storage })
+var storage_logo = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/images/logo/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, 'project-'+req.project.id+'.bmp')
+  }
+});
+var upload_logo = multer({ storage: storage_logo });
 
 var userController = require('../controllers/user_controller');
 var sessionController = require('../controllers/session_controller');
@@ -32,7 +41,7 @@ router.get('/user', userController.index); // lista de usuarios
 router.get('/user/new', userController.new); // formulario nuevo usuario
 router.post('/user/create', userController.create); // crear usuario
 router.get('/user/myprofile', userController.myprofile); // perfil mi usuario
-router.post('/user/avatar', upload.single('avatar'), userController.upload_avatar); // perfil mi usuario
+router.post('/user/avatar', upload_avatar.single('avatar'), userController.upload_avatar); // perfil mi usuario
 router.get('/user/profile/:userId', userController.show_profile); // perfil usuario :userId
 
 // Definicion de rutas de session
@@ -49,6 +58,7 @@ router.delete('/project/:pro_url/:projectId(\\d+)', sessionController.loginRequi
 router.get('/project/:pro_url/front', projectController.show_front); // portada proyecto :pro_url
 router.get('/project/:pro_url/manage', sessionController.loginRequired, sessionController.memberRequired, projectController.manage); // index modificar proyecto
 router.put('/project/:pro_url/update', sessionController.loginRequired, sessionController.memberRequired, projectController.project_update); //editar proyecto
+router.post('/project/:pro_url/logo', upload_logo.single('logo'), projectController.upload_logo); // perfil mi usuario
 router.get('/project/:pro_url/members', sessionController.loginRequired, sessionController.memberRequired, projectController.members); // index miembros del proyecto
 router.post('/project/:pro_url/members/create', sessionController.loginRequired, sessionController.memberRequired, projectController.members_create); // crear miembro
 router.get('/project/:pro_url/pieces', sessionController.loginRequired, sessionController.memberRequired, projectController.pieces); // index piezas del proyecto

@@ -121,3 +121,9 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
 
 // 29-03-2016
   - Cambiamos el CSS por uno un poco más vistoso.
+  - Añadimos una barra lateral que aparece y desaparece dependiendo del tamaño de la pantalla.
+  - Utilizamos el theme Frelancer de portada.
+
+// 11-04-2016
+  - El sistema para subir un avatar daba problemas. Al subir una foto y no hacerle ningún crop o sin subir foto daba problemas. Se ha solucionado todo.
+  - Creamos un sistema para subir logo a los proyectos, copiando el sistema de la subida del avatar.

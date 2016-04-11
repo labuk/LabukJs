@@ -7,6 +7,9 @@ var sequelize = require('sequelize');
 // Cargamos Moments
 var moment = require('moment');
 
+// Cargamos Jimp
+var jimp = require("jimp");
+
 // Autoload - Factoriza el código si la ruta incluye :pro_url
 exports.load = function(req, res, next, pro_url){
 	models.Project.find({
@@ -93,6 +96,30 @@ exports.project_update = function(req,res){
 					res.redirect('/project/'+req.params.pro_url+'/manage');
 			})}
 		});
+};
+
+// POST /project/:pro_url/logo
+exports.upload_logo = function(req,res){
+	console.log('Logo');
+	models.Project.find({
+		where:{ id: req.project.id }
+	}).then(function(project){
+		console.log('Logo1');
+		project.pro_logo = req.file.filename;
+		console.log('Logo1');
+		jimp.read('./public/images/logo/project-'+req.project.id+'.bmp').then(function (logo) {
+		console.log('Logo2');
+		logo.resize(parseInt(req.body.t), jimp.AUTO)
+					.crop(parseInt(req.body.x), parseInt(req.body.y), parseInt(req.body.w), parseInt(req.body.h))				// crop
+					.resize(400, 400)            // resize
+					.write("./public/images/logo/project-"+req.project.id+".bmp"); // save
+		console.log('Logo3');
+		}).then(function(){
+			console.log('Logo2');
+			project.save({fields: ["pro_logo"] }).then(function(){
+				console.log('Logo3');
+				res.redirect('/project/'+req.params.pro_url+'/manage');
+	})})}).catch(function(error){next(error);});
 };
 
 // DELETE /project/:pro_url/:projectId
