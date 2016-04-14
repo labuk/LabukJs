@@ -1,5 +1,10 @@
 <% include partial_promenu %><p>
 
+  <script>
+	$('#project_menu a:contains("Piezas")').parent().addClass("active");
+	$('#project_menu h8').html('Piezas');
+	</script>
+
 <h2 class="page-header">
   Pieza
   <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal1">Editar</button>

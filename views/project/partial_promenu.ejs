@@ -1,24 +1,84 @@
+
+<link rel="stylesheet" href="/stylesheets/timeline.css"> <!-- Resource style -->
+<script src="/js/timeline.js"></script> <!-- Resource jQuery -->
+<script src="/js/popover.js"></script> <!-- Resource jQuery -->
+
+<script>
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+</script>
+
 <nav class="menu_pro" id="n1" role="navigation">
 
-  <h2 class="page-header">
-  <% if (project) { %>
-  Proyecto <%=  project.pro_nombre  %>
-  <% } %>
-  </h2>
+  <div class="row">
+      <div class="col-md-2 col-sm-4">
 
-  <ul id="project_menu" class="nav nav-pills">
-    <li><a href="/project/<%= project.pro_url%> ">Resumen</a></li>
-    <li><a href="/project/<%= project.pro_url%>/pieces ">Piezas</a></li>
-    <li><a href="/project/<%= project.pro_url%>/ideas ">Ideas</a></li>
-    <li><a href="/project/<%= project.pro_url%>/tasks ">Tareas</a></li>
-    <li><a href="/project/<%= project.pro_url%>/members ">Miembros</a></li>
-    <li><a href="/project/<%= project.pro_url%>/logs ">Logbook</a></li>
-    <li><a href="/project/<%= project.pro_url%>/board ">Tablón</a></li>
-    <li><a href="/project/<%= project.pro_url%>/polls ">Encuesta</a></li>
-    <li><a href="/project/<%= project.pro_url%>/problems ">Problemas</a></li>
-    <li><a href="/project/<%= project.pro_url%>/meetings ">Sala de Reuniones</a></li>
-    <li><a href="/project/<%= project.pro_url%>/manage ">Gestión</a></li>
-  </ul>
+        <div id="project_menu" class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle"
+                  data-toggle="dropdown">
+                  <% if (project.pro_logo) { %>
+                    <img src="/images/logo/<%= project.pro_logo %>"class="img-responsive img-rounded"/>
+                  <% } else { %>
+                    <img src="/images/logo/logo.png" class="img-responsive img-rounded" />
+                  <% } %>
+            <h8>Título del botón</h8><span class="caret"></span>
+          </button>
 
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/project/<%= project.pro_url%> ">Resumen</a></li>
+            <li><a href="/project/<%= project.pro_url%>/pieces ">Piezas</a></li>
+            <li><a href="/project/<%= project.pro_url%>/ideas ">Ideas</a></li>
+            <li><a href="/project/<%= project.pro_url%>/tasks ">Tareas</a></li>
+            <li><a href="/project/<%= project.pro_url%>/members ">Miembros</a></li>
+            <li><a href="/project/<%= project.pro_url%>/logs ">Logbook</a></li>
+            <li><a href="/project/<%= project.pro_url%>/board ">Tablón</a></li>
+            <li><a href="/project/<%= project.pro_url%>/polls ">Encuesta</a></li>
+            <li><a href="/project/<%= project.pro_url%>/problems ">Problemas</a></li>
+            <li><a href="/project/<%= project.pro_url%>/meetings ">Sala de Reuniones</a></li>
+            <li><a href="/project/<%= project.pro_url%>/manage ">Gestión</a></li>
+          </ul>
+        </div>
+
+    </div>
+
+      <div class="col-md-10 col-sm-8">
+
+        <h3 class="page-header">
+          <% if (project) { %>
+          Proyecto <%=  project.pro_nombre  %>
+          <% } %>
+        </h3>
+        <section class="cd-horizontal-timeline">
+        	<div class="timeline">
+        		<div class="events-wrapper">
+        			<div class="events">
+        				<ol>
+                  <li><a tabindex="0" role="button" data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Si" href="#0" data-date="16/01/2014" class="selected">Lun 16</a></li>
+        					<li><a tabindex="0" role="button" data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Siasdfasdfasdfasdfasd asdfasdfas asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asd <br> asdfasdfasdfasdf" href="#0" data-date="17/01/2014">17 Jan</a></li>
+        					<li><a href="#0" data-date="19/01/2014">19 Feb</a></li>
+                  <li><a href="#0" data-date="20/01/2014">20 Feb</a></li>
+                  <li><a href="#0" data-date="26/01/2014">26 Feb</a></li>
+                  <li><a href="#0" data-date="26/01/2014"></a></li>
+                  <li><a href="#0" data-date="28/01/2014">28 Feb</a></li>
+                  <li><a href="#0" data-date="29/01/2014">29 Feb</a></li>
+                  <li><a tabindex="0" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom"  data-content="Si" href="#0" data-date="3/02/2014">3 Feb</a></li>
+        				</ol>
+
+        				<span class="filling-line" aria-hidden="true"></span>
+        			</div> <!-- .events -->
+        		</div> <!-- .events-wrapper -->
+
+        		<ul class="cd-timeline-navigation">
+        			<li><a href="#0" class="prev inactive">Prev</a></li>
+        			<li><a href="#0" class="next">Next</a></li>
+        		</ul> <!-- .cd-timeline-navigation -->
+        	</div> <!-- .timeline -->
+
+        </section>
+
+      </div>
+
+  </div>
 
 </nav>
