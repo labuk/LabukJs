@@ -1,0 +1,25 @@
+// Calendario
+
+<div class="input-group date">
+  <input type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+</div>
+
+<script>
+//var datepicker = $.fn.datepicker.noConflict(); // return $.fn.datepicker to previously assigned value
+//$.fn.bootstrapDP = datepicker;                 // give $().bootstrapDP the bootstrap-datepicker functionality
+<link rel="stylesheet" href="/stylesheets/bootstrap-datepicker3.min.css"> <!-- Resource style -->
+
+<script src="/js/bootstrap-datepicker.min.js"></script> <!-- Resource jQuery -->
+$('.input-group.date').datepicker({
+    format: "dd/mm/yyyy",
+    startDate: "01/01/2015",
+    weekStart: 1,
+    todayBtn: "linked",
+    language: "es",
+    keyboardNavigation: false,
+    daysOfWeekHighlighted: "0",
+    autoclose: true,
+    todayHighlight: true
+});
+
+</script>

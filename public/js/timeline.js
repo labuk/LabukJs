@@ -1,8 +1,5 @@
-jQuery(document).ready(function($){
-	var timelines = $('.cd-horizontal-timeline'),
-		eventsMinDistance = 53;
 
-	(timelines.length > 0) && initTimeline(timelines);
+	eventsMinDistance = 53;
 
 	function initTimeline(timelines) {
 		timelines.each(function(){
@@ -17,7 +14,7 @@ jQuery(document).ready(function($){
 			timelineComponents['eventsMinLapse'] = minLapse(timelineComponents['timelineDates']) || 1000*3600*24;
 			timelineComponents['timelineNavigation'] = timeline.find('.cd-timeline-navigation');
 			timelineComponents['eventsContent'] = timeline.children('.events-content');
-
+			console.log(timelineComponents);
 			//assign a left postion to the single events along the timeline
 			setDatePosition(timelineComponents, eventsMinDistance);
 			//assign a width to the timeline
@@ -128,23 +125,28 @@ jQuery(document).ready(function($){
 	}
 
 	function setDatePosition(timelineComponents, min) {
-		distance_last = -1;
+		var distance_count = {};
 		for (i = 0; i < timelineComponents['timelineDates'].length; i++) {
 		    var distance = daydiff(timelineComponents['timelineDates'][0], timelineComponents['timelineDates'][i]),
 		    	distanceNorm = Math.round(distance/timelineComponents['eventsMinLapse']) + 2;
-					console.log (distance);
-					console.log (distanceNorm);
-				if (distance == distance_last) {
-					timelineComponents['timelineEvents'].eq(i).css('left', distanceNorm*min-95+15+'px');
+					distance_count[distanceNorm] = distance_count[distanceNorm]+1 || 1;
+					console.log(distance_count)
+				if (distance_count[distanceNorm] > 1) {
+					timelineComponents['timelineEvents'].eq(i).css('left', distanceNorm*min-94+11*(distance_count[distanceNorm]-1)+'px');
+					timelineComponents['timelineEvents'].eq(i).html('');
 				} else {
-					timelineComponents['timelineEvents'].eq(i).css('left', distanceNorm*min-95+'px');
+					timelineComponents['timelineEvents'].eq(i).css('left', distanceNorm*min-98+'px');
 				}
-				distance_last = distance;
 		}
 	}
 
 	function setTimelineWidth(timelineComponents, width) {
-		var timeSpan = daydiff(timelineComponents['timelineDates'][0], timelineComponents['timelineDates'][timelineComponents['timelineDates'].length-1]),
+		var timeSpanMax = 0;
+		for (i = 0; i < timelineComponents['timelineDates'].length; i++) {
+			if (timelineComponents['timelineDates'][i]>timeSpanMax)
+			timeSpanMax = timelineComponents['timelineDates'][i];
+		}
+		var timeSpan = daydiff(timelineComponents['timelineDates'][0], timeSpanMax),
 			timeSpanNorm = timeSpan/timelineComponents['eventsMinLapse'],
 			timeSpanNorm = Math.round(timeSpanNorm) + 4,
 			totalWidth = timeSpanNorm*width;
@@ -238,9 +240,18 @@ jQuery(document).ready(function($){
 	function minLapse(dates) {
 		//determine the minimum distance among events
 		var dateDistances = [];
+		dates_sort = dates.slice(); // Hay que copiar el array para que no ordene el original
+		dates_sort.sort(function(a,b)
+		{
+				a = new Date(a);
+				b = new Date(b);
+				return a-b;
+		});
 		for (i = 1; i < dates.length; i++) {
-		    var distance = daydiff(dates[i-1], dates[i]);
-		    dateDistances.push(distance);
+		    var distance = daydiff(dates_sort[i-1], dates_sort[i]);
+				if(distance > 0) {
+					dateDistances.push(distance);
+				}
 		}
 		return Math.min.apply(null, dateDistances);
 	}
@@ -273,4 +284,3 @@ jQuery(document).ready(function($){
 		//check if mobile or desktop device
 		return window.getComputedStyle(document.querySelector('.cd-horizontal-timeline'), '::before').getPropertyValue('content').replace(/'/g, "").replace(/"/g, "");
 	}
-});

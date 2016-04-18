@@ -129,3 +129,9 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Creamos un sistema para subir logo a los proyectos, copiando el sistema de la subida del avatar.
   - Cambiamos la cabecera del proyecto agrupando todos los enlaces de proyecto en un botón desplegable.
   - Añadimos a la cabecera un timeline para ver los eventos del proyecto.
+
+// 14-04-2016
+  - Creamos un sistema de eventos para llenar el timeline. Por ahora lo haremos manual.
+  - Mediante ajax cargamos los eventos del timeline, así como los nuevos que vamos creando.
+  - Modificamos el js de timeline.js para corregir fallos de superposición y casos no tenidos en cuenta.
+  - Modificamos el css de timeline.css para que cada tipo de evento tenga un color diferente.

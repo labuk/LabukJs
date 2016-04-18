@@ -50,7 +50,7 @@ Main Components
 
 .cd-horizontal-timeline .events-wrapper .popover{
   position: fixed;
-  z-index: 9999;
+  z-index: 99;
 }
 
 .cd-horizontal-timeline .events {
@@ -74,7 +74,8 @@ Main Components
   top: 0;
   height: 100%;
   width: 100%;
-  background-color: #7b9d6f;
+  /*background-color: #7b9d6f;*/
+  background-color: #777;
   -webkit-transform: scaleX(0);
   -moz-transform: scaleX(0);
   -ms-transform: scaleX(0);
@@ -91,6 +92,7 @@ Main Components
 }
 .cd-horizontal-timeline .events a {
   position: absolute;
+  text-decoration: none;
   bottom: 0;
   z-index: 2;
   text-align: center;
@@ -125,6 +127,8 @@ Main Components
   -moz-transition: background-color 0.3s, border-color 0.3s;
   transition: background-color 0.3s, border-color 0.3s;
 }
+
+
 .no-touch .cd-horizontal-timeline .events a:hover::after {
   background-color: #7b9d6f;
   border-color: #7b9d6f;
@@ -134,9 +138,56 @@ Main Components
   background-color: #7b9d6f;
   border-color: #7b9d6f;
 }
+
 .cd-horizontal-timeline .events a.older-event::after {
   border-color: #7b9d6f;
 }
+
+.cd-horizontal-timeline .events a#event_0::after {
+  border: 2px solid #7b9d6f;
+}
+
+.cd-horizontal-timeline .events a#event_0.selected::after {
+  background-color: #7b9d6f;
+  border-color: #7b9d6f;
+}
+
+.cd-horizontal-timeline .events a#event_1::after {
+  border: 2px solid blue;
+}
+
+.cd-horizontal-timeline .events a#event_1.selected::after {
+  background-color: blue;
+  border-color: blue;
+}
+
+.cd-horizontal-timeline .events a#event_2::after {
+  border: 2px solid red;
+}
+
+.cd-horizontal-timeline .events a#event_2.selected::after {
+  background-color: red;
+  border-color: red;
+}
+
+.cd-horizontal-timeline .events a#event_3::after {
+  border: 2px solid orange;
+}
+
+.cd-horizontal-timeline .events a#event_3.selected::after {
+  background-color: orange;
+  border-color: orange;
+}
+
+.cd-horizontal-timeline .events a#event_4::after {
+  border: 2px solid darkviolet;
+}
+
+.cd-horizontal-timeline .events a#event_4.selected::after {
+  background-color: darkviolet;
+  border-color: darkviolet;
+}
+
 @media only screen and (min-width: 1100px) {
 
   .cd-horizontal-timeline::before {
@@ -194,6 +245,18 @@ Main Components
   -o-transform: translateY(-50%) rotate(180deg);
   transform: translateY(-50%) rotate(180deg);
 }
+
+.cd-timeline-navigation a.add {
+  left: 0;
+  top: 0;
+  background: #fff;
+  -webkit-transform: translateY(-50%) rotate(90deg);
+  -moz-transform: translateY(-50%) rotate(90deg);
+  -ms-transform: translateY(-50%) rotate(90deg);
+  -o-transform: translateY(-50%) rotate(90deg);
+  transform: translateY(-50%) rotate(90deg);
+}
+
 .cd-timeline-navigation a.next {
   right: 0;
 }

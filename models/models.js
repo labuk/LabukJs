@@ -90,12 +90,20 @@ var Problem = sequelize.import(problem_path);
 	Problem.belongsTo(Piece);
 		Piece.hasOne(Problem, {onDelete: 'cascade', hooks:true});
 
-// Importar la definición de la tabla Idea en project/problem.js
+// Importar la definición de la tabla Idea en project/answer.js
 var answer_path = path.join(__dirname, 'project/answer')
 var Answer = sequelize.import(answer_path);
 	// Relación Answer - Problem
 	Answer.belongsTo(Problem);
 		Problem.hasOne(Answer, {onDelete: 'cascade', hooks:true});
+
+// Importar la definición de la tabla Idea en project/events.js
+var events_path = path.join(__dirname, 'project/events')
+var Events = sequelize.import(events_path);
+	// Relación Answer - Problem
+	Events.belongsTo(Project);
+		Project.hasOne(Events, {onDelete: 'cascade', hooks:true});
+	Events.belongsTo(User);
 
 // Fin -- Project
 
@@ -166,7 +174,8 @@ exports.Member = Member; // exportar definición de tabla Member
 exports.Log = Log; // exportar definición de tabla Member
 exports.Idea = Idea; // exportar definición de tabla Idea
 exports.Problem = Problem; // exportar definición de tabla Problem
-exports.Answer = Answer; // exportar definición de tabla Idea
+exports.Answer = Answer; // exportar definición de tabla Answer
+exports.Events = Events; // exportar definición de tabla Answer
 // Exportar Blog DB
 exports.Post = Post; // exportar definición de tabla Post
 exports.Comment = Comment; // exportar definición de tabla Comment

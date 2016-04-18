@@ -706,3 +706,38 @@ exports.vote_update = function(req,res){
 exports.meetings = function(req,res) {
 	res.render('project/meetings_index', {project: req.project, user: req.session.user.username, errors: []});
 }
+
+// GET /project/:pro_url/events
+exports.events = function(req,res) {
+	models.Events.findAll({
+		where:{
+			ProjectId: req.project.id,
+			eve_date: {gt: new Date()}
+		},
+		order: [ ['eve_date', 'ASC'] ],
+	}).then(function(events){
+		res.send(events);
+	}).catch(function(error){next(error);})
+}
+
+// POST /project/:pro_url/events
+exports.events_create = function(req,res) {
+	var events = models.Events.build(
+		{
+			eve_evento: req.body.eve_evento,
+			eve_tipo: req.body.eve_tipo,
+			eve_date: req.body.eve_date,
+			UserId:  req.session.user.id,
+			ProjectId:  req.project.id
+		});
+
+	events.validate().then(function(err){
+		if (err) {
+			res.render('project/pieces_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB
+			events.save().then(function(){
+			});
+		}
+	});
+}
