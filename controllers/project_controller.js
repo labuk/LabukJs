@@ -32,7 +32,13 @@ exports.index = function(req, res){
 // GET /project/new
 exports.new = function(req,res){
  	var project = models.Project.build(
-		{pro_nombre: "Nombre", pro_url: "Url"}
+		{
+			pro_nombre: "Nombre",
+			pro_url: "Url",
+			pro_eslogan: "Eslogan",
+			pro_descripcion: "Descripción",
+			pro_tipo: "Tipo"
+		}
 	);
 
 	res.render('project/new', {project: project, errors: []});
@@ -75,7 +81,7 @@ exports.show_pro = function(req, res){
 
 // GET /project/:pro_url/front
 exports.show_front = function(req, res){
-	res.render('project/project_front',{ project: req.project, errors: []});
+	res.render('project/project_front',{ project: req.project, moment: moment, errors: []});
 };
 
 // PUT /project/:pro_url/update
@@ -83,6 +89,10 @@ exports.project_update = function(req,res){
 
 		req.project.pro_portada = req.body.project.pro_portada || req.project.pro_portada;
 		req.project.pro_nombre = req.body.project.pro_nombre || req.project.pro_nombre;
+		req.project.pro_eslogan = req.body.project.pro_eslogan || req.project.pro_eslogan;
+		req.project.pro_descripcion = req.body.project.pro_descripcion || req.project.pro_descripcion;
+		req.project.pro_tipo = req.body.project.pro_tipo || req.project.pro_tipo;
+
 		if (req.body.project.pro_nombre) {
 			req.project.pro_url = req.body.project.pro_nombre.replace(/\s+/g, '-').toLowerCase();
 		}
@@ -92,7 +102,7 @@ exports.project_update = function(req,res){
 				res.render('project/pieces_index', {piece: piece, project: req.project, errors: err.errors});
 			} else {
 				// cambia en DB los campos pregunta y respuesta
-				req.project.save({fields: ["pro_nombre","pro_url","pro_portada"]}).then(function(){
+				req.project.save({fields: ["pro_nombre","pro_url","pro_portada","pro_eslogan","pro_descripcion","pro_tipo"]}).then(function(){
 					res.redirect('/project/'+req.params.pro_url+'/manage');
 			})}
 		});
@@ -134,7 +144,14 @@ exports.project_destroy = function(req,res){
 
 // GET /project/:pro_url/manage
 exports.manage = function(req, res){
-	res.render('project/manage_project',{ project: req.project, errors: []});
+	// Buscar Sugerencias
+	models.Suggestion.findAll({
+		where:{ ProjectId: req.project.id },
+		include: [{model: models.User, attributes: ['nombre']}]
+	}).then(function(suggestions){
+		console.log(suggestions);
+		res.render('project/manage_project',{ project: req.project, suggestions: suggestions, errors: []});
+	});
 };
 
 // GET /project/:pro_url/members
@@ -741,3 +758,22 @@ exports.events_create = function(req,res) {
 		}
 	});
 }
+
+// POST /project/:pro_url/suggestion/create
+exports.suggestion_create = function(req,res){
+
+	var suggestion = models.Suggestion.build({
+			sug_sugerencia: req.body.sug_sugerencia,
+			ProjectId: req.project.id,
+			UserId: req.session.user.id
+		});
+	suggestion.validate().then(function(err){
+		if (err) {
+			res.render('project/members_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos
+			suggestion.save().then(function(){
+				res.send('Ok');})
+		}
+	});
+};

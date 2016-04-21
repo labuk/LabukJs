@@ -11,7 +11,7 @@
   Configuración Proyecto
   <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal1">Editar</button>
   <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal2">Borrar</button>
-  <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal">Cambiar Logo</button>
+  <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#myModal">Cambiar Logo</button>
 
 </h3>
 
@@ -26,8 +26,8 @@
   <div class="col-xs-12 col-sm-6 col-md-9">
     <dl>
       <dd><h3><%= project.pro_nombre %><h3></dd>
-      <dd>Mail</dd>
-      <dd>Cosas varias</dd>
+      <dd><%= project.pro_eslogan %></dd>
+      <dd><%= project.pro_descripcion %></dd>
     </dl>
   </div>
 </div>
@@ -55,6 +55,17 @@
 
 <br>
 
+  <h2>Sugerencias </h2>
+
+  <table class="table table-striped table-condensed">
+  <% var i; if (suggestions) { for (i=0; i < suggestions.length; i++){ %>
+  		<tr>
+  			<td> <%= suggestions[i].sug_sugerencia %> </td>
+        <td> <%= suggestions[i].User.nombre %> </td>
+  		</tr>
+  <% }} %>
+  </table>
+
 <!-- Formulario Editar Proyecto -->
 <div id="myModal1" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -68,7 +79,24 @@
         <form role="form" method="post" action="/project/<%= project.pro_url %>/update?_method=put">
           <div class="form-group">
             <label for="nom" class="rem">Nombre:</label>
-            <input type="text" class="form-control" name="project[pro_nombre]" value="<%= project.pro_nombre%>" /> </p>
+            <input type="text" class="form-control" name="project[pro_nombre]" value="<%= project.pro_nombre %>" /> </p>
+          </div>
+          <div class="form-group">
+            <label class="sr-only">Eslogan</label>
+            <input type="text" class="form-control" name="project[pro_eslogan]" value="<%= project.pro_eslogan %>" />
+          </div>
+          <div class="form-group">
+            <label class="sr-only">Descripción</label>
+            <textarea class="form-control" name="project[pro_descripcion]" /><%= project.pro_descripcion %></textarea>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Tipo de Proyecto:</label>
+            <input id="check0" type="radio" name="project[pro_tipo]" value="0" > Tecnológico
+            <input id="check1" type="radio" name="project[pro_tipo]" value="1" > Innovación
+            <input id="check2" type="radio" name="project[pro_tipo]" value="2" > Artístico
+            <input id="check3" type="radio" name="project[pro_tipo]" value="3" > Social
+            <input id="check4" type="radio" name="project[pro_tipo]" value="4" > Productivo
+            <script>$('#check<%= project.pro_tipo %>').prop('checked', true);</script>
           </div>
           <input type="submit" class="form-control btn btn-success" value="Salvar" />
         </form>

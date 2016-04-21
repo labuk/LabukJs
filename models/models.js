@@ -105,6 +105,14 @@ var Events = sequelize.import(events_path);
 		Project.hasOne(Events, {onDelete: 'cascade', hooks:true});
 	Events.belongsTo(User);
 
+	// Importar la definición de la tabla Idea en project/suggestion.js
+	var suggestion_path = path.join(__dirname, 'project/suggestion')
+	var Suggestion = sequelize.import(suggestion_path);
+		// Relación Suggestion - Project
+		Suggestion.belongsTo(Project);
+			Project.hasOne(Suggestion, {onDelete: 'cascade', hooks:true});
+		Suggestion.belongsTo(User);
+
 // Fin -- Project
 
 // Sección Blog
@@ -175,7 +183,8 @@ exports.Log = Log; // exportar definición de tabla Member
 exports.Idea = Idea; // exportar definición de tabla Idea
 exports.Problem = Problem; // exportar definición de tabla Problem
 exports.Answer = Answer; // exportar definición de tabla Answer
-exports.Events = Events; // exportar definición de tabla Answer
+exports.Events = Events; // exportar definición de tabla Events
+exports.Suggestion = Suggestion; // exportar definición de tabla Suggestion
 // Exportar Blog DB
 exports.Post = Post; // exportar definición de tabla Post
 exports.Comment = Comment; // exportar definición de tabla Comment
@@ -194,6 +203,10 @@ sequelize.sync().then(function() {
 	Project.count().then(function (count){
 		if (count === 0){ // la tabla se inicializa solo si está vacía
 			User.create({
+				nombre: 'Anon',
+				pass: '1234'
+			});
+			User.create({
 				nombre: 'Admin',
 				pass: '1234'
 			});
@@ -207,18 +220,18 @@ sequelize.sync().then(function() {
 			});
 			Member.create({
 				mem_rol:'0',
-				UserId:'1',
+				UserId:'2',
 				ProjectId:'1'
 			});
 			Contact.create({
-				con_contact:'1',
-				UserId: '2',
+				con_contact:'2',
+				UserId: '3',
 				con_block:'2',
 				con_message: '2'
 			});
 			Contact.create({
-				con_contact:'2',
-				UserId: '1',
+				con_contact:'3',
+				UserId: '2',
 				con_block:'2',
 				con_message: '2'
 			})

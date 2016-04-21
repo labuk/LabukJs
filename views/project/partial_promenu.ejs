@@ -5,20 +5,6 @@
 
 <script>
 
-function getDate (data) {
-
-  var day = new Date(data);
-  var dd = day.getDate();
-  var ds = day.getDay();
-  var mm = day.getMonth()+1; //January is 0!
-  var yyyy = day.getFullYear();
-
-  var daysWeek = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-
-  var resDate =  [ dd+'/'+mm+'/'+yyyy, daysWeek[ds]+' '+dd ];
-
-  return resDate;
-}
 
 </script>
 
@@ -83,13 +69,13 @@ function getDate (data) {
         		<ul class="cd-timeline-navigation">
         			<li><a href="#0" class="prev inactive">Prev</a></li>
         			<li><a href="#0" class="next">Next</a></li>
-              <li><a type="button" class="btn btn-info add" data-toggle="modal" data-target="#myModal1">+</a>
+              <li><a type="button" class="btn btn-info add" data-toggle="modal" data-target="#myModal_ev">+</a>
 </li>
         		</ul> <!-- .cd-timeline-navigation -->
         	</div> <!-- .timeline -->
 
           <!-- Formulario Nuevo Evento -->
-          <div id="myModal1" class="modal fade" role="dialog">
+          <div id="myModal_ev" class="modal fade" role="dialog">
             <div class="modal-dialog">
               <!-- Modal content-->
               <div class="modal-content">
@@ -101,7 +87,7 @@ function getDate (data) {
                   <form id="newEvent" role="form" method="post" action="/project/<%= project.pro_url %>/events/create ">
           					<div class="form-group">
           						<label class="sr-only">Evento</label>
-          						<input type="text" class="form-control" name="eve_evento" placeholder="Evento" value="" />
+          						<input type="text" class="form-control" name="eve_evento" placeholder="Evento" autocomplete="off" value="" />
           					</div>
           					<div class="form-group">
           						<label class="control-label">Tipo:</label>
@@ -145,20 +131,20 @@ $('#newEvent').submit(function(e){
       var value = this.value;
       new_event[name] = value;
   });
-/*
+
   $.ajax({
     type: 'POST',
     data: JSON.stringify(new_event),
     contentType: 'application/json',
     url: '/project/<%= project.pro_url %>/events/create',
   });
-*/
+
   var fecha = getDate(new_event.eve_date);
   $('<li><a id="event_'+new_event.eve_tipo+'" tabindex="0" role="button" data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="'+new_event.eve_evento+'" href="#0" data-date="'+fecha[0]+'">'+fecha[1]+'</a></li>')
   .insertAfter('.events ol>li:last');
   $('[data-toggle="popover"]').popover();
 
-  $('#myModal1').modal('toggle');
+  $('#myModal_ev').modal('toggle');
 
   var timelines = $('.cd-horizontal-timeline');
 	if(timelines.length > 0) initTimeline(timelines);

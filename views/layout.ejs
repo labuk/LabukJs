@@ -35,13 +35,25 @@
 
   </head>
 
+  <% if(session.user.id == 1){%>
+  <style>
+  #wrapper.toggled {
+      padding-left: 0px;
+  }
+
+  #wrapper {
+      padding-left: 0px;
+  }
+  </style>
+  <% } %>
+
   <body>
 
     <div class="row">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
-          <% if(session.user.id != 0){%>
+          <% if(session.user.id != 1){%>
           <a href="#menu-toggle" class="btn navbar-brand" id="menu-toggle"><span class="glyphicon glyphicon-th"></span></a>
           <a class="navbar-brand" href="/project">Labuk</a>
           <% } else { %>
@@ -52,7 +64,7 @@
           <!-- start: Notification -->
           <li>
             <a class="btn" href="/contact/">
-              <% if(session.user.id != 0){%>
+              <% if(session.user.id != 1){%>
               <span class="glyphicon glyphicon-bell"></span>
               <% } %>
               <span id="countMessage" class="badge"></span>
@@ -64,7 +76,7 @@
 					<li class="dropdown ">
 						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 							<span class="glyphicon glyphicon-user"></span>
-							<% if(session.user.id == 0){%>
+							<% if(session.user.id == 1){%>
 								Enter
 							<%} else {%>
 								<%= session.user.username %>
@@ -72,7 +84,7 @@
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu" role="menu">
-							<% if(session.user.id == 0){%>
+							<% if(session.user.id == 1){%>
 								<li><a href="/login"><i class="glyphicon glyphicon-off"></i> Log In</a></li>
 								<li><a href="/user/new"><i class="glyphicon glyphicon-user"></i> Nuevo usuario</a></li>
 							<%} else {%>
@@ -89,7 +101,7 @@
 
 
     <div id="wrapper">
-<% if(session.user.id != 0){%>
+<% if(session.user.id != 1){%>
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">

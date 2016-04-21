@@ -6,6 +6,16 @@ module.exports = function(sequelize, DataTypes){
 			type: DataTypes.STRING,
 			validate: {notEmpty: {msg: "-> Falta Nombre"}}
 			},
+			pro_eslogan:  {
+				type: DataTypes.STRING
+			},
+			pro_descripcion:  {
+				type: DataTypes.STRING
+			},
+			pro_tipo:  {
+				type: DataTypes.INTEGER,
+				validate: {notEmpty: {msg: "-> Falta Tipo"}}
+			},
 			pro_url:  {
 				type: DataTypes.STRING,
 				validate: {notEmpty: {msg: "-> Falta url"}}

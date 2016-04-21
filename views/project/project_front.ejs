@@ -1,3 +1,84 @@
-<h2 class="page-header">
-Portada Pública
-</h2>
+<div class="row">
+<div class="container-fluid">
+  <div class="col-md-2 col-sm-2">
+            <% if (project.pro_logo) { %>
+              <img src="/images/logo/<%= project.pro_logo %>"class="img-responsive img-rounded"/>
+            <% } else { %>
+              <img src="/images/logo/logo.png" class="img-responsive img-rounded" />
+            <% } %>
+  </div>
+  <div class="col-md-10 col-sm-10">
+    <h1 class="page-header">
+      <%= project.pro_nombre %>
+      <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#myModal1">Sugerencia</button>
+    </h1>
+    <h3>
+      <small><%= project.pro_eslogan %></small>
+      <small class="text-right">
+        <%= moment(project.createdAt).format("DD/MM/YYYY") %>
+      </small>
+    </h3>
+  </div>
+</div>
+</div>
+<!-- Formulario Editar Proyecto -->
+<div id="myModal1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Sugerencia</h4>
+      </div>
+      <div class="modal-body">
+        <form id="newSuggestion" role="form" method="post" action="/project/<%= project.pro_url %>/suggestion/create">
+          <div class="form-group">
+            <input type="text" class="form-control" name="sug_sugerencia" value="" placeholder="Sugerencia"/> </p>
+          </div>
+          <input type="submit" class="form-control btn btn-success" value="Salvar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <%= project.pro_descripcion %>
+</div>
+
+<div class="container-fluid">
+  <h3>Noticias</h3>
+</div>
+
+<script>
+$('#newSuggestion').submit(function(e){
+  e.preventDefault();
+  var new_suggestion = {}
+  var array = $('#newSuggestion').serializeArray();
+  $.each(array, function() {
+      var name = this.name;
+      var value = this.value;
+      new_suggestion[name] = value;
+  });
+
+  $.ajax({
+    type: 'POST',
+    data: JSON.stringify(new_suggestion),
+    contentType: 'application/json',
+    url: '/project/<%= project.pro_url %>/suggestion/create',
+  }).done(function(res) {
+    if (res === "Ok") {
+      console.log('Ok');
+      /*
+      <div class="alert alert-warning alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>¡Cuidado!</strong> Es muy importante que leas este mensaje de alerta.
+      </div>
+      */
+    }
+  });
+
+  return false;
+});
+
+</script>

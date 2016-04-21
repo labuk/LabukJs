@@ -1,3 +1,18 @@
+// function Fecha DB
+function getDate (data) {
+
+  var day = new Date(data);
+  var dd = day.getDate();
+  var ds = day.getDay();
+  var mm = day.getMonth()+1; //January is 0!
+  var yyyy = day.getFullYear();
+
+  var daysWeek = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  var resDate =  [ dd+'/'+mm+'/'+yyyy, daysWeek[ds]+' '+dd ];
+  return resDate;
+	
+}
+
 // Function Prioridad
 function get_prioridad(prioridad) {
 	if (prioridad === 0) {return 'General';}

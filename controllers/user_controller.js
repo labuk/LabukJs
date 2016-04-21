@@ -9,7 +9,11 @@ var jimp = require("jimp");
 
 // GET /user
 exports.index = function(req, res){
-	models.User.findAll().then(function(users){
+	models.User.findAll({
+		where:{
+			id: {gt: 1}
+		}
+	}).then(function(users){
 		res.render('user/index',{users: users, errors: []});
 	}).catch(function(error){next(error);})
 };
@@ -85,9 +89,7 @@ exports.show_profile = function(req,res){
 exports.autenticar = function(login, password, callback){
 	models.User.findAll({where: ["nombre like ?", login]})
 	.then(function(user){
-console.log("Usuario: "+user[0].id);
 	   if (user.length !== 0){
-console.log("Usuario: "+user[0].pass);
 		if (user[0].pass === password) {
 			 var user_login = {id: user[0].id, nombre: login}
 		   callback(null, user_login);

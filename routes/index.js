@@ -97,6 +97,7 @@ router.put('/project/:pro_url/polls/:pollId(\\d+)/vote/:voteId', sessionControll
 router.get('/project/:pro_url/meetings', sessionController.loginRequired,sessionController.memberRequired, projectController.meetings); // index meeting
 router.get('/project/:pro_url/events', sessionController.loginRequired,sessionController.memberRequired, projectController.events); // crear events
 router.post('/project/:pro_url/events/create', sessionController.loginRequired,sessionController.memberRequired, projectController.events_create); // crear events
+router.post('/project/:pro_url/suggestion/create', projectController.suggestion_create); // crear suggestion
 
 // Definición de rutas de Blog
 router.post('/project/:pro_url/posts/create', sessionController.loginRequired, sessionController.memberRequired, blogController.post_create); // crear idea
