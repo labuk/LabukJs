@@ -1,0 +1,27 @@
+/*
+  HIDESHARE CSS
+*/
+.hideshare-wrap {
+  position: relative;
+  text-align: center;
+  float: right;
+}
+
+.hideshare-wrap .hideshare-list {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+.hideshare-wrap li {
+  display: inline-block;
+  left: -50px;
+  zoom: 0.4;
+  *display: inline;
+  margin: 10px 5px 0;
+}
+.hideshare-wrap span {
+  display: none;
+}
+

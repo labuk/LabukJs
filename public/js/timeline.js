@@ -14,7 +14,6 @@
 			timelineComponents['eventsMinLapse'] = minLapse(timelineComponents['timelineDates']) || 1000*3600*24;
 			timelineComponents['timelineNavigation'] = timeline.find('.cd-timeline-navigation');
 			timelineComponents['eventsContent'] = timeline.children('.events-content');
-			console.log(timelineComponents);
 			//assign a left postion to the single events along the timeline
 			setDatePosition(timelineComponents, eventsMinDistance);
 			//assign a width to the timeline
@@ -130,7 +129,6 @@
 		    var distance = daydiff(timelineComponents['timelineDates'][0], timelineComponents['timelineDates'][i]),
 		    	distanceNorm = Math.round(distance/timelineComponents['eventsMinLapse']) + 2;
 					distance_count[distanceNorm] = distance_count[distanceNorm]+1 || 1;
-					console.log(distance_count)
 				if (distance_count[distanceNorm] > 1) {
 					timelineComponents['timelineEvents'].eq(i).css('left', distanceNorm*min-94+11*(distance_count[distanceNorm]-1)+'px');
 					timelineComponents['timelineEvents'].eq(i).html('');

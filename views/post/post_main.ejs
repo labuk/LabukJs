@@ -1,10 +1,50 @@
-<% include ../project/partial_promenu %><p>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+<% if(session.user.id == 1){%>
+	<div class="row">
+	<div class="container-fluid">
+	  <div class="col-md-2 col-sm-2">
+	            <% if (project.pro_logo) { %>
+	              <img src="/images/logo/<%= project.pro_logo %>"class="img-responsive img-rounded"/>
+	            <% } else { %>
+	              <img src="/images/logo/logo.png" class="img-responsive img-rounded" />
+	            <% } %>
+	  </div>
+	  <div class="col-md-10 col-sm-10">
+	    <h1 class="page-header">
+	      <%= project.pro_nombre %>
+				<a role="button" href="/project/<%= project.pro_url %>" type="button" class="btn btn-warning pull-right">Volver</a>
+	      <a href='https://twitter.com/intent/tweet?text=Proyecto%20<%= project.pro_nombre %>&url=http://labuk.herokuapp.com/project/<%= project.pro_url %>/posts/front/<%= post.pos_url %>&via=LaBuk_coop' target="_blank" class="btn btn-info pull-right" data-text="Proyecto <%= project.pro_nombre %>" data-via="LaBuk_coop" data-dnt="true"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+	    </h1>
+	    <h3>
+	      <small><%= project.pro_eslogan %></small>
+	      <small class="text-right">
+	        <%= moment(project.createdAt).format("DD/MM/YYYY") %>
+	      </small>
+	    </h3>
+	  </div>
+	</div>
+	</div>
+
+
+<% } else { %>
+	<% include ../project/partial_promenu %>
+	<script>
+		$('#project_menu a:contains("Tablón")').parent().addClass("active");
+		$('#project_menu h8').html('Tablón');;
+	</script>
+	<p>
+<% } %>
 
 <%  if (post) {  %>
 
 <div class="blog-post">
+	<% if(session.user.id != 1){%>
+	<button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal1">Editar</button>
+	<button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal2">Borrar</button>
+	<% } %>
 	<h2 class="blog-post-title "><%= post.pos_titulo %></h2>
-	<p class="blog-post-meta"><%= moment(post.updatedAt).format("DD/MM/YYYY") %> por <a class="text-capitalize" href="#"><%= post.User.nombre %></a></p>
+	<p class="blog-post-meta"><%= moment(post.updatedAt).format("DD/MM/YYYY") %> por <a class="text-capitalize" href="/user/profile/<%= post.UserId %>"><%= post.User.nombre %></a></p>
 
 <p><%= post.pos_resumen %> </p>
 <hr>
@@ -13,12 +53,74 @@
 </div>
 
 <br>
+
+
+<!-- Formulario Borrar Problema -->
+<div id="myModal2" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Borrar Noticia</h4>
+			</div>
+			<div class="modal-body">
+				<p class="form-control-static">Borrar Noticia?</p>
+				<form role="form" method="post" action="/project/<%= project.pro_url %>/posts/<%= post.id %>?_method=delete">
+					<button type="submit" class="form-control btn btn-danger">Borrar</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Formulario Editar Post -->
+<div id="myModal1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar Noticia</h4>
+      </div>
+      <div class="modal-body">
+        <form role="form" method="post" action="/project/<%= project.pro_url %>/posts/<%= post.pos_url %>?_method=put">
+          <div class="form-group">
+            <label class="sr-only">Nombre Noticia</label>
+            <input type="text" class="form-control" name="post[pos_titulo]" value="<%= post.pos_titulo %>">
+          </div>
+          <div class="form-group">
+            <label class="sr-only">Resumen</label>
+            <textarea class="form-control" rows="2" name="post[pos_resumen]" value=""><%= post.pos_resumen %></textarea>
+          </div>
+          <div class="form-group">
+            <label class="sr-only">Contenido</label>
+            <textarea class="form-control" rows="4" name="post[pos_contenido]" value=""><%= post.pos_contenido %></textarea>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input id="check_publica" type="checkbox" name="post[pos_publica]" value="1">
+              Pública (Todo el mundo puede verla en la portada)
+							<script>
+								if (<%= post.pos_publica %>) {$('#check_publica').prop( "checked", true );}
+							</script>
+            </label>
+          </div>
+          <input type="submit" class="form-control btn btn-success" value="Salvar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <h4 class="page-header">
 	Comentarios
 	<button type="button" class="btn btn-info btn-xs pull-right" data-toggle="modal" data-target="#myModal">Nuevo Comentario</button>
 </h4>
 
-<!-- Formulario Nueva Idea -->
+<!-- Formulario Nuevo Comentario -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->

@@ -138,7 +138,12 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Solo mostramos eventos a partir de la fecha de hoy.
 
 // 19-04-2016
-  - Creamos un sistema de sugerencias para los proyectos.
+  - Creamos un sistema de sugerencias para los proyectos. Se ven en la página de gestión.
   - Creamos un usuario Anon que ocupa el id=1. Antes estaba en el id=0 pero no estaba guardado como usuario en la base de datos.
   - Añadimos a la DB de proyecto un eslogan, descripción y tipo de proyecto
   - Añadimos una cabecera a la portada de los proyectos.
+
+// 21-04-2016
+  - Añadimos las noticias a la portada, añadiendo la posibilidad de tener noticias privadas y públicas.
+  - Editar y borrar las noticias.
+  - Creamos una nueva ruta para las noticias públicas, para verlas sin tener el login.

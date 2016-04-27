@@ -102,6 +102,9 @@ router.post('/project/:pro_url/suggestion/create', projectController.suggestion_
 // Definición de rutas de Blog
 router.post('/project/:pro_url/posts/create', sessionController.loginRequired, sessionController.memberRequired, blogController.post_create); // crear idea
 router.get('/project/:pro_url/posts/:pos_url', sessionController.loginRequired, sessionController.memberRequired, blogController.show_post); // crear idea
+router.get('/project/:pro_url/posts/front/:pos_url', blogController.show_post_publica); // crear idea
+router.put('/project/:pro_url/posts/:pos_url', sessionController.loginRequired, sessionController.memberRequired, blogController.post_update); // editar post
+router.delete('/project/:pro_url/posts/:postId', sessionController.loginRequired, sessionController.memberRequired, blogController.post_destroy); // borrar post
 router.post('/project/:pro_url/comments/:pos_url/create', sessionController.loginRequired, sessionController.memberRequired, blogController.comment_create); // crear idea
 
 // Definición de rutas de Contact

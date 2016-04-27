@@ -81,7 +81,15 @@ exports.show_pro = function(req, res){
 
 // GET /project/:pro_url/front
 exports.show_front = function(req, res){
-	res.render('project/project_front',{ project: req.project, moment: moment, errors: []});
+	models.Post.findAll({
+		where:{
+			ProjectId: req.project.id,
+			pos_publica: {not: 0}
+		},
+		include: [{model: models.User, attributes: ['nombre']}]
+	}).then(function(posts){
+		res.render('project/project_front',{ project: req.project, posts: posts, moment: moment, errors: []});
+	});
 };
 
 // PUT /project/:pro_url/update
@@ -110,24 +118,17 @@ exports.project_update = function(req,res){
 
 // POST /project/:pro_url/logo
 exports.upload_logo = function(req,res){
-	console.log('Logo');
 	models.Project.find({
 		where:{ id: req.project.id }
 	}).then(function(project){
-		console.log('Logo1');
 		project.pro_logo = req.file.filename;
-		console.log('Logo1');
 		jimp.read('./public/images/logo/project-'+req.project.id+'.bmp').then(function (logo) {
-		console.log('Logo2');
 		logo.resize(parseInt(req.body.t), jimp.AUTO)
 					.crop(parseInt(req.body.x), parseInt(req.body.y), parseInt(req.body.w), parseInt(req.body.h))				// crop
 					.resize(400, 400)            // resize
 					.write("./public/images/logo/project-"+req.project.id+".bmp"); // save
-		console.log('Logo3');
 		}).then(function(){
-			console.log('Logo2');
 			project.save({fields: ["pro_logo"] }).then(function(){
-				console.log('Logo3');
 				res.redirect('/project/'+req.params.pro_url+'/manage');
 	})})}).catch(function(error){next(error);});
 };
@@ -149,7 +150,6 @@ exports.manage = function(req, res){
 		where:{ ProjectId: req.project.id },
 		include: [{model: models.User, attributes: ['nombre']}]
 	}).then(function(suggestions){
-		console.log(suggestions);
 		res.render('project/manage_project',{ project: req.project, suggestions: suggestions, errors: []});
 	});
 };
@@ -437,7 +437,6 @@ exports.ideas = function(req, res){
 		limit: limit
 	}).then(function(ideas){
 		pag.total = ideas.count/limit;
-		console.log (pag);
 		res.render('project/ideas_index', {ideas: ideas.rows, pag: pag, project: req.project, errors: []});
 	}).catch(function(error){next(error);})
 };
@@ -701,7 +700,6 @@ exports.vote_create = function(req,res){
 
 // PUT /project/:pro_url/polls/:pollId/vote/:voteId
 exports.vote_update = function(req,res){
-	console.log(req.params.voteId);
 	sequelize.Promise.all([
 		models.Vote.findOne( {where: { id: req.params.voteId }} ),
 		models.Option.findOne( {where: { id: req.body.vote.vot_voto }} ),

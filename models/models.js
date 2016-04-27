@@ -216,6 +216,8 @@ sequelize.sync().then(function() {
 			});
 			Project.create({
 				pro_nombre: 'Labuk',
+				pro_eslogan: 'Incubamos proyectos',
+				pro_descripcion: 'Proyecto de soporte para esta página',
 				pro_url: 'labuk'
 			});
 			Member.create({

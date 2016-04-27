@@ -17,6 +17,10 @@ module.exports = function(sequelize, DataTypes){
       pos_resumen:  {
         type: DataTypes.STRING,
         validate: {notEmpty: {msg: "-> Falta url"}}
-      }
+      },
+			pos_publica:  {
+				type: DataTypes.BOOLEAN,
+				validate: {notEmpty: {msg: "-> Falta Pública"}}
+			}
 		});
 }

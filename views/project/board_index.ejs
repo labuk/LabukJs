@@ -33,6 +33,12 @@
             <label class="sr-only">Contenido</label>
             <textarea class="form-control" rows="4" name="post[pos_contenido]" placeholder="Contenido"></textarea>
           </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="post[pos_publica]" value="1">
+              Pública (Todo el mundo puede verla en la portada)
+            </label>
+          </div>
           <input type="submit" class="form-control btn btn-success" value="Salvar" />
         </form>
       </div>
@@ -42,15 +48,16 @@
 
 <% var i; if (posts) { for (i=0; i < posts.length; i++){ %>
   <div class="panel panel-default">
-    <div class="panel-heading">
+    <div class="panel-body">
       <h3 class="text-capitalize">
         <a col-md-offset-4 href="/project/<%= project.pro_url %>/posts/<%= posts[i].pos_url %>"> <%= posts[i].pos_titulo %> </a>
+        <br>
+        <small><%= moment(posts[i].updatedAt).format("DD/MM/YYYY") %> por <a class="text-capitalize" href="/user/profile/<%= posts[i].UserId %>"><%= posts[i].User.nombre %></a></small>
+        <small><a class="pull-right" role="button" href="/project/<%= project.pro_url %>/posts/<%= posts[i].pos_url %>">Leer más...</a></small>
       </h3>
-      <span class="col-md-offset-1"><%= moment(posts[i].updatedAt).format("DD/MM/YYYY") %> por <%= posts[i].User.nombre %></span>
-    </div>
-    <div class="panel-body">
+      <hr>
       <%= posts[i].pos_resumen %>
-      <p><a class="btn btn-link btn-sm" role="button" href="/project/<%= project.pro_url %>/posts/<%= posts[i].pos_url %>">Leer más...</a></p>
+      <%= posts[i].pos_publica %>
     </div>
   </div>
 <% }} %>

@@ -6,10 +6,12 @@ var moment = require('moment');
 
 // POST /project/:pro_url/posts/create
 exports.post_create = function(req,res){
+
 	var post = models.Post.build({
 			pos_titulo: req.body.post.pos_titulo,
       pos_resumen: req.body.post.pos_resumen,
       pos_contenido: req.body.post.pos_contenido,
+			pos_publica: req.body.post.pos_publica,
 			pos_url: req.body.post.pos_titulo.replace(/\s+/g, '-').toLowerCase(),
 			ProjectId: req.project.id,
 			UserId: req.session.user.id
@@ -42,6 +44,63 @@ exports.show_post = function(req, res){
   })} else { next(new Error('No existe post')); }
 	}).catch(function(error){ next(error);} );
 };
+
+// GET /project/:pro_url/posts/front/:pos_url
+exports.show_post_publica = function(req, res){
+	models.Post.find({
+		  where: { pos_url: req.params.pos_url },
+			include: [{model: models.Project, attributes: ['pro_nombre','pro_url']},{model: models.User, attributes: ['nombre']}]
+		}).then(function(post){
+			if(post.pos_publica) {
+				models.Comment.findAll({
+					  where: { PostId: post.id },
+					}).then(function(comments){
+						var project = post.Project;
+						res.render('post/post_main',{ post: post, project: project, comments: comments, moment: moment, errors: []});
+  })} else {
+		res.render('error',{ errors: []});
+	}
+	}).catch(function(error){ next(error);} );
+};
+
+// PUT /project/:pro_url/posts/:pos_url
+exports.post_update = function(req,res){
+
+	models.Post.find({
+		  where: { pos_url: req.params.pos_url },
+			include: [{model: models.Project, attributes: ['pro_nombre','pro_url']},{model: models.User, attributes: ['nombre']}]
+		}).then(function(post){
+
+			console.log(req.body.post.pos_publica);
+
+			post.pos_titulo = req.body.post.pos_titulo,
+      post.pos_resumen = req.body.post.pos_resumen,
+      post.pos_contenido = req.body.post.pos_contenido,
+			post.pos_publica = req.body.post.pos_publica || 'false',
+			post.pos_url = req.body.post.pos_titulo.replace(/\s+/g, '-').toLowerCase(),
+
+	console.log('1');
+
+			post.validate().then(function(err){
+				if (err) {
+					res.render('error', { errors: err.errors});
+				} else {
+					// cambia en DB los campos pregunta y respuesta
+					post.save({fields: ["pos_titulo","pos_resumen","pos_contenido","pos_publica","pos_url"]}).then(function(){
+						res.redirect('/project/'+req.params.pro_url+'/manage/posts/'+post.pos_url);
+				})}
+		})});
+};
+
+// DELETE /project/:pro_url/posts/:postId
+exports.post_destroy = function(req,res){
+	models.Post.find({
+		where:{ id: req.params.postId }
+	}).then(function(post){
+	 	post.destroy().then(function() {
+			res.redirect('/project/'+req.params.pro_url+'/board');
+		}).catch(function(error){next(error)});
+})};
 
 // POST /project/:pro_url/comments/create
 exports.comment_create = function(req,res){
