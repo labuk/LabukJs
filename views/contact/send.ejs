@@ -1,5 +1,5 @@
 <h2 class="page-header">
-	Mensajes Recibidos
+	Mensajes Enviados
 	<button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal">Nuevo Mensaje</button>
 </h2>
 
@@ -68,12 +68,12 @@
 						})});
 					</script>
           <div class="row">
-            <div class="col-xs-3"><%= messages[i].User.nombre %></div>
+            <div class="col-xs-3"><%= name[i] %></div>
             <div class="col-xs-9"><%= messages[i].mes_topic %><br><%= moment(messages[i].createdAt).format("DD/MM/YYYY") %></div>
           </div>
         <% } else { %>
           <div class="row">
-            <div class="col-xs-3"><%= messages[i].User.nombre %></div>
+            <div class="col-xs-3"><%= name[i] %></div>
             <div class="col-xs-9"><%= messages[i].mes_topic %><br><%= moment(messages[i].createdAt).format("DD/MM/YYYY") %></div>
           </div>
         <% } %>

@@ -89,8 +89,8 @@ exports.show_profile = function(req,res){
 exports.autenticar = function(login, password, callback){
 	models.User.findAll({where: ["nombre like ?", login]})
 	.then(function(user){
-	   if (user.length !== 0){
-		if (user[0].pass === password) {
+		if (user.length !== 0){
+			if (user[0].pass === password) {
 			 var user_login = {id: user[0].id, nombre: login}
 		   callback(null, user_login);
 	  	} else {callback(new Error('Password erróneo.'));}

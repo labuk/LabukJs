@@ -727,7 +727,7 @@ exports.events = function(req,res) {
 	models.Events.findAll({
 		where:{
 			ProjectId: req.project.id,
-			eve_date: {gt: new Date()}
+			eve_date: {gt: new Date()-1}
 		},
 		order: [ ['eve_date', 'ASC'] ],
 	}).then(function(events){

@@ -147,3 +147,10 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Añadimos las noticias a la portada, añadiendo la posibilidad de tener noticias privadas y públicas.
   - Editar y borrar las noticias.
   - Creamos una nueva ruta para las noticias públicas, para verlas sin tener el login.
+
+// 05-05-2016
+  - Cambiamos el sistema de mensajes para que sea parecido a un correo electrónico. El chat le seguimos dejando pero sin guardar las conversaciones (o en localstorage).
+  - Notificamos únicamente cuando tenemos mensajes.
+  - Añadimos asunto a los mensajes y posibilidad de contestar automáticamente.
+  - Carpeta de mensajes recibidos y enviados.
+  - Corregimos error con los popup del timeline, cambiandolos por un mensaje tipo alert.

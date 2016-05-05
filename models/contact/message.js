@@ -6,6 +6,10 @@ module.exports = function(sequelize, DataTypes){
 				type: DataTypes.STRING,
 				validate: {notEmpty: {msg: "-> Falta Message"}}
       },
+			mes_topic:  {
+					type: DataTypes.STRING,
+					validate: {notEmpty: {msg: "-> Falta topic"}}
+	    },
       mes_read:  {
   			type: DataTypes.BOOLEAN,
   			validate: {notEmpty: {msg: "-> Falta Read"}}

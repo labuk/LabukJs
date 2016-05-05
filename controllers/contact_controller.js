@@ -70,30 +70,54 @@ exports.update_allow = function(req,res){
 			})})});
 };
 
-// GET /contact/message/UserId
+// GET /contact/message
 exports.index_message = function(req, res){
-	models.Contact.find(
-		{where: {con_contact: req.session.user.id, UserId: req.params.userId},
-		include: [{model: models.User, attributes: ['nombre']}]
-	}).then(function(contact){
-		models.Message.findAll(
-			{where: {contactId: contact.con_message},
-			include: [{model: models.User, attributes: ['nombre']}],
-			limit: 20,
-			order: [['message.updatedAt' , 'DESC']]
-		}).then(function(messages){
-			res.render('contact/message',{contact: contact, messages: messages, errors: []});
+	models.Message.findAll(
+		{where: {mes_recivier: req.session.user.id},
+		include: [{model: models.User, attributes: ['nombre']}],
+		limit: 20,
+		order: [['message.createdAt' , 'DESC']]
+	}).then(function(messages){
+		models.Contact.findAll(
+			{where: {con_contact: req.session.user.id},
+			include: [{model: models.User, attributes: ['nombre']}]
+		}).then(function(contacts){
+			res.render('contact/message',{messages: messages, contacts: contacts, moment: moment, errors: []});
+	})}).catch(function(error){next(error);});
+};
+
+// GET /contact/message/send
+exports.index_send = function(req, res){
+	models.Message.findAll(
+		{where: {UserId: req.session.user.id},
+		limit: 20,
+		order: [['message.createdAt' , 'DESC']]
+	}).then(function(messages){
+		models.Contact.findAll(
+			{where: {con_contact: req.session.user.id},
+			include: [{model: models.User, attributes: ['nombre']}]
+		}).then(function(contacts){
+			var name = {};
+			for (i=0; i < messages.length; i++){
+				for (j=0; j < contacts.length; j++){
+					if(messages[i].mes_recivier == contacts[j].UserId) name[i]=contacts[j].User.nombre;
+				}
+			}
+			res.render('contact/send',{messages: messages, name:name, contacts: contacts, moment: moment, errors: []});
 	})}).catch(function(error){next(error);});
 };
 
 // POST /contact/message/create
 exports.create_message = function(req, res){
 	models.Contact.find(
-		{where: {con_contact: req.body.contact1, UserId: req.body.contact2},
+		{where: {con_contact: req.body.contact1, UserId: req.session.user.id},
 		include: [{model: models.User, attributes: ['nombre']}]
 	}).then(function(contact){
+		console.log(contact);
+		console.log(req.body);
 		var message = models.Message.build(
 			{ mes_message: req.body.message,
+				mes_topic: req.body.topic,
 				mes_read: 0,
 				mes_recivier: req.body.contact1,
 				contactId: contact.con_message,
@@ -127,4 +151,20 @@ exports.read_message = function(req, res){
 			})};
 		});
 	}).catch(function(error){next(error);});
+};
+
+// GET /contact/chat/UserId
+exports.index_chat = function(req, res){
+	models.Contact.find(
+		{where: {con_contact: req.session.user.id, UserId: req.params.userId},
+		include: [{model: models.User, attributes: ['nombre']}]
+	}).then(function(contact){
+		models.Message.findAll(
+			{where: {contactId: contact.con_message},
+			include: [{model: models.User, attributes: ['nombre']}],
+			limit: 20,
+			order: [['message.updatedAt' , 'DESC']]
+		}).then(function(messages){
+			res.render('contact/chat',{contact: contact, messages: messages, errors: []});
+	})}).catch(function(error){next(error);});
 };

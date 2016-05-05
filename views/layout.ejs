@@ -68,7 +68,7 @@
         <ul class="nav navbar-nav navbar-right">
           <!-- start: Notification -->
           <li>
-            <a class="btn" href="/contact/">
+            <a class="btn" href="/contact/message">
               <% if(session.user.id != 1){%>
               <span class="glyphicon glyphicon-bell"></span>
               <% } %>
@@ -78,7 +78,7 @@
           <!-- end: Notification -->
 
 					<!-- start: User Dropdown -->
-					<li class="dropdown ">
+					<li class="dropdown">
 						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 							<span class="glyphicon glyphicon-user"></span>
 							<% if(session.user.id == 1){%>
@@ -111,7 +111,16 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li><a href="/project"><span class="glyphicon glyphicon-wrench"></span><span class="hidden-tablet"> Proyectos</span></a></li>
-                <li><a href="/contact"><span class="glyphicon glyphicon-envelope"></span><span class="hidden-tablet"> Messages</span></a></li>
+                <li>
+                  <a href="/contact/message">
+                  <span class="glyphicon glyphicon-envelope"></span>
+                  <span class="hidden-tablet"> Mensajes</span></a>
+                  <ul>
+                      <li><a href="/contact/message"><i class="glyphicon glyphicon-chevron-right"></i><span class="hidden-tablet">Mensajes recibidos</span></a></li>
+                      <li><a href="/contact/message/send"><i class="glyphicon glyphicon-chevron-left"></i><span class="hidden-tablet">Mensajes enviados</span></a></li>
+                  </ul>
+                </li>
+                <li><a href="/contact"><span class="glyphicon glyphicon-user"></span><span class="hidden-tablet"> Contactos</span></a></li>
                 <li><a href="/user"><span class="glyphicon glyphicon-user"></span><span class="hidden-tablet"> Usuarios</span></a></li>
                 <li><a href="/author"><span class="glyphicon glyphicon-asterisk"></span><span class="hidden-tablet"> Créditos</span></a></li>
               </ul>
@@ -125,7 +134,8 @@
                     <div class="col-lg-12">
 
                         <% console.log('Error: '+errors.length); if (errors.length) { %>
-                          <span id='ErrorMsgs'>
+                          <div id='ErrorMsgs' class="alert alert-warning alert-dismissable">
+                          <button type="button" class="close" data-dismiss="alert">&times;</button>
                           <% for (var i in errors) { %>
                               <% if (errors[i].message) { %>
                                    Corregir errores: <br/>
@@ -134,7 +144,7 @@
                                    <span> <%- errors[i].mess_logout %> </span><br/>
                               <% } %>
                           <% } %>
-                          </span>
+                          </div>
                         <% } %>
 
                         <%- body%>

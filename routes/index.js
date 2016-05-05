@@ -111,9 +111,11 @@ router.post('/project/:pro_url/comments/:pos_url/create', sessionController.logi
 router.get('/contact', sessionController.loginRequired, contactController.index); // lista de contactos
 router.post('/contact/create', sessionController.loginRequired, contactController.create); // crear contacto
 router.post('/contact/update_allow', sessionController.loginRequired, contactController.update_allow); // crear contacto
-router.get('/contact/message/:userId', sessionController.loginRequired, contactController.index_message); // pagina de mensajes
+router.get('/contact/message', sessionController.loginRequired, contactController.index_message); // pagina de mensajes
+router.get('/contact/message/send', sessionController.loginRequired, contactController.index_send); // pagina de mensajes enviados
 router.post('/contact/message/create', sessionController.loginRequired, contactController.create_message); // crear mensajes
 router.post('/contact/message/read', sessionController.loginRequired, contactController.read_message); // marcar mensajes como leido
+router.get('/contact/chat/:userId', sessionController.loginRequired, contactController.index_chat); // pagina de mensajes
 
 // GET author page
 router.get('/author', function(req, res){

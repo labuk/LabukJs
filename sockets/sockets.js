@@ -4,6 +4,7 @@ exports = module.exports = function(io){
 
   io.on('connection', function(socket){
 
+    // Chat Proyecto
     socket.on('newUser', function(user,projectId){
       socket.join(projectId);
       socket.nickname = user;

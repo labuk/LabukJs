@@ -53,12 +53,24 @@
         		<div class="events-wrapper">
         			<div class="events">
         				<ol>
-                  <li><a id="event_hoy" tabindex="0" role="button" data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="Hoy" href="#0" data-date="" class="selected">Hoy</a></li>
+                  <li>
+                    <a id="event_hoy" onClick="event_well(this)" tabindex="0" role="button" data-toggle="collapse" href="#collapseEvent" data-content="Hoy es el día" aria-expanded="false" aria-controls="collapseEvent" data-date="" class="selected listevent">Hoy</a></li>
+                    <!--<a id="event_hoy" role="button" data-toggle="collapse" href="#collapseEvent" aria-expanded="false" aria-controls="collapseEvent" data-date=""></a></li>-->
                   <script>
                     var fecha = getDate(new Date());
-                    $('#event_hoy').data('content', "culo");
                     $('#event_hoy').data('date', fecha[0]);
                     $('#event_hoy').html(fecha[1]);
+onchange="enableTxt(this)"
+                    //$( ".listevent" ).click(function() {
+                    //  console.log($(this).data('content'));
+                    //  $('#collapseEvent div').html($(this).data('content'));
+                    //});
+
+                    function event_well (elem) {
+                      $('#alertEvent div').html($(elem).data('content'));
+                      $('#alertEvent').show();
+                    };
+
                   </script>
                 </ol>
 
@@ -69,10 +81,23 @@
         		<ul class="cd-timeline-navigation">
         			<li><a href="#0" class="prev inactive">Prev</a></li>
         			<li><a href="#0" class="next">Next</a></li>
-              <li><a type="button" class="btn btn-info add" data-toggle="modal" data-target="#myModal_ev">+</a>
-</li>
+              <li><a type="button" class="btn btn-info add" data-toggle="modal" data-target="#myModal_ev">+</a></li>
         		</ul> <!-- .cd-timeline-navigation -->
         	</div> <!-- .timeline -->
+
+          <div id="alertEvent" class="alert alert-warning collapse">
+            <button type="button" class="close" >&times;</button>
+            <div>  Hola </div>
+          </div>
+
+          <script>
+
+          $('#alertEvent .close').on('click', function() {
+            console.log("Pulsado");
+              $('#alertEvent').hide();
+          });
+
+        </script>
 
           <!-- Formulario Nuevo Evento -->
           <div id="myModal_ev" class="modal fade" role="dialog">
@@ -140,7 +165,7 @@ $('#newEvent').submit(function(e){
   });
 
   var fecha = getDate(new_event.eve_date);
-  $('<li><a id="event_'+new_event.eve_tipo+'" tabindex="0" role="button" data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="'+new_event.eve_evento+'" href="#0" data-date="'+fecha[0]+'">'+fecha[1]+'</a></li>')
+  $('<li><a class="listevent" onClick="event_well(this)" id="event_'+new_event.eve_tipo+'" tabindex="0" role="button" data-toggle="collapse" data-trigger="hover" aria-expanded="false" aria-controls="collapseEvent" data-content="'+new_event.eve_evento+'" href="#collapseEvent" data-date="'+fecha[0]+'">'+fecha[1]+'</a></li>')
   .insertAfter('.events ol>li:last');
   $('[data-toggle="popover"]').popover();
 
@@ -158,7 +183,7 @@ $('#newEvent').submit(function(e){
 $.get( '/project/<%= project.pro_url %>/events', function(events) {
   var i; if (events) { for (i=0; i < events.length; i++){
     var fecha = getDate(events[i].eve_date);
-    $('<li><a id="event_'+events[i].eve_tipo+'" tabindex="0" role="button" data-toggle="popover" data-trigger="hover" data-placement="top"  data-content="'+events[i].eve_evento+'" href="#0" data-date="'+fecha[0]+'">'+fecha[1]+'</a></li>')
+    $('<li><a class="listevent" onClick="event_well(this)" id="event_'+events[i].eve_tipo+'" tabindex="0" role="button" data-toggle="collapse" data-trigger="hover" aria-expanded="false" aria-controls="collapseEvent" data-content="'+events[i].eve_evento+'" href="#collapseEvent" data-date="'+fecha[0]+'">'+fecha[1]+'</a></li>')
     .insertAfter('.events ol>li:last');
     $('[data-toggle="popover"]').popover();
   }};

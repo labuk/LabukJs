@@ -42,7 +42,7 @@ exports.create = function(req,res){
 
 	  // Si hay un error retornamos mensajes de error de sesion
 	  if (error) {
-		req.session.errors = [{"message": 'Se ha producido un error: '+error}];
+		req.session.errors = [{"message": ""+error}];
 		res.redirect("/login");
 		return;
 	  }

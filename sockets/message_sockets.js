@@ -24,11 +24,15 @@ exports = module.exports = function(io){
     });
 
     socket.on('newMessage', function(id, contactId, message){
-      io.in(contactId).emit('countMessage', {count: 1});
       io.in('contact_'+id).emit('emitMessage', {msg: message, nick: socket.username});
     });
 
-    socket.on('readMessage', function(id, contactId, message){
+    socket.on('addMessage', function(contactId){
+      io.in(contactId).emit('countMessage', {count: 1});
+    });
+
+    socket.on('readMessage', function(contactId){
+      console.log('Leido');
       io.in(contactId).emit('countMessage', {count: -1});
     });
 

@@ -10,7 +10,7 @@ function getDate (data) {
   var daysWeek = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
   var resDate =  [ dd+'/'+mm+'/'+yyyy, daysWeek[ds]+' '+dd ];
   return resDate;
-	
+
 }
 
 // Function Prioridad
@@ -45,3 +45,14 @@ function get_answer(answer) {
 	if (answer === 1) {return 'Solución';}
 	if (answer === 2) {return 'Error';}
 };
+
+// Function Expandir Textarea
+function expandTextarea(id) {
+  var $element = $('#Message').get(0);
+
+  $element.addEventListener('keyup', function() {
+      this.style.overflow = 'hidden';
+      this.style.height = 54;
+      if(this.scrollHeight > 54)  this.style.height = this.scrollHeight + 'px';
+  }, false);
+}

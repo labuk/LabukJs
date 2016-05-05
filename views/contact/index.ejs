@@ -16,8 +16,28 @@
 <% var i; if (contacts) { for (i=0; i < contacts.length; i++){ %>
 <tr>
   <%  if (contacts[i].con_block == 2) { %>
-    <td> <a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a> </td>
-    <td> <a href="/contact/message/<%= contacts[i].UserId %>" class="btn btn-default" role="button">Mensajes</a> </td>
+    <div class="col-sm-4 col-xs-6 col-md-3 portfolio-item">
+  	  <div class="panel-body">
+  			<% if (contacts[i].avatar) { %>
+  				<img src="/images/avatar/<%= contacts[i].avatar %>"  width="img-responsive" class="img-thumbnail" />
+  			<% } else { %>
+  				<img src="/images/avatar/avatar.jpeg"  width="img-responsive" class="img-thumbnail" />
+  			<% } %>
+  	  </div>
+  	  <div class="panel-footer"><a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a>
+  			<button type="button" class="btn btn-default  btn-xs dropdown-toggle pull-right"
+  				data-toggle="dropdown">
+  				<span class="caret"></span>
+  			</button>
+  			<ul class="dropdown-menu pull-right" role="menu">
+  				<li><a href="/contact/message" >Mensajes</a></li>
+          <li><a href="/contact/chat/<%= contacts[i].UserId %>" >Chat</a></li>
+  				<li class="divider"></li>
+  				<li><a href="#" ><span class="text-warning">Bloquear</span></a></li>
+          <li><a href="#" ><span class="text-danger">Eliminar</span></a></li>
+  			</ul>
+  		</div>
+  	</div>
   <% } %>
 </tr>
 <% }} %>
