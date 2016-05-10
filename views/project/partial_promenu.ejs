@@ -11,15 +11,14 @@
 <nav class="menu_pro" id="n1" role="navigation">
 
   <div class="row">
-      <div class="col-md-2 col-sm-4">
-
+      <div class="col-md-2 col-sm-2">
         <div id="project_menu" class="btn-group">
           <button type="button" class="btn btn-default dropdown-toggle"
                   data-toggle="dropdown">
                   <% if (project.pro_logo) { %>
-                    <img src="/images/logo/<%= project.pro_logo %>"class="img-responsive img-rounded"/>
+                    <img src="/images/logo/<%= project.pro_logo %>"class="img-responsive img-rounded";/>
                   <% } else { %>
-                    <img src="/images/logo/logo.png" class="img-responsive img-rounded" />
+                    <img src="/images/logo/logo.png" class="img-responsive img-rounded";/>
                   <% } %>
             <h8>Título del botón</h8><span class="caret"></span>
           </button>
@@ -41,7 +40,7 @@
 
     </div>
 
-      <div class="col-md-10 col-sm-8">
+      <div class="col-md-10 col-sm-10">
 
         <h3 class="page-header">
           <% if (project) { %>
@@ -181,6 +180,7 @@ $('#newEvent').submit(function(e){
 //.insertAfter('.events ol>li:last');
 
 $.get( '/project/<%= project.pro_url %>/events', function(events) {
+  console.log(events);
   var i; if (events) { for (i=0; i < events.length; i++){
     var fecha = getDate(events[i].eve_date);
     $('<li><a class="listevent" onClick="event_well(this)" id="event_'+events[i].eve_tipo+'" tabindex="0" role="button" data-toggle="collapse" data-trigger="hover" aria-expanded="false" aria-controls="collapseEvent" data-content="'+events[i].eve_evento+'" href="#collapseEvent" data-date="'+fecha[0]+'">'+fecha[1]+'</a></li>')

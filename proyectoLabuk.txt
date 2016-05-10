@@ -154,3 +154,34 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Añadimos asunto a los mensajes y posibilidad de contestar automáticamente.
   - Carpeta de mensajes recibidos y enviados.
   - Corregimos error con los popup del timeline, cambiandolos por un mensaje tipo alert.
+
+// 06-06-2016
+  - Corregimos errores:
+      -- En firefox no se mostraban las imagenes de manera responsiva -> añadir width:100% en .img-responsive
+      -- El chat de proyecto crece sin parar -> Limitamos el tamaño máximo.
+      -- La imagen-boton de proyectos quedaba más grande en la Sala de reuniones -> Poner sólo reunión.
+      -- Crear varios usuarios con el mismo nombre.
+          -> Hay que catch el error en el save() y no en el validate porque sino no avanza.
+          -> Copiamos el mismo sistema de errores del login de usuario.
+      -- El chat de proyecto mandaba mensajes a varios usuarios que se conectaban a diferentes rooms.
+          -> Al salir del chat se sale tambien de la room del socket.
+      -- Share con facebook. No encuentra los og.
+          -> Puede que sea porque no responde la página de front por el problema de postgress.
+
+  - Problemas con los eventos en postgress.
+      ERROR:  operator does not exist: timestamp with time zone > integer
+      LINE 2: ...RE "Events"."ProjectId"=1 AND "Events"."eve_date" > 1 ORDER ...
+      HINT:  No operator matches the given name and argument type(s). You might need to add explicit type casts.
+      Al restarle 1 cambiaba de fecha a timestamp. He puesto gte para que coja el día de hoy también.
+
+  - Problemas con front en postgress.
+      ERROR:  operator does not exist: boolean <> integer
+      LINE 2: ...ERE "Post"."ProjectId"=1 AND "Post"."pos_publica" NOT IN (0)
+      HINT:  No operator matches the given name and argument type(s). You might need to add explicit type casts.
+      Cambiamos el 0 por false ya que lo interpreta como integer.
+
+  - Creamos en la base de datos un apartado para saber si esta online o no.
+      Si se cierra el navegador se queda online para siempre.
+        -> Utilizamos el socket para mandar un evento setTimeout que sepa si hemos cerrado el navegador o solo reiniciado la página.
+
+  - Actualizamos la solicitud de amistad.

@@ -84,7 +84,7 @@ exports.show_front = function(req, res){
 	models.Post.findAll({
 		where:{
 			ProjectId: req.project.id,
-			pos_publica: {not: 0}
+			pos_publica: {not: false}
 		},
 		include: [{model: models.User, attributes: ['nombre']}]
 	}).then(function(posts){
@@ -166,7 +166,11 @@ exports.members = function(req, res){
 			{mem_rol: "Rol", UserId: "UserId"}
 		);
 		// Lista posibles nuevos miembros
-		models.User.findAll().then(function(users){
+		models.User.findAll({
+			where:{
+				id: {gt: 1}
+			}
+		}).then(function(users){
 			res.render('project/members_index', {members: members, member: member, users: users, project: req.project, errors: []});
 	})}).catch(function(error){next(error);})
 };
@@ -727,10 +731,12 @@ exports.events = function(req,res) {
 	models.Events.findAll({
 		where:{
 			ProjectId: req.project.id,
-			eve_date: {gt: new Date()-1}
+			eve_date: {gte: new Date()}
 		},
 		order: [ ['eve_date', 'ASC'] ],
 	}).then(function(events){
+		console.log(new Date()-1);
+		console.log(new Date());
 		res.send(events);
 	}).catch(function(error){next(error);})
 }

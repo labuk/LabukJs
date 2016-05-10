@@ -1,3 +1,5 @@
+// "sequelize":"2.0.0-rc2",
+
 var path = require('path');
 
 //Postgres DATABASE_URL = postgres://user:passwd@host:port/database
@@ -218,7 +220,8 @@ sequelize.sync().then(function() {
 				pro_nombre: 'Labuk',
 				pro_eslogan: 'Incubamos proyectos',
 				pro_descripcion: 'Proyecto de soporte para esta página',
-				pro_url: 'labuk'
+				pro_url: 'labuk',
+				pro_logo: 'project-1.bmp'
 			});
 			Member.create({
 				mem_rol:'0',

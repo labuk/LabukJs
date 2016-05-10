@@ -8,10 +8,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 		<meta name="keyword" content="Networking">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="/favicon.ico">
 
-    <meta property="og:url"                content="http://labuk.herokuapp.com/project/labuk" />
-    <meta property="og:type"               content="article" />
+    <meta property="og:url"                content="http://labuk.herokuapp.com/project/labuk/front" />
+    <meta property="og:type"               content="website" />
     <meta property="og:title"              content="Proyecto Labuk" />
     <meta property="og:description"        content="Página del Proyecto Labuk" />
     <meta property="og:image"              content="http://labuk.herokuapp.com/images/logo/project-1.bmp" />
@@ -32,11 +32,6 @@
     <script src="/js/bootstrap.min.js"></script>
 
     <script src="/js/labuk.js"></script>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io();
-    </script>
 
   </head>
 
@@ -167,17 +162,20 @@
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
   });
+
   </script>
 
+<% if(session.user.id != 1){%>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+  </script>
 	<script>
-
     var $countMessages = $("#countMessage");
     var count = 0;
-
     socket.on('connect', function () {
-      socket.emit('newSession', '<%= session.user.id %>', '<%= session.user.username %>');
+      socket.emit('newSession', '<%= session.user.id %>', '<%= session.user.username %>', '<%= session.user.username %>');
     });
-
     // Nuevo mensage
     socket.on('countMessage', function(data){
       if (data.count == 0) {
@@ -186,8 +184,11 @@
         count = count + data.count;
         $countMessages.html(count);
       }
-
+    });
+    socket.on('checkUserCli', function(data){
+      socket.emit('checkUserSer',data);
+      console.log(data);
     });
 	</script>
-
+<% } %>
 </html>

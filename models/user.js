@@ -14,6 +14,9 @@ module.exports = function(sequelize, DataTypes){
 			avatar: {
 			type: DataTypes.STRING,
 			validate: {notEmpty: {msg: "-> Falta Avatar"}}
-			}
+			},
+      online:  {
+  		type: DataTypes.BOOLEAN
+      }
 		});
 }

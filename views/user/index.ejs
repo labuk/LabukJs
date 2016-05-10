@@ -6,27 +6,16 @@
 <% var i; for (i=0; i < users.length; i++){ %>
 
 	<div class="col-sm-4 col-xs-6 col-md-3 portfolio-item">
-	  <div class="panel-body">
-			<% if (users[i].avatar) { %>
-				<img src="/images/avatar/<%= users[i].avatar %>"  width="img-responsive" class="img-thumbnail" />
-			<% } else { %>
-				<img src="/images/avatar/avatar.jpeg"  width="img-responsive" class="img-thumbnail" />
-			<% } %>
-	  </div>
-	  <div class="panel-footer"><a href="/user/profile/<%= users[i].id %>"><%= users[i].nombre %></a>
-			<!--
-			<button type="button" class="btn btn-default  btn-xs dropdown-toggle pull-right"
-				data-toggle="dropdown">
-				<span class="caret"></span>
-			</button>
-			<ul class="dropdown-menu pull-right" role="menu">
-				<li><a href="#">Acción #1</a></li>
-				<li><a href="#">Acción #2</a></li>
-				<li><a href="#">Acción #3</a></li>
-				<li class="divider"></li>
-				<li><a href="#">Acción #4</a></li>
-			</ul>
-			-->
+		<div class="panel <% if (users[i].online) { %> panel-success <% } else { %> panel-default <% } %> ">
+			<div class="panel-body">
+				<% if (users[i].avatar) { %>
+					<img src="/images/avatar/<%= users[i].avatar %>" class="img-responsive" />
+				<% } else { %>
+					<img src="/images/avatar/avatar.jpg" class="img-responsive" />
+				<% } %>
+			</div>
+			<div class="panel-heading"><a href="/user/profile/<%= users[i].id %>"><%= users[i].nombre %></a>
+			</div>
 		</div>
 	</div>
 

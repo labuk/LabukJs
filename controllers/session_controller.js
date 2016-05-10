@@ -52,14 +52,21 @@ exports.create = function(req,res){
 	  // Crear req.session.user y guardar campos id y username
 	  // La sesion se define por la existencia de: req.session.user
 		delete req.session.user; // Destruimos session por si había alguna activa.
-	  req.session.user = { id:user.id, username:user.nombre};
+	  req.session.user = { id:user.id, username:user.nombre, online:true};
+		user.save({fields: ["online"]});
 	  res.redirect(req.session.redir.toString()); // redireccionamos a path anterior a login
 	});
 };
 
 // GET /logout
 exports.destroy = function(req,res){
-	delete req.session.user;
-	//res.redirect(req.session.redir.toString()); // redirect a path anterior a logout
-	res.redirect("./");
+	models.User.find({
+		where:{ id: req.session.user.id }
+	}).then(function(user){
+		delete req.session.user;
+		user.online = false;
+		user.save({fields: ["online"]}).then(function(){
+			//res.redirect(req.session.redir.toString()); // redirect a path anterior a logout
+			res.redirect("./");
+	})});
 };

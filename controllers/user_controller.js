@@ -20,7 +20,10 @@ exports.index = function(req, res){
 
 // GET /user/new
 exports.new = function(req,res){
-	res.render('user/new', {errors: []});
+  var errors = req.session.errors || {};
+  req.session.errors = {};
+
+	res.render('user/new', {errors: errors});
 };
 
 // POST /user/create
@@ -30,15 +33,19 @@ exports.create = function(req,res){
 		  pass: req.body.password
 		});
 
-	user.validate().then(function(err){
+	user.validate().then(function(msg, err){
 		if (err) {
 			res.render('user/new', {errors: err.errors});
 		} else {
 			// guarda en DB los campos pregunta y respuesta
-			user.save().then(function(){
-			res.redirect('/project');})
-		}
-	}).catch(function(error){next(error)});
+			user.save().then(function(err){
+			res.redirect('/project');}
+    ).catch(function(error){
+      console.log("Catch");
+      req.session.errors = [{"message": "El nombre de usuario no está disponible"}];
+      res.redirect('/user/new');
+    });}
+	}).catch(function(error){next(error);});
 };
 
 // POST /user/avatar
@@ -87,12 +94,11 @@ exports.show_profile = function(req,res){
 // Comprueba si el usuario esta registrado en users
 // Si autenticación falla o hay errores se ejecuta callback(error)
 exports.autenticar = function(login, password, callback){
-	models.User.findAll({where: ["nombre like ?", login]})
+	models.User.find({where: ["nombre like ?", login]})
 	.then(function(user){
 		if (user.length !== 0){
-			if (user[0].pass === password) {
-			 var user_login = {id: user[0].id, nombre: login}
-		   callback(null, user_login);
+			if (user.pass === password) {
+		   callback(null, user);
 	  	} else {callback(new Error('Password erróneo.'));}
 	   } else {callback(new Error('No existe el usuario.'));}
 	})

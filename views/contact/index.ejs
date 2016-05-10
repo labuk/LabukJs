@@ -1,42 +1,69 @@
 <h2 class="page-header"> Contactos </h2>
 
 <% var i; if (contacts) { for (i=0; i < contacts.length; i++){ %>
-<tr>
+
   <%  if (contacts[i].con_block == 0) { %>
-    <td> Enviada</td>
-    <td> <a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a> </td>
+    <div class="col-sm-4 col-xs-6 col-md-3 portfolio-item">
+      <div class="panel <% if (contacts[i].User.online) { %> panel-success <% } else { %> panel-default <% } %> ">
+    	  <div class="panel-body">
+    			<% if (contacts[i].avatar) { %>
+    				<img src="/images/avatar/<%= contacts[i].avatar %>" class="img-responsive" />
+    			<% } else { %>
+    				<img src="/images/avatar/avatar.jpg" class="img-responsive" />
+    			<% } %>
+    	  </div>
+    	  <div class="panel-heading"><a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a>
+          Solicitud enviada
+    		</div>
+      </div>
+  	</div>
   <% } %>
   <%  if (contacts[i].con_block == 1) { %>
-    <td> Pendiente. Aceptas?</td>
-    <td> <a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a> </td>
+    <div class="col-sm-4 col-xs-6 col-md-3 portfolio-item">
+      <div class="panel <% if (contacts[i].User.online) { %> panel-success <% } else { %> panel-default <% } %> ">
+    	  <div class="panel-body">
+    			<% if (contacts[i].avatar) { %>
+    				<img src="/images/avatar/<%= contacts[i].avatar %>" class="img-responsive" />
+    			<% } else { %>
+    				<img src="/images/avatar/avatar.jpg" class="img-responsive" />
+    			<% } %>
+    	  </div>
+    	  <div class="panel-heading"><a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a>
+          Solicitud recibida
+    		</div>
+      </div>
+  	</div>
   <% } %>
-</tr>
+
 <% }} %>
 
 <% var i; if (contacts) { for (i=0; i < contacts.length; i++){ %>
 <tr>
   <%  if (contacts[i].con_block == 2) { %>
     <div class="col-sm-4 col-xs-6 col-md-3 portfolio-item">
-  	  <div class="panel-body">
-  			<% if (contacts[i].avatar) { %>
-  				<img src="/images/avatar/<%= contacts[i].avatar %>"  width="img-responsive" class="img-thumbnail" />
-  			<% } else { %>
-  				<img src="/images/avatar/avatar.jpeg"  width="img-responsive" class="img-thumbnail" />
-  			<% } %>
-  	  </div>
-  	  <div class="panel-footer"><a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a>
-  			<button type="button" class="btn btn-default  btn-xs dropdown-toggle pull-right"
-  				data-toggle="dropdown">
-  				<span class="caret"></span>
-  			</button>
-  			<ul class="dropdown-menu pull-right" role="menu">
-  				<li><a href="/contact/message" >Mensajes</a></li>
-          <li><a href="/contact/chat/<%= contacts[i].UserId %>" >Chat</a></li>
-  				<li class="divider"></li>
-  				<li><a href="#" ><span class="text-warning">Bloquear</span></a></li>
-          <li><a href="#" ><span class="text-danger">Eliminar</span></a></li>
-  			</ul>
-  		</div>
+      <div class="panel <% if (contacts[i].User.online) { %> panel-success <% } else { %> panel-default <% } %> ">
+    	  <div class="panel-body">
+          <% console.log(contacts[i].User.online)  %>
+    			<% if (contacts[i].avatar) { %>
+    				<img src="/images/avatar/<%= contacts[i].avatar %>" class="img-responsive" />
+    			<% } else { %>
+    				<img src="/images/avatar/avatar.jpg" class="img-responsive" />
+    			<% } %>
+    	  </div>
+    	  <div class="panel-heading"><a href="/user/profile/<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></a>
+    			<button type="button" class="btn btn-default  btn-xs dropdown-toggle pull-right"
+    				data-toggle="dropdown">
+    				<span class="caret"></span>
+    			</button>
+    			<ul class="dropdown-menu pull-right" role="menu">
+    				<li><a href="/contact/message" >Mensajes</a></li>
+            <li><a href="/contact/chat/<%= contacts[i].UserId %>" >Chat</a></li>
+    				<li class="divider"></li>
+    				<li><a href="#" ><span class="text-warning">Bloquear</span></a></li>
+            <li><a href="#" ><span class="text-danger">Eliminar</span></a></li>
+    			</ul>
+    		</div>
+      </div>
   	</div>
   <% } %>
 </tr>

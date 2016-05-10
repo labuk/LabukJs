@@ -8,7 +8,7 @@ var moment = require('moment');
 exports.index = function(req, res){
 	models.Contact.findAll(
 		{where: {con_contact: req.session.user.id},
-		include: [{model: models.User, attributes: ['nombre']}]
+		include: [{model: models.User, attributes: ['nombre','online']}]
 	}).then(function(contacts){
 		res.render('contact/index',{contacts: contacts, errors: []});
 	}).catch(function(error){next(error);})
@@ -76,7 +76,7 @@ exports.index_message = function(req, res){
 		{where: {mes_recivier: req.session.user.id},
 		include: [{model: models.User, attributes: ['nombre']}],
 		limit: 20,
-		order: [['message.createdAt' , 'DESC']]
+		order: [['createdAt' , 'DESC']]
 	}).then(function(messages){
 		models.Contact.findAll(
 			{where: {con_contact: req.session.user.id},
@@ -91,7 +91,7 @@ exports.index_send = function(req, res){
 	models.Message.findAll(
 		{where: {UserId: req.session.user.id},
 		limit: 20,
-		order: [['message.createdAt' , 'DESC']]
+		order: [['createdAt' , 'DESC']]
 	}).then(function(messages){
 		models.Contact.findAll(
 			{where: {con_contact: req.session.user.id},

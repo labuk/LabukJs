@@ -2,7 +2,7 @@
 
 	<script>
 	$('#project_menu a:contains("Sala de Reuniones")').parent().addClass("active");
-	$('#project_menu h8').html('Sala de Reuniones');
+	$('#project_menu h8').html('Reuniones');
 	</script>
 
 	<h2 class="page-header">
@@ -13,22 +13,39 @@
 		form#chat { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
 		form#chat input { border: 0; padding: 10px; width: 60%; margin-right: .5%; }
 		form#chat button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-		#messages { list-style-type: none; margin: 0; padding: 0; }
+		#listMessages {height: calc(90vh - 210px); overflow-y: auto;}
+		#listUsers {font-size: x-small;}
+		#messages { list-style-type: none; margin: 0; padding: 0;}
 		#messages li { padding: 5px 10px; }
 		#messages li:nth-child(odd) { background: #eee; }
 	</style>
 
 	<div class="row">
-		<div class="col-xs-10">
+		<div class="col-md-10">
+
 			<div class="panel panel-success">
 				<div class="panel-heading">
-					CHAT
+					<div class="row">
+					<div class="col-xs-2">
+						CHAT
+					</div>
+					<div class="col-xs-10">
+					<form id="newMessage" action="">
+						<div class="input-group">
+				      <input id="Message" type="text" class="form-control input-sm" placeholder="Mensaje" autocomplete="off" />
+				      <span class="input-group-btn">
+				        <button class="btn btn-success btn-sm" type="submit">Send</button>
+				      </span>
+				    </div>
+					</form>
 				</div>
+				</div>
+			</div>
 				<div id="listMessages" class="panel-body">
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-2">
+		<div class="col-md-2">
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					USUARIOS
@@ -39,21 +56,6 @@
 		</div>
 	</div>
 
-
-	<form id="newMessage" action="">
-		<div class="row">
-		  <div class="col-xs-8">
-		    <input id="Message" type="text" class="form-control" placeholder="Mensaje" autocomplete="off" />
-		  </div>
-		  <div class="col-xs-4">
-		    <button class="btn btn-success" type="submit">Send</button>
-		  </div>
-		</div>
-	</form>
-
-
-
-	<script src="/socket.io/socket.io.js"></script>
 	<script>
 		var $users = $('#listUsers');
 		var $messages = $('#listMessages');
@@ -67,7 +69,8 @@
 			return false;
 		});
 		socket.on('newMessage', function(data){
-			$messages.append('<b>'+data.nick+'</b>: '+data.msg+'</br>');
+			var fecha = getDate(new Date());
+			$messages.prepend('<b>'+data.nick+'</b> ('+new Date().getHours()+':'+new Date().getMinutes()+'): '+data.msg+'</br>');
 		});
 		// Nuevo usuario
 		socket.on('newUser', function(user){
