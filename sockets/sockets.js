@@ -25,7 +25,6 @@ exports = module.exports = function(io){
               user.save({fields: ["online"]});
             }
           });
-        }
       }, 5000);
       if(!socket.nickname) return;
       delete nicknames[socket.projectId][socket.nickname];
