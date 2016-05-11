@@ -7,7 +7,7 @@ var storage_avatar = multer.diskStorage({
     cb(null, './public/images/avatar/')
   },
   filename: function (req, file, cb) {
-    cb(null, 'user-'+req.session.user.id+'.bmp')
+    cb(null, 'user-'+req.session.user.id+'.png')
   }
 });
 var upload_avatar = multer({ storage: storage_avatar });
@@ -17,7 +17,7 @@ var storage_logo = multer.diskStorage({
     cb(null, './public/images/logo/')
   },
   filename: function (req, file, cb) {
-    cb(null, 'project-'+req.project.id+'.bmp')
+    cb(null, 'project-'+req.project.id+'.png')
   }
 });
 var upload_logo = multer({ storage: storage_logo });

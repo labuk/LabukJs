@@ -21,7 +21,7 @@ app.set('view engine', 'ejs');
 
 // Instalar middlewares
 // uncomment after placing your favicon in /public
-app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/favicon.png'));
 app.use(logger('dev'));
 app.use(bodyParser());
 app.use(bodyParser.json());
@@ -57,21 +57,17 @@ app.use(function(req, res, next){
 
 // Auto logout: al estar más de 2 minutos sin conectar por http
 app.use(function(req, res, next) {
-    req.session.autologout = req.session.autologout || 0;
-    if (req.session.user && (Date.now() - req.session.autologout) > 12000000) {
-    	console.log('Logout');
-    	var err = new Error('Mas de 200 minutos sin actividad. La sessión se va a desconectar.');
-    	//callback(new Error('Mas de 2 minutos sin actividad. La sessión se va a desconectar.'));
-    	req.session.errors = [{"mess_logout": 'Mas de 200 minutos sin actividad. Vuelve a autentificarte.'}];
-    	req.session.redir = "/login";
-    	//res.render("/login")
-    	res.redirect("/logout");
-    	next();
-	    //next(err);
-    } else {
-	req.session.autologout = Date.now();
-	next();
-    }
+  req.session.autologout = req.session.autologout || Date.now();
+  if ((req.session.user.id>1) && (Date.now() - req.session.autologout) > 3600000) {
+  	var err = new Error('Mas de 60 minutos sin actividad. La sessión se va a desconectar.');
+  	req.session.errors = [{"mess_logout": 'Mas de 60 minutos sin actividad. Vuelve a autentificarte.'}];
+  	req.session.redir = "/login";
+  	req.session.autologout = Date.now();
+  	res.redirect("/logout");
+  } else {
+    req.session.autologout = Date.now();
+    next();
+  }
 });
 
 // Instalar enrutadores

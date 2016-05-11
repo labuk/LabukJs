@@ -59,19 +59,23 @@
 	<script>
 		var $users = $('#listUsers');
 		var $messages = $('#listMessages');
-	  var socket = io();
+
 		socket.on('connect', function () {
 	    socket.emit('newUser', '<%= user %>','Project_<%= project.id %>');
   	});
-		$('#newMessage').submit(function(){
+		$('#newMessage').submit(function(e){
+			console.log('Submit')
+			e.preventDefault();
 			socket.emit('sendMessage', $('#Message').val(), 'Project_<%= project.id %>');
 			$('#Message').val('');
 			return false;
 		});
+
 		socket.on('newMessage', function(data){
 			var fecha = getDate(new Date());
 			$messages.prepend('<b>'+data.nick+'</b> ('+new Date().getHours()+':'+new Date().getMinutes()+'): '+data.msg+'</br>');
 		});
+
 		// Nuevo usuario
 		socket.on('newUser', function(user){
 			var html = '';

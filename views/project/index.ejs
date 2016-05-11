@@ -3,26 +3,52 @@
 	<a href="/project/new"><button type="button" class="btn btn-info pull-right">Crear Proyecto</button></a>
 </h2>
 
+
 <section id="portfolio">
+	<div class="row">
+	<% if(session.user.id != 1){%><h3 class="page-header">Mis proyectos</h3> <% } %>
+	<% var i; if (projects_member) { for (i=0; i < projects_member.length; i++){ %>
 
-<% var i; for (i=0; i < projects.length; i++){ %>
+		<div class="col-sm-4 portfolio-item">
+				<a href="project/<%= projects_member[i].Project.pro_url %>" class="portfolio-link" >
+						<div class="caption">
+								<div class="caption-content">
+										<h3><%= projects_member[i].Project.pro_nombre %>
+										<br><small><%= projects_member[i].Project.pro_eslogan %></small></h3>
+								</div>
+						</div>
+						<% if (projects_member[i].Project.pro_logo) { %>
+							<img src="/images/logo/<%= projects_member[i].Project.pro_logo %>"class="img-responsive"/>
+						<% } else { %>
+							<img src="/images/logo/logo.png" class="img-responsive img-circle" />
+						<% } %>
+				</a>
+		</div>
 
-	<div class="col-sm-4 portfolio-item">
-			<a href="project/<%= projects[i].pro_url %>" class="portfolio-link" >
-					<div class="caption">
-							<div class="caption-content">
-									<h3><%= projects[i].pro_nombre %>
-									<br><small>Eslogan</small></h3>
-							</div>
-					</div>
-					<% if (projects[i].pro_logo) { %>
-						<img src="/images/logo/<%= projects[i].pro_logo %>"class="img-responsive img-circle"/>
-					<% } else { %>
-						<img src="/images/logo/logo.png" class="img-responsive img-circle" />
-					<% } %>
-			</a>
+	<% }} %>
 	</div>
 
-<% } %>
+	<div class="row">
+	<% if(session.user.id != 1){%><h3 class="page-header">Otros proyectos</h3> <% } %>
+	<% var i; if (projects) { for (i=0; i < projects.length; i++){ %>
+
+		<div class="col-sm-4 portfolio-item">
+				<a href="project/<%= projects[i].pro_url %>" class="portfolio-link" >
+						<div class="caption">
+								<div class="caption-content">
+										<h3><%= projects[i].pro_nombre %>
+										<br><small><%= projects[i].pro_eslogan %></small></h3>
+								</div>
+						</div>
+						<% if (projects[i].pro_logo) { %>
+							<img src="/images/logo/<%= projects[i].pro_logo %>"class="img-responsive"/>
+						<% } else { %>
+							<img src="/images/logo/logo.png" class="img-responsive img-circle" />
+						<% } %>
+				</a>
+		</div>
+
+	<% }} %>
+</div>
 
 </section>

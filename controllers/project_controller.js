@@ -24,9 +24,15 @@ exports.load = function(req, res, next, pro_url){
 
 // GET /project
 exports.index = function(req, res){
-    models.Project.findAll().then(function(projects){
-      res.render('project/index',{ projects: projects, errors: []});
-    }).catch(function(error){next(error);})
+    models.Project.findAll({
+			where:{ pro_portada: 1 }
+		}).then(function(projects){
+			models.Member.findAll({
+				where:{ UserId: req.session.user.id },
+				include: [{model: models.Project, attributes: ['pro_nombre','pro_url','pro_logo','pro_eslogan']}]
+			}).then(function(projects_member){
+      	res.render('project/index',{ projects: projects, projects_member: projects_member, errors: []});
+    })}).catch(function(error){next(error);})
 };
 
 // GET /project/new
@@ -122,11 +128,11 @@ exports.upload_logo = function(req,res){
 		where:{ id: req.project.id }
 	}).then(function(project){
 		project.pro_logo = req.file.filename;
-		jimp.read('./public/images/logo/project-'+req.project.id+'.bmp').then(function (logo) {
+		jimp.read('./public/images/logo/project-'+req.project.id+'.png').then(function (logo) {
 		logo.resize(parseInt(req.body.t), jimp.AUTO)
 					.crop(parseInt(req.body.x), parseInt(req.body.y), parseInt(req.body.w), parseInt(req.body.h))				// crop
 					.resize(400, 400)            // resize
-					.write("./public/images/logo/project-"+req.project.id+".bmp"); // save
+					.write("./public/images/logo/project-"+req.project.id+".png"); // save
 		}).then(function(){
 			project.save({fields: ["pro_logo"] }).then(function(){
 				res.redirect('/project/'+req.params.pro_url+'/manage');
@@ -735,8 +741,6 @@ exports.events = function(req,res) {
 		},
 		order: [ ['eve_date', 'ASC'] ],
 	}).then(function(events){
-		console.log(new Date()-1);
-		console.log(new Date());
 		res.send(events);
 	}).catch(function(error){next(error);})
 }

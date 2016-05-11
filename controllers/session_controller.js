@@ -60,13 +60,14 @@ exports.create = function(req,res){
 
 // GET /logout
 exports.destroy = function(req,res){
+	var userId = req.session.user.id;
+	delete req.session.user;
 	models.User.find({
-		where:{ id: req.session.user.id }
+		where:{ id: userId }
 	}).then(function(user){
-		delete req.session.user;
 		user.online = false;
 		user.save({fields: ["online"]}).then(function(){
 			//res.redirect(req.session.redir.toString()); // redirect a path anterior a logout
-			res.redirect("./");
+			res.redirect("/");
 	})});
 };

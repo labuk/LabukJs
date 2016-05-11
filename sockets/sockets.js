@@ -17,14 +17,17 @@ exports = module.exports = function(io){
       socket.leave(socket.userId);
       io.in(socket.userId).emit('checkUserCli', socket.userId);
       setTimeout(function () {
+        if (user_connect[socket.userId] != true) {
+          delete user_connect[socket.userId];
           models.User.find({where: {id: socket.userId} })
           .then(function(user){
+            if (user) {
             if (user.online) {
               user.online = false;
               delete user_connect[socket.userId];
               user.save({fields: ["online"]});
-            }
-          });
+            }}
+          })};
       }, 5000);
       if(!socket.nickname) return;
       delete nicknames[socket.projectId][socket.nickname];
@@ -38,6 +41,7 @@ exports = module.exports = function(io){
 
     // Chat Proyecto
     socket.on('newUser', function(user,projectId){
+      console.log('newUser');
       socket.join(projectId);
       socket.nickname = user;
       socket.projectId = projectId;

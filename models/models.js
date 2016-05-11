@@ -221,12 +221,39 @@ sequelize.sync().then(function() {
 				pro_eslogan: 'Incubamos proyectos',
 				pro_descripcion: 'Proyecto de soporte para esta página',
 				pro_url: 'labuk',
-				pro_logo: 'project-1.bmp'
+				pro_portada: '1',
+				pro_logo: 'project-1.png'
+			});
+			Project.create({
+				pro_nombre: 'Servicios',
+				pro_eslogan: 'Incubamos proyectos',
+				pro_descripcion: 'Proyecto de servicios ofrecidos para esta página',
+				pro_url: 'servicios',
+				pro_portada: '1',
+				pro_logo: 'project-2.png'
+			});
+			Project.create({
+				pro_nombre: 'ProyectoX',
+				pro_eslogan: 'Innovación divergente',
+				pro_descripcion: 'Proyecto X',
+				pro_url: 'proyectox',
+				pro_portada: '1',
+				pro_logo: 'project-3.png'
 			});
 			Member.create({
 				mem_rol:'0',
 				UserId:'2',
 				ProjectId:'1'
+			});
+			Member.create({
+				mem_rol:'0',
+				UserId:'2',
+				ProjectId:'2'
+			});
+			Member.create({
+				mem_rol:'0',
+				UserId:'2',
+				ProjectId:'3'
 			});
 			Contact.create({
 				con_contact:'2',

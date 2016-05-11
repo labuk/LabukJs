@@ -163,7 +163,7 @@ exports.index_chat = function(req, res){
 			{where: {contactId: contact.con_message},
 			include: [{model: models.User, attributes: ['nombre']}],
 			limit: 20,
-			order: [['message.updatedAt' , 'DESC']]
+			order: [['updatedAt' , 'DESC']]
 		}).then(function(messages){
 			res.render('contact/chat',{contact: contact, messages: messages, errors: []});
 	})}).catch(function(error){next(error);});

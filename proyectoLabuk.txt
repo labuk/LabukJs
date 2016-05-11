@@ -185,3 +185,8 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
         -> Utilizamos el socket para mandar un evento setTimeout que sepa si hemos cerrado el navegador o solo reiniciado la página.
 
   - Actualizamos la solicitud de amistad.
+
+// 10-06-2016
+  - Añadimos proyectos y servicios en la portada.
+  - Mostramos solo proyectos púbicos y añadimos al hacer login un aparte para "Mis proyectos".
+  - Hacer las og dinámicas para cada proyecto.
