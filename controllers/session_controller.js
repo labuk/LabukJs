@@ -13,10 +13,17 @@ exports.loginRequired = function (req, res, next){
 // MW de autorización de acceso restringido a proyecto
 exports.memberRequired = function (req, res, next){
 	models.Member.findOne({
-		where:{ ProjectId: req.project.id, UserId: req.session.user.id }
+		where:{
+			ProjectId: req.project.id,
+			UserId: req.session.user.id,
+		}
 	}).then(function(member){
 		if (member) {
-		  next();
+			if (member.mem_rol == 3){
+				res.redirect('/project/'+req.params.pro_url+'/front');
+			} else {
+				next();
+			}
 		} else {
 		  res.redirect('/project/'+req.params.pro_url+'/front');
 		}
@@ -54,7 +61,8 @@ exports.create = function(req,res){
 		delete req.session.user; // Destruimos session por si había alguna activa.
 	  req.session.user = { id:user.id, username:user.nombre, online:true};
 		user.save({fields: ["online"]});
-	  res.redirect(req.session.redir.toString()); // redireccionamos a path anterior a login
+	  //res.redirect(req.session.redir.toString()); // redireccionamos a path anterior a login
+		res.redirect('/main'); // redireccionamos a la principal de usuario
 	});
 };
 
@@ -62,6 +70,7 @@ exports.create = function(req,res){
 exports.destroy = function(req,res){
 	var userId = req.session.user.id;
 	delete req.session.user;
+	delete req.session.project;
 	models.User.find({
 		where:{ id: userId }
 	}).then(function(user){

@@ -33,18 +33,32 @@
 
   <table class="table table-striped table-condensed">
     <% var i,time_log; if (logs) { for (i=0; i < logs.length; i++){ %>
-		<% time_this = moment(logs[i].createdAt).format("YYYY/MM/DD"); if (time_log !== time_this) { time_log = time_this; %>
-      <thead>
-  			<tr>
-  				<th> <h3><%= moment(logs[i].createdAt).format("DD/MM/YYYY") %> </h3></th>
-          <th></th>
-  			</tr>
-      </thead>
-		<% }%>
-		<tr>
-			<td> <%= logs[i].log_entrada %> </td>
-			<td> <%= logs[i].User.nombre %> </td>
-		</tr>
-
+      <% if (logs[i].log_tipo == 0) { %>
+  		<% time_this = moment(logs[i].createdAt).format("YYYY/MM/DD"); if (time_log !== time_this) { time_log = time_this; %>
+        <thead>
+    			<tr>
+    				<th> <h3><%= moment(logs[i].createdAt).format("DD/MM/YYYY") %> </h3></th>
+            <th></th>
+    			</tr>
+        </thead>
+  		<% }%>
+  		<tr>
+  			<td> <%= logs[i].log_entrada %> </td>
+  			<td> <%= logs[i].User.nombre %> </td>
+  		</tr>
+    <% } else { %>
+      <% time_this = moment(logs[i].createdAt).format("YYYY/MM/DD"); if (time_log !== time_this) { time_log = time_this; %>
+        <thead>
+          <tr>
+            <th> <h3><%= moment(logs[i].createdAt).format("DD/MM/YYYY") %> </h3></th>
+            <th></th>
+          </tr>
+        </thead>
+      <% }%>
+      <tr>
+        <td> <%= logs[i].log_entrada %> <a href="<%= logs[i].log_url %>"><i class="glyphicon glyphicon-link"></i></a></td>
+        <td> <%= logs[i].User.nombre %> </td>
+      </tr>
+    <% } %>
     <% }} %>
 	</table>

@@ -7,6 +7,40 @@ var moment = require('moment');
 // Cargamos Jimp
 var jimp = require("jimp");
 
+// GET main
+exports.main = function(req,res){
+	models.User.find({
+		where:{ id: req.session.user.id }
+	}).then(function(user){
+		models.Log.findAll({
+			where: {log_tipo: {gte: 10}},
+			order: [
+				['createdAt', 'DESC']
+			],
+			include: [{
+				model: models.Project, attributes: ['pro_nombre','pro_url','pro_logo'],
+				include: [{
+					model: models.Member,
+					attributes: ['mem_rol'],
+					where:{UserId: req.session.user.id}
+				}]
+			}]
+		}).then(function(logs){
+			models.Task.findAll({
+				where: { UserId: req.session.user.id, tas_todos: 0},
+				include: [{
+					model: models.Piece,
+					attributes: ['pie_url'],
+					include: [{
+						model: models.Project,
+						attributes: ['pro_nombre','pro_url','pro_logo']
+					}]
+				}]
+			}).then(function(tasks){
+			res.render('main', {user: user, logs: logs, tasks: tasks, moment: moment, errors: []} );
+	})})});
+}
+
 // GET /user
 exports.index = function(req, res){
 	models.User.findAll({
@@ -96,7 +130,7 @@ exports.show_profile = function(req,res){
 exports.autenticar = function(login, password, callback){
 	models.User.find({where: ["nombre like ?", login]})
 	.then(function(user){
-		if (user.length !== 0){
+		if (user){
 			if (user.pass === password) {
 		   callback(null, user);
 	  	} else {callback(new Error('Password erróneo.'));}

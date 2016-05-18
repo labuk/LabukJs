@@ -52,36 +52,17 @@
 	<% } %>
     <div class="panel-heading" role="tab" id="heading<%= messages[i].id %>">
       <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%= messages[i].id %>" aria-expanded="false" aria-controls="collapse<%= messages[i].id %>">
-				<% if (messages[i].mes_read == 0) { %>
-					<script>
-					$('#heading<%= messages[i].id %> a').one('click', function(e) {
-						var mes_read = { id: <%= messages[i].id %>};
-						$.ajax({
-							type: 'POST',
-							data: JSON.stringify(mes_read),
-							contentType: 'application/json',
-							url: '/contact/message/read',
-						}).done(function() {
-							$("#panel<%= messages[i].id %>").removeClass( "panel-success" );
-							$("#panel<%= messages[i].id %>").addClass( "panel-default" );
-							socket.emit('readMessage', <%= session.user.id %>);
-						})});
-					</script>
-          <div class="row">
-            <div class="col-xs-3"><%= name[i] %></div>
-            <div class="col-xs-9"><%= messages[i].mes_topic %><br><%= moment(messages[i].createdAt).format("DD/MM/YYYY") %></div>
-          </div>
-        <% } else { %>
-          <div class="row">
-            <div class="col-xs-3"><%= name[i] %></div>
-            <div class="col-xs-9"><%= messages[i].mes_topic %><br><%= moment(messages[i].createdAt).format("DD/MM/YYYY") %></div>
-          </div>
-        <% } %>
+        <div class="row">
+          <div class="col-xs-3"><%= name[i] %></div>
+          <div class="col-xs-9"><%= messages[i].mes_topic %><br><%= moment(messages[i].createdAt).format("H:mm:ss - DD/MM/YYYY") %></div>
+        </div>
       </a>
     </div>
     <div id="collapse<%= messages[i].id %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%= messages[i].id %>">
       <div class="panel-body">
 				<%= messages[i].mes_message %>
+				<!--
+				La contestación en los mensajes enviados no tiene mucho sentido
 				<hr>
         <form id="newMessage_2" method="post" action="/contact/message/create">
             <div class="form-group">
@@ -95,6 +76,7 @@
             <button class="btn btn-success btn-block" type="submit">Contestar</button>
           </div>
         </form>
+				-->
       </div>
     </div>
   </div>
@@ -129,7 +111,8 @@
     return false;
 
   });
-
+/*
+	// La contestación no tiene sentido
 	$('#newMessage_2').submit(function(e){
 		e.preventDefault();
 		var message = { message: $('#Message_2').val(), topic: $('#Topic_2').val(), contact1: $('#Contact1_2').val()};
@@ -149,7 +132,7 @@
 		return false;
 
 	});
-
+*/
   $('form').keypress(function(e){
     if(e == 13){
       return false;

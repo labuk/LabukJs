@@ -95,7 +95,7 @@
         <div class="navbar-header">
           <% if(session.user.id != 1){%>
           <a href="#menu-toggle" class="btn navbar-brand" id="menu-toggle"><span class="glyphicon glyphicon-th"></span></a>
-          <a class="navbar-brand" href="/project">Labuk</a>
+          <a class="navbar-brand" href="/main">Labuk</a>
           <% } else { %>
           <a class="navbar-brand" href="/">Labuk</a>
           <% } %>
@@ -145,6 +145,7 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
+                <li><a href="/main"><span class="glyphicon glyphicon-pushpin"></span><span class="hidden-tablet"> Protada</span></a></li>
                 <li><a href="/project"><span class="glyphicon glyphicon-wrench"></span><span class="hidden-tablet"> Proyectos</span></a></li>
                 <li>
                   <a href="/contact/message">

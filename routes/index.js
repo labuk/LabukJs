@@ -37,6 +37,7 @@ router.get('/', function(req, res) {
 router.param('pro_url', projectController.load); //Si existe parametro pro_url hace el autoload
 
 // Definición de rutas de usuario
+router.get('/main', sessionController.loginRequired, userController.main); // lista de usuarios
 router.get('/user', userController.index); // lista de usuarios
 router.get('/user/new', userController.new); // formulario nuevo usuario
 router.post('/user/create', userController.create); // crear usuario
@@ -61,6 +62,8 @@ router.put('/project/:pro_url/update', sessionController.loginRequired, sessionC
 router.post('/project/:pro_url/logo', upload_logo.single('logo'), projectController.upload_logo); // perfil mi usuario
 router.get('/project/:pro_url/members', sessionController.loginRequired, sessionController.memberRequired, projectController.members); // index miembros del proyecto
 router.post('/project/:pro_url/members/create', sessionController.loginRequired, sessionController.memberRequired, projectController.members_create); // crear miembro
+router.post('/project/:pro_url/follower/create', sessionController.loginRequired, projectController.follower_create); // crear seguidor
+router.delete('/project/:pro_url/follower/delete', sessionController.loginRequired, projectController.follower_delete); // borrar seguidor
 router.get('/project/:pro_url/pieces', sessionController.loginRequired, sessionController.memberRequired, projectController.pieces); // index piezas del proyecto
 router.post('/project/:pro_url/pieces/create', sessionController.loginRequired, sessionController.memberRequired, projectController.piece_create); // crear piece
 router.put('/project/:pro_url/pieces/:pieceId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.piece_update); //editar piece
@@ -102,7 +105,7 @@ router.post('/project/:pro_url/suggestion/create', projectController.suggestion_
 // Definición de rutas de Blog
 router.post('/project/:pro_url/posts/create', sessionController.loginRequired, sessionController.memberRequired, blogController.post_create); // crear idea
 router.get('/project/:pro_url/posts/:pos_url', sessionController.loginRequired, sessionController.memberRequired, blogController.show_post); // crear idea
-router.get('/project/:pro_url/posts/front/:pos_url', blogController.show_post_publica); // crear idea
+router.get('/project/:pro_url/front/posts/:pos_url', blogController.show_post_publica); // crear idea
 router.put('/project/:pro_url/posts/:pos_url', sessionController.loginRequired, sessionController.memberRequired, blogController.post_update); // editar post
 router.delete('/project/:pro_url/posts/:postId', sessionController.loginRequired, sessionController.memberRequired, blogController.post_destroy); // borrar post
 router.post('/project/:pro_url/comments/:pos_url/create', sessionController.loginRequired, sessionController.memberRequired, blogController.comment_create); // crear idea

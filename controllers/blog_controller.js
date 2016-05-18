@@ -4,15 +4,48 @@ var models = require('../models/models.js');
 // Cargamos Moments
 var moment = require('moment');
 
+// Guardamos logs automáticos
+function autoLog(tipo, project, project_url, id, url) {
+
+	console.log('AutoLog');
+
+	if (tipo == 10){
+		var entrada = "Se ha creado una nueva noticia";
+		var log_url = "/posts/"+url;
+	}
+
+	if (tipo == 11){
+		var entrada = "Se ha creado una nueva noticia privada";
+		var log_url = "/posts/"+url;
+	}
+
+	var log = models.Log.build({
+			log_entrada: entrada,
+			log_tipo: tipo,
+			log_url: log_url,
+			ProjectId: project,
+			UserId: id
+	});
+
+	log.validate().then(function(err){
+			// guarda en DB los campos pregunta y respuesta
+			log.save().then(function(){
+			return 'Ok';
+		})
+	});
+}
+
 // POST /project/:pro_url/posts/create
 exports.post_create = function(req,res){
+
+	var pos_url = req.body.post.pos_titulo.replace(/\s+/g, '-').toLowerCase();
 
 	var post = models.Post.build({
 			pos_titulo: req.body.post.pos_titulo,
       pos_resumen: req.body.post.pos_resumen,
       pos_contenido: req.body.post.pos_contenido,
 			pos_publica: req.body.post.pos_publica,
-			pos_url: req.body.post.pos_titulo.replace(/\s+/g, '-').toLowerCase(),
+			pos_url: pos_url,
 			ProjectId: req.project.id,
 			UserId: req.session.user.id
 	});
@@ -21,6 +54,11 @@ exports.post_create = function(req,res){
 		if (err) {
 			res.render('project/log_index', {piece: piece, errors: err.errors});
 		} else {
+			if (req.body.post.pos_publica == 1) {
+				autoLog(10, req.project.id, req.project.pro_url, req.session.user.id, pos_url);
+			} else {
+				autoLog(11, req.project.id, req.project.pro_url, req.session.user.id, pos_url);
+			}
 			// guarda en DB los campos pregunta y respuesta
 			post.save().then(function(){
 			res.redirect('/project/'+req.params.pro_url+'/board');})
@@ -32,9 +70,8 @@ exports.post_create = function(req,res){
 exports.show_post = function(req, res){
 	models.Post.find({
 		  where: { pos_url: req.params.pos_url },
-			include: [{model: models.Project, attributes: ['pro_nombre','pro_url']},{model: models.User, attributes: ['nombre']}]
+			include: [{model: models.Project, attributes: ['pro_nombre','pro_url','pro_logo']},{model: models.User, attributes: ['nombre']}]
 		}).then(function(post){
-			console.log(post);
 			if(post) {
 				models.Comment.findAll({
 					  where: { PostId: post.id },
@@ -45,21 +82,25 @@ exports.show_post = function(req, res){
 	}).catch(function(error){ next(error);} );
 };
 
-// GET /project/:pro_url/posts/front/:pos_url
+// GET /project/:pro_url/front/posts/:pos_url
 exports.show_post_publica = function(req, res){
 	models.Post.find({
-		  where: { pos_url: req.params.pos_url },
-			include: [{model: models.Project, attributes: ['pro_nombre','pro_url']},{model: models.User, attributes: ['nombre']}]
+		  where: {
+				pos_url: req.params.pos_url,
+			},
+			include: [{model: models.Project, attributes: ['pro_nombre','pro_url','pro_eslogan','pro_logo']},{model: models.User, attributes: ['nombre']}]
 		}).then(function(post){
+			console.log(post);
 			if(post.pos_publica) {
 				models.Comment.findAll({
 					  where: { PostId: post.id },
 					}).then(function(comments){
 						var project = post.Project;
-						res.render('post/post_main',{ post: post, project: project, comments: comments, moment: moment, errors: []});
-  })} else {
-		res.render('error',{ errors: []});
-	}
+						res.render('post/post_main_front',{ post: post, project: project, comments: comments, moment: moment, errors: []});
+  		})} else {
+				req.session.errors = [{"message": "Post privado. Tienes que ser miembro del proyecto."}];
+				res.redirect("/project/"+req.params.pro_url+"/front");
+			}
 	}).catch(function(error){ next(error);} );
 };
 

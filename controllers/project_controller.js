@@ -87,14 +87,36 @@ exports.show_pro = function(req, res){
 
 // GET /project/:pro_url/front
 exports.show_front = function(req, res){
+
+	var errors = req.session.errors || {};
+  req.session.errors = {};
+
 	models.Post.findAll({
 		where:{
 			ProjectId: req.project.id,
-			pos_publica: {not: false}
+			pos_publica: true
 		},
 		include: [{model: models.User, attributes: ['nombre']}]
 	}).then(function(posts){
-		res.render('project/project_front',{ project: req.project, posts: posts, moment: moment, errors: []});
+		if (req.session.user.id != 1) {
+			models.Member.findOne({
+				where:{
+					ProjectId: req.project.id,
+					UserId: req.session.user.id,
+				}
+			}).then(function(member){
+				if (member) {
+					req.session.project = member.mem_rol;
+					res.render('project/project_front',{ project: req.project, posts: posts, moment: moment, errors: errors});
+				} else {
+					delete req.session.project;
+					res.render('project/project_front',{ project: req.project, posts: posts, moment: moment, errors: errors});
+				}
+			})
+		} else {
+			delete req.session.project;
+			res.render('project/project_front',{ project: req.project, posts: posts, moment: moment, errors: errors});
+		}
 	});
 };
 
@@ -187,7 +209,7 @@ exports.members_create = function(req,res){
 	var member = models.Member.build({
 			mem_rol: req.body.member.mem_rol,
 			ProjectId: req.project.id,
-			UserId: req.body.member.UserId
+			UserId: req.body.member.UserId,
 		});
 
 	member.validate().then(function(err){
@@ -196,10 +218,45 @@ exports.members_create = function(req,res){
 		} else {
 			// guarda en DB los campos
 			member.save().then(function(){
-			res.redirect('/project/'+req.params.pro_url+'/members');})
+			res.redirect('/project/'+req.params.pro_url+'/members');
+			})
 		}
 	});
 };
+
+// POST /project/:pro_url/follower/create
+exports.follower_create = function(req,res){
+
+	var member = models.Member.build({
+			mem_rol: 3,
+			ProjectId: req.project.id,
+			UserId: req.session.user.id
+		});
+
+	member.validate().then(function(err){
+		if (err) {
+			res.render('project/members_index', {piece: piece, errors: err.errors});
+		} else {
+			// guarda en DB los campos
+			member.save().then(function(){
+				res.send('Ok');
+			})
+		}
+	});
+};
+
+// DELETE /project/:pro_url/follower/create
+exports.follower_delete = function(req,res){
+	models.Member.find({
+		where:{
+			ProjectId: req.project.id,
+			UserId: req.session.user.id
+		}
+	}).then(function(member){
+	 	member.destroy().then(function() {
+			res.send('Ok');
+		}).catch(function(error){next(error)});
+})};
 
 // GET /project/:pro_url/pieces
 exports.pieces = function(req, res){
@@ -419,6 +476,7 @@ exports.logs = function(req, res){
 exports.log_create = function(req,res){
 	var log = models.Log.build({
 			log_entrada: req.body.log.log_entrada,
+			log_tipo: 0,
 			ProjectId: req.project.id,
 			UserId: req.session.user.id
 	});

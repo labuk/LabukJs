@@ -1,0 +1,96 @@
+
+
+<div class="well">
+<div class="row">
+  <div class="col-xs-6 col-md-2">
+    <% if (user.avatar) { %>
+      <img src="/images/avatar/<%= user.avatar %>"  width="100%" class="img-thumbnail" />
+    <% } else { %>
+      <img src="/images/avatar/avatar.jpg"  width="100%" class="img-thumbnail" />
+    <% } %>
+  </div>
+  <div class="col-xs-12 col-sm-6 col-md-10">
+    <dl>
+      <dd><h3><%= user.nombre %><h3></dd>
+
+    </dl>
+  </div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-md-6 ">
+
+  <h3 class="page-header">Novedades</h3>
+
+  <table class="table table-striped table-condensed">
+    <% var i,time_log; if (logs.length) { for (i=0; i < logs.length; i++){ %>
+
+      <% time_this = moment(logs[i].createdAt).format("YYYY/MM/DD"); if (time_log !== time_this) { time_log = time_this; %>
+        <thead>
+          <tr>
+            <th> <h4><%= moment(logs[i].createdAt).format("DD/MM/YYYY") %> </h4></th>
+            <th> Proyectos</th>
+          </tr>
+        </thead>
+      <% }%>
+      <tr>
+
+          <% if ( logs[i].Project.Member.mem_rol == 3) { %>
+            <% if (logs[i].log_tipo == 10){ %>
+            <td> <%= logs[i].log_entrada %>
+            <a href="/project/<%= logs[i].Project.pro_url %>/front<%= logs[i].log_url %>"><i class="glyphicon glyphicon-link"></i></a></td>
+            <td> <a href="/project/<%= logs[i].Project.pro_url %>/front"><%= logs[i].Project.pro_nombre %></a> </td>
+            <% } %>
+          <% } else { %>
+            <td> <%= logs[i].log_entrada %>
+            <a href="/project/<%= logs[i].Project.pro_url %><%= logs[i].log_url %>"><i class="glyphicon glyphicon-link"></i></a></td>
+            <td> <a href="/project/<%= logs[i].Project.pro_url %>"><%= logs[i].Project.pro_nombre %></a> </td>
+          <% } %>
+      </tr>
+
+    <% }} else { %>
+      No hay novedades
+    <% } %>
+  </table>
+
+  </div>
+
+  <h3 class="page-header">Tareas</h3>
+
+  <div class="col-md-6">
+
+  <table class="table table-striped table-condensed">
+  <% var i, project_this; if (tasks.length) { for (i=0; i < tasks.length; i++){ %>
+
+    <% if (tasks[i].Piece.Project.pro_nombre !== project_this) { project_this = tasks[i].Piece.Project.pro_nombre; %>
+      <thead>
+        <tr>
+          <th>
+            <% if (tasks[i].Piece.Project.pro_logo) { %>
+              <img src="/images/logo/<%= tasks[i].Piece.Project.pro_logo %>"class="img-responsive img-thumbnail" style="width: 50px"/>
+            <% } else { %>
+              <img src="/images/logo/logo.png" class="img-responsive img-thumbnail" />
+            <% } %>
+          </th>
+          <th>
+            <span class="pull-left"><%= tasks[i].Piece.Project.pro_nombre %></span>
+          </th>
+        </tr>
+      </thead>
+    <% }%>
+
+  	<tr>
+  	  <td colspan="2">
+        <%= tasks[i].tas_tarea %>
+        <a href="/project/<%= tasks[i].Piece.Project.pro_url %>/pieces/<%= tasks[i].Piece.pie_url %>"><i class="glyphicon glyphicon-link"></i></a>
+      </td>
+    </tr>
+  <% }} else { %>
+    No hay tareas
+  <% } %>
+  </table>
+
+  </div>
+
+</div>

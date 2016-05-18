@@ -12,6 +12,13 @@
     <h1 class="page-header">
       <%= project.pro_nombre %>
       <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#myModal1">Sugerencia</button>
+      <% if (session.project) { %>
+        <button id="btn_noseguir" type="button" class="btn btn-danger pull-right collapse in" >No seguir</button>
+        <button id="btn_seguir" type="button" class="btn btn-success pull-right collapse" >Seguir</button>
+      <% } else { %>
+        <button id="btn_seguir" type="button" class="btn btn-success pull-right collapse in" >Seguir</button>
+        <button id="btn_noseguir" type="button" class="btn btn-danger pull-right collapse" >No seguir</button>
+      <% } %>
       <a href="https://www.facebook.com/sharer.php?u=http://labuk.herokuapp.com/project/<%= project.pro_url %>" target="_blank" class="btn btn-primary pull-right fb-share-button"><i class="fa fa-facebook" aria-hidden="true"></i></a>
       <a href='https://twitter.com/intent/tweet?text=Proyecto%20<%= project.pro_nombre %>&url=http://labuk.herokuapp.com/project/<%= project.pro_url %>&via=LaBuk_coop' target="_blank" class="btn btn-info pull-right"><i class="fa fa-twitter" aria-hidden="true"></i></a>
     </h1>
@@ -24,7 +31,7 @@
   </div>
 </div>
 </div>
-<!-- Formulario Editar Proyecto -->
+<!-- Formulario Añadir Sugerencia -->
 <div id="myModal1" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
@@ -46,6 +53,12 @@
 </div>
 
 <div class="container-fluid">
+
+  <div id="msgEnviado"  class="alert alert-success collapse">
+    <button type="button" class="close">&times;</button>
+    <div></div>
+  </div>
+
   <p>
   <%= project.pro_descripcion %>
   </p>
@@ -57,10 +70,10 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <h3 class="text-capitalize">
-          <a col-md-offset-4 href="/project/<%= project.pro_url %>/posts/<%= posts[i].pos_url %>"> <%= posts[i].pos_titulo %> </a>
+          <a col-md-offset-4 href="/project/<%= project.pro_url %>/front/posts/<%= posts[i].pos_url %>"> <%= posts[i].pos_titulo %> </a>
           <br>
           <small><%= moment(posts[i].updatedAt).format("DD/MM/YYYY") %> por <a class="text-capitalize" href="/user/profile/<%= posts[i].UserId %>"><%= posts[i].User.nombre %></a></small>
-          <small><a class="pull-right" role="button" href="/project/<%= project.pro_url %>/posts/<%= posts[i].pos_url %>">Leer más...</a></small>
+          <small><a class="pull-right" role="button" href="/project/<%= project.pro_url %>/front/posts/<%= posts[i].pos_url %>">Leer más...</a></small>
         </h3>
         <hr>
         <%= posts[i].pos_resumen %>
@@ -72,6 +85,55 @@
 </div>
 
 <script>
+$('.alert .close').on('click', function(e) {
+    $(this).parent().hide();
+});
+
+$('#btn_seguir').click( function() {
+  <% if (session.user.id != 1) { %>
+    console.log('Follower');
+    $.ajax({
+      type: 'POST',
+      url: '/project/<%= project.pro_url %>/follower/create',
+    }).done(function(res) {
+      if (res === "Ok") {
+        $('#msgEnviado').show();
+        $('#msgEnviado div').html('Ahora sigues a este proyecto. Todas las noticias publicadas te llegarán.');
+        $('#btn_seguir').collapse('toggle');
+        $('#btn_seguir').on('hidden.bs.collapse', function () {
+          $('#btn_noseguir').collapse('toggle');
+        });
+      }
+    });
+  <% } else { %>
+    $('#msgEnviado').show();
+    $('#msgEnviado div').html('Necesitas hacer <a href="/login" class="alert-link">login</a> o <a href="/user/new" class="alert-link">crear una cuenta</a>.');
+  <% } %>
+});
+
+$('#btn_noseguir').click( function() {
+  <% if (session.user.id != 1) { %>
+
+    $.ajax({
+      type: 'POST',
+      url: '/project/<%= project.pro_url %>/follower/delete?_method=delete',
+    }).done(function(res) {
+      if (res === "Ok") {
+        $('#msgEnviado').show();
+        $('#msgEnviado div').html('Ya no sigues a este proyecto. Dejarás de recibir las noticias publicadas.');
+        $('#btn_noseguir').collapse('toggle');
+        $('#btn_noseguir').on('hidden.bs.collapse', function () {
+          $('#btn_seguir').collapse('toggle');
+        });
+
+      }
+    });
+  <% } else { %>
+    $('#msgEnviado').show();
+    $('#msgEnviado div').html('Necesitas hacer <a href="/login" class="alert-link">login</a> o <a href="/user/new" class="alert-link">crear una cuenta</a>.');
+  <% } %>
+});
+
 $('#newSuggestion').submit(function(e){
   e.preventDefault();
   var new_suggestion = {}
@@ -89,13 +151,9 @@ $('#newSuggestion').submit(function(e){
     url: '/project/<%= project.pro_url %>/suggestion/create',
   }).done(function(res) {
     if (res === "Ok") {
-      console.log('Ok');
-      /*
-      <div class="alert alert-warning alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        <strong>¡Cuidado!</strong> Es muy importante que leas este mensaje de alerta.
-      </div>
-      */
+      $('#msgEnviado').show();
+      $('#myModal1').modal('toggle');
+      $('#msgEnviado div').html('Sugerencia enviada.');
     }
   });
 
