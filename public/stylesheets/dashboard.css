@@ -7,6 +7,10 @@ body {
   padding-top: 50px;
 }
 
+html {
+
+}
+
 /*
  * Global add-ons
  */
@@ -97,6 +101,41 @@ body {
 
 .page-header {
   margin-top: 10px;
+}
+
+
+/*
+ * Chat content
+ */
+#listMessages:first-letter { text-transform: uppercase;}
+#listMessages li:nth-child(odd) { background: #eee; }
+
+.chat{
+  position: absolute;
+  top: -240px;
+  z-index: 9999;
+}
+
+
+.chat .panel-body{
+  padding: 5px 10px;
+  height: 150px;
+  overflow-y: auto;
+  color: #555;
+}
+
+.footer{
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+  overflow: visible;
+}
+
+.footer .row{
+  /*z-index: 0;*/
 }
 
 /* Media */

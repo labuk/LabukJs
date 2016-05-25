@@ -27,8 +27,11 @@ exports = module.exports = function(io){
               delete user_connect[socket.userId];
               user.save({fields: ["online"]});
             }}
+            for (var id in socket.chat) {
+              io.in('contact_'+id).emit('emitMessage', {msg: socket.chat[id]['contactName']+' se ha desconectado.', nick: 'chat', id: id});
+            }
           })};
-      }, 5000);
+      }, 2000);
       if(!socket.nickname) return;
       delete nicknames[socket.projectId][socket.nickname];
       io.in(socket.projectId).emit('newUser', nicknames[socket.projectId]);
@@ -41,7 +44,6 @@ exports = module.exports = function(io){
 
     // Chat Proyecto
     socket.on('newUser', function(user,projectId){
-      console.log('newUser');
       socket.join(projectId);
       socket.nickname = user;
       socket.projectId = projectId;
@@ -58,6 +60,7 @@ exports = module.exports = function(io){
     // Mensajes
     socket.on('newSession', function(userId, username){
       socket.join(userId);
+      socket.chat = {};
       socket.userId = userId;
       if (!user_connect[socket.userId]) {
         models.User.find({where: {id: socket.userId} })
@@ -89,12 +92,24 @@ exports = module.exports = function(io){
     // End Mensajes
 
     // Chat Contactos
-    socket.on('newConversation', function(id){
+    socket.on('newChat', function(id, contactId, contactName){
+      socket.chat[id] = {id: contactId, contactName: contactName};
+      socket.join('contact_'+id);
+      io.in(contactId).emit('openChat', id, socket.userId, socket.username);
+      if (user_connect[contactId] == true) {
+        //io.in('contact_'+id).emit('emitMessage', {msg: 'Estais conectados', nick: 'chat', id: id});
+      } else {
+        io.in('contact_'+id).emit('emitMessage', {msg: contactName+' no esta online. Los mensajes que le escribas no le llegarán. El chat no guarda conversaciones.', nick: 'chat', id: id});
+      }
+    });
+
+    socket.on('joinChat', function(id, contactId, contactName){
+      socket.chat[id] = {id: contactId, contactName: contactName};
       socket.join('contact_'+id);
     });
 
-    socket.on('newMessage', function(id, contactId, message){
-      io.in('contact_'+id).emit('emitMessage', {msg: message, nick: socket.username});
+    socket.on('newMessage', function(id, message){
+      io.in('contact_'+id).emit('emitMessage', {msg: message, nick: socket.username, id: id, contactId: socket.userId});
     });
     // End Chat Contactos
 

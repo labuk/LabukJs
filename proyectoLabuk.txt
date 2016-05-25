@@ -197,7 +197,11 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Creamos una página portada donde mostrar resumen novedades y tareas.
   - Ponemos la cabecera de la página en un pozo para diferenciar.
 
+ // 20-05-2016
+  - Añadimos una popup con el chat en vez de una página. Facebook cuando cambias de pagina, vuelve a abrir el chat. Utilizar sessionStorage.
+  - Abrir una página individual de mensajes.
 
+  Bloquear y eliminar contactos.
   Añadir problemas al logbook de manera automática.
   Añadir .lenght para las variables de if() y que no salga en caso de no tener elementos la lista.
   Posibilidad de borrar miembros de los proyectos.

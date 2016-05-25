@@ -56,3 +56,51 @@ function expandTextarea(id) {
       if(this.scrollHeight > 54)  this.style.height = this.scrollHeight + 'px';
   }, false);
 }
+
+// Function Add Chat
+function addChat(id, contactId, username) {
+  $('.footer .row').append(
+    '<div id="chatId'+id+'" class="pull-right col-xs-12 col-sm-4">'+
+    '<div class="panel-group collapse in chat" id="collapseChat'+id+'">'+
+        '<div class="col-xs-12">'+
+          '<div class="panel panel-success">'+
+            '<div class="panel-heading">'+
+              'CHAT'+
+              '<div class="input-group col-xs-12">'+
+                '<form id="newMessage" method="post" action="/contact/message/create">'+
+                '<input id="Contact" type="hidden" name="message[contact1]" value="'+id+'" />'+
+                '<div class="input-group">'+
+                  '<input id="Message" type="text" name="message[message]" class="form-control" placeholder="Mensaje" autocomplete="off" />'+
+                  '<span class="input-group-btn">'+
+                    '<button class="btn btn-success" type="submit">Send</button>'+
+                  '</span>'+
+                '</div>'+
+                '</form>'+
+              '</div>'+
+            '</div>'+
+            '<div id="listMessages'+id+'" class="panel-body">'+
+              '</br>'+
+            '</div>'+
+          '</div>'+
+      '</div>'+
+    '</div>'+
+  '</div>'
+  );
+  $('.footer').append(
+  '<div id="chatbtnId'+id+'" class="btn-group pull-right">'+
+    '<a id="chatbtn" class="btn btn-default" role="button" data-toggle="collapse" href="#collapseChat'+id+'" aria-expanded="false" aria-controls="collapseChat'+contactId+'">'+
+      username+
+    '</a>'+
+    '<a id="closeChat" data-parent="collapseChat2" data-contact="'+id+'" class="btn btn-default" role="button" onClick="closeChat('+id+','+contactId+')" >'+
+      'X'+
+    '</a>'+
+  '</div>'
+  );
+};
+
+function closeChat(id,contactId) {
+  $("#chatId"+id).remove();
+  $("#chatbtnId"+id).remove();
+  var chatId = 'chatId_'+id+'_'+contactId;
+  sessionStorage.setItem(chatId, '');
+}

@@ -50,8 +50,7 @@
       <script src="/socket.io/socket.io.js"></script>
       <script>
         var socket = io();
-      </script>
-    	<script>
+
         var $countMessages = $("#countMessage");
         var count = 0;
         socket.on('connect', function () {
@@ -145,7 +144,7 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li><a href="/main"><span class="glyphicon glyphicon-pushpin"></span><span class="hidden-tablet"> Protada</span></a></li>
+                <li><a href="/main"><span class="glyphicon glyphicon-pushpin"></span><span class="hidden-tablet"> Portada</span></a></li>
                 <li><a href="/project"><span class="glyphicon glyphicon-wrench"></span><span class="hidden-tablet"> Proyectos</span></a></li>
                 <li>
                   <a href="/contact/message">
@@ -188,21 +187,88 @@
                     </div>
                 </div>
             </div>
+
         </div>
         <!-- /#page-content-wrapper -->
 
     </div>
     <!-- /#wrapper -->
 
+    <footer class="footer">
+    <div class="row">
+
+    </div>
+    </footer>
 
   </body>
 
   <!-- Menu Toggle Script -->
   <script>
-  $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-  });
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
   </script>
 
+<% if(session.user.id != 1){%>
+  <script>
+
+    for (var item in sessionStorage) {
+      var res = item.split('_');
+      if (sessionStorage.getItem(item)) {
+        addChat(res[1], res[2], sessionStorage.getItem(item));
+        socket.emit('newChat', res[1], res[2], sessionStorage.getItem(item));
+      }
+    }
+
+    function initChat(id, contactId, username){
+      socket.emit('newChat', id, contactId, username);
+      var chatId = 'chatId_'+id+'_'+contactId;
+      var flag_chat = sessionStorage.getItem(chatId);
+      if (!flag_chat){
+        addChat(id, contactId, username);
+        sessionStorage.setItem(chatId, username);
+      } else {
+        $("#collapseChat"+id).collapse('show');
+      }
+    };
+
+    socket.on('emitMessage', function(data){
+      var $messages = $(".footer").find('#listMessages'+data.id);
+      if($messages.length) {
+        $messages.prepend('<b> '+data.nick+':</b> '+data.msg+'</br>');
+      } else {
+        addChat(data.id, data.contactId, data.nick);
+        sessionStorage.setItem(chatId, contactName);
+        $messages.prepend('<b> '+data.nick+':</b> '+data.msg+'</br>');
+      }
+    });
+
+    socket.on('openChat', function(id, contactId, contactName){
+      var chatId = 'chatId_'+id+'_'+contactId;
+      var flag_chat = sessionStorage.getItem(chatId);
+      if (!flag_chat){
+        console.log('Abrir chat');
+        sessionStorage.setItem(chatId, contactName);
+        addChat(id, contactId, contactName);
+        var $messages = $(".footer").find('#listMessages'+id);
+        socket.emit('joinChat', id, contactId, contactName);
+        console.log('Abrir chat2');
+      }
+    });
+
+    $(".footer").on("submit", '#newMessage', function(e) {
+      e.preventDefault();
+      socket.emit('newMessage', $('#Contact').val(), $('#Message').val());
+      $('#Message').val('');
+      return false;
+    });
+
+  </script>
+
+<% } else { %>
+  <script>
+    sessionStorage.clear();
+  </script>
+<% } %>
 </html>

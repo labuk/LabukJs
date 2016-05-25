@@ -216,11 +216,7 @@ section.success a.active {
 }
 
 #portfolio * {
-    z-index: 2;
-}
-
-#portfolio * {
-    z-index: 2;
+    /*z-index: 2;*/
 }
 
 #portfolio {

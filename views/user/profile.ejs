@@ -10,6 +10,7 @@
     <% }  %>
     <% if (contact.con_block == 2) { %>
       <button type="button" class="btn btn-success pull-right" >Amigos</button>
+      <button type="button" class="btn btn-info pull-right" onClick="initChat(<%=contact.con_message %>, <%= contact.UserId %>, '<%= user.nombre %>')">Chat</button>
     <% }  %>
   <% } else {  %>
   <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal">Nuevo contacto</button>

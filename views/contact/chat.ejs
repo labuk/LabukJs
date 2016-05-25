@@ -1,15 +1,5 @@
 <h2 class="page-header"> Mensajes <%= contact.User.nombre %></h2>
 
-<style>
-  #listMessages { padding: 5px 10px;}
-  #listMessages:first-letter { text-transform: uppercase;}
-  #listMessages li:nth-child(odd) { background: #eee; }
-  .panel-body {
-    height: calc(90vh - 210px);
-    overflow-y: auto;
-  }
-</style>
-
 <div class="row">
   <div class="col-xs-12">
     <div class="panel panel-success">
@@ -20,11 +10,6 @@
         <% var i; if (messages) { for (i=0; i < messages.length; i++){ %>
         <% if (messages[i].mes_read == 0) { %>
           <b><%= messages[i].User.nombre %>:</b> <span class="text-success"><%= messages[i].mes_message %> </span></br>
-          <script>
-          $(window).load(function() {
-
-          });
-          </script>
         <% } else { %>
           <b><%= messages[i].User.nombre %>:</b> <%= messages[i].mes_message %> </br>
         <% }}} %>
@@ -57,15 +42,6 @@
   var $messages = $('#listMessages');
   $('#newMessage').submit(function(e){
     e.preventDefault();
-    /*
-    var message = { message: $('#Message').val(), contact1: $('#Contact1').val(), contact2: $('#Contact2').val()};
-    $.ajax({
-      type: 'POST',
-      data: JSON.stringify(message),
-      contentType: 'application/json',
-      url: '/contact/message/create',
-    });
-    */
     socket.emit('newMessage', <%= contact.con_message %>, $('#Contact1').val(), $('#Message').val());
 
     $('#Message').val('');
