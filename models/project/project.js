@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes){
 				validate: {notEmpty: {msg: "-> Falta url"}}
 			},
 			pro_portada:  {
-				type: DataTypes.BOOLEAN
+				type: DataTypes.INTEGER
 			},
 			pro_logo:  {
 				type: DataTypes.STRING

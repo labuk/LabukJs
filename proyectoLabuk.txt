@@ -215,7 +215,13 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Mandar notificación al crear mensaje (funcionaba pero estaba puesto antes de crear el id).
   - Corregir errores menores en las páginas del proyecto.
 
+// 27-05-2016
+  - Anuncio de google
+  - Error base de datos boolean.
 
+
+  
+  Aparece la cabecera de las fechas de eventos que están ocultos.
   Si los formularios no se rellenan correctamente, dar aviso. Eventos, tareas y piezas.
   Cuando un proyecto pasa de público a privado y tiene seguidores, estos siguen pudiendo acceder.
   Añadir paginación en el Logbook.
