@@ -6,6 +6,10 @@ module.exports = function(sequelize, DataTypes){
 			type: DataTypes.STRING,
 			validate: {notEmpty: {msg: "-> Falta Nombre"}}
 			},
+			pie_descripcion:  {
+				type: DataTypes.STRING,
+				validate: {notEmpty: {msg: "-> Falta descripcion"}}
+				},
 			pie_url:  {
 				type: DataTypes.STRING,
 				validate: {notEmpty: {msg: "-> Falta url"}}

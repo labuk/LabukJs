@@ -6,8 +6,9 @@
 
 <section id="portfolio">
 	<div class="row">
-	<% if(session.user.id != 1){%><h3 class="page-header">Mis proyectos</h3> <% } %>
-	<% var i; if (projects_member) { for (i=0; i < projects_member.length; i++){ %>
+	<% var i; if (projects_member.length) { %>
+		<h3 class="page-header">Mis proyectos</h3>
+		<% for (i=0; i < projects_member.length; i++){ %>
 		<% if (projects_member[i].mem_rol < 3) {  %>
 		<div class="col-sm-4 portfolio-item">
 				<a href="project/<%= projects_member[i].Project.pro_url %>" class="portfolio-link" >
@@ -24,12 +25,13 @@
 						<% } %>
 				</a>
 		</div>
-	<% }}} %>
+	<% }}}%>
 	</div>
 
 	<div class="row">
-	<% if(session.user.id != 1){%><h3 class="page-header">Proyectos que sigo</h3> <% } %>
-	<% var i; if (projects_member) { for (i=0; i < projects_member.length; i++){ %>
+	<% var i; if (projects_member.length) { %>
+		<h3 class="page-header">Proyectos que sigo</h3>
+		<% for (i=0; i < projects_member.length; i++){ %>
 		<% if (projects_member[i].mem_rol == 3) {  %>
 		<div class="col-sm-4 portfolio-item">
 				<a href="project/<%= projects_member[i].Project.pro_url %>" class="portfolio-link" >

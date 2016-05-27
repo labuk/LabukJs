@@ -27,7 +27,7 @@
     <dl>
       <dd><h3><%= project.pro_nombre %><h3></dd>
       <dd><%= project.pro_eslogan %></dd>
-      <dd><%= project.pro_descripcion %></dd>
+      <dd><pre><%= project.pro_descripcion %></pre></dd>
     </dl>
   </div>
 </div>
@@ -41,15 +41,15 @@
     Ya tienes la portada creada.
     <a href="/project/<%= project.pro_url %>/front">Ver portada</a>
 
-    <form method="post" action="/project/<%= project.pro_url %>/update?_method=put">
+    <form role="form" method="post" action="/project/<%= project.pro_url %>/update?_method=put">
       <input type="hidden" id="nom" name="project[pro_portada]" value="0" />
-      <input type="submit" value="Borrar portada" />
+      <input class="btn btn-danger" type="submit" value="Borrar portada" />
     </form>
 
   <% } else { %>
-    <form method="post" action="/project/<%= project.pro_url %>/update?_method=put">
+    <form role="form" method="post" action="/project/<%= project.pro_url %>/update?_method=put">
       <input type="hidden" id="nom" name="project[pro_portada]" value="1" />
-      <input type="submit" class="btn btn-success" value="Crear portada" />
+      <input class="btn btn-success" type="submit" class="btn btn-success" value="Crear portada" />
     </form>
   <% } %>
 

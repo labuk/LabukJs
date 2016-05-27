@@ -81,7 +81,9 @@
     </div>
     <div id="collapse<%= messages[i].id %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%= messages[i].id %>">
       <div class="panel-body">
-				<%= messages[i].mes_message %>
+				<pre>
+					<%= messages[i].mes_message %>
+				</pre>
 				<hr>
         <form id="newMessage_2" method="post" action="/contact/message/create">
             <div class="form-group">

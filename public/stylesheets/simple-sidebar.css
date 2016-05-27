@@ -134,6 +134,10 @@
         font-size: xx-large;
     }
 
+    #wrapper.toggled #sidebar-wrapper .glyphicon{
+      top: 5px;
+    }
+
     #page-content-wrapper {
         padding: 20px;
         position: relative;

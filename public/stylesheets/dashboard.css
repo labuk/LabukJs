@@ -7,13 +7,27 @@ body {
   padding-top: 50px;
 }
 
-html {
+pre {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: inherit;
+  border: none;
+  background: none;
+  white-space: pre-line;
+  margin: 0;
+  padding-bottom: 0px;
+}
 
+.alert pre{
+  color: #8a6d3b;
 }
 
 /*
  * Global add-ons
  */
+
+ textarea{
+   max-width: 100%;
+ }
 
 .pull-right {
    margin-left: 10px;
@@ -62,7 +76,6 @@ html {
 .sidebar {
   display: none;
   position: fixed;
-  /*top: 51px;*/
   bottom: 0;
   left: 0;
   z-index: 1000;
@@ -112,10 +125,14 @@ html {
 
 .chat{
   position: absolute;
-  top: -240px;
+  top: -270px;
   z-index: 9999;
 }
 
+.footer .btn-group{
+  position: relative;
+  top: -40px;
+}
 
 .chat .panel-body{
   padding: 5px 10px;
@@ -129,14 +146,42 @@ html {
   bottom: 0px;
   right: 0px;
   width: 100%;
-  height: 50px;
-  padding: 5px;
+  height: 0px;
+  padding: 0px 5px;
   overflow: visible;
 }
 
 .footer .row{
   /*z-index: 0;*/
 }
+
+/*
+ * Carousel content
+ */
+
+ .carousel-control.left{
+   background-image:none;
+   left: -5%;
+   width: 40px;
+ }
+
+ .carousel-control.right {
+   background-image:none;
+   right: -5%;
+   width: 40px;
+ }
+
+ .carousel-inner > .item.next,
+ .carousel-inner > .item.active.right {
+   -webkit-transform: translate3d(16.66%, 0, 0);
+           transform: translate3d(16.66%, 0, 0);
+ }
+
+ .carousel-inner > .item.prev,
+ .carousel-inner > .item.active.left {
+   -webkit-transform: translate3d(-16.66%, 0, 0);
+           transform: translate3d(-16.66%, 0, 0);
+ }
 
 /* Media */
 @media (min-width: 768px) {

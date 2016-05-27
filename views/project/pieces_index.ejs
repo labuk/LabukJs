@@ -26,6 +26,10 @@
 						<input type="text" autocomplete="off" class="form-control" name="piece[pie_nombre]" placeholder="<%= piece.pie_nombre%>" value="" />
 					</div>
 					<div class="form-group">
+						<label class="sr-only">Descripcion</label>
+						<textarea class="form-control" rows="3" name="piece[pie_descripcion]" placeholder="<%= piece.pie_descripcion%>" /></textarea>
+					</div>
+					<div class="form-group">
 						<label class="control-label">Prioridad:</label><br>
 						<div class="radio-inline"><input type="radio" name="piece[pie_prioridad]" value="0" > General </div>
 						<div class="radio-inline"><input type="radio" name="piece[pie_prioridad]" value="1" > Esencial </div>
@@ -49,6 +53,7 @@
   </div>
 </div>
 
+<% var i; if (pieces.length) { %>
 <h2> Piezas Generales </h2>
 	<table class="table table-striped table-condensed">
 		<thead>
@@ -58,14 +63,15 @@
 			</tr>
 		</thead>
 		<tbody>
-		<% var i; if (pieces) { for (i=0; i < pieces.length; i++){ if (pieces[i].pie_prioridad == 0) {%>
+		<% for (i=0; i < pieces.length; i++){ if (pieces[i].pie_prioridad == 0) {%>
 		<tr>
 		  <td><a href="/project/<%= project.pro_url %>/pieces/<%= pieces[i].pie_url %>"> <%= pieces[i].pie_nombre %></a></td>
 			<td> <%= pieces[i].User.nombre %> </td>
 		</tr>
-		<% }}} %>
+		<% }} %>
 	</tbody>
 	</table>
+
 
 	<h2> Piezas Desarrollo </h2>
 		<table class="table table-striped table-condensed">
@@ -77,12 +83,14 @@
 				</tr>
 			</thead>
 			<tbody>
-			<% var i; if (pieces) { for (i=0; i < pieces.length; i++){ if (pieces[i].pie_prioridad != 0) {%>
+			<% for (i=0; i < pieces.length; i++){ if (pieces[i].pie_prioridad != 0) {%>
 			<tr>
 			  <td><a href="/project/<%= project.pro_url %>/pieces/<%= pieces[i].pie_url %>"> <%= pieces[i].pie_nombre %></a></td>
 				<td> <script>document.write( get_prioridad(<%= pieces[i].pie_prioridad %>) );</script> </td>
 				<td> <%= pieces[i].User.nombre %> </td>
 			</tr>
-			<% }}} %>
+			<% }} %>
 		</tbody>
 		</table>
+
+<% } %>

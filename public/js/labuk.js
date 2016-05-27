@@ -1,6 +1,5 @@
 // function Fecha DB
 function getDate (data) {
-
   var day = new Date(data);
   var dd = day.getDate();
   var ds = day.getDay();
@@ -10,7 +9,6 @@ function getDate (data) {
   var daysWeek = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
   var resDate =  [ dd+'/'+mm+'/'+yyyy, daysWeek[ds]+' '+dd ];
   return resDate;
-
 }
 
 // Function Prioridad
@@ -39,11 +37,26 @@ function get_rol(rol) {
 	if (rol === 3) {return 'Seguidor';}
 };
 
+// Function Tipo Event
+function get_tipo(tipo) {
+	if (tipo === 0) {return 'General';}
+	if (tipo === 1) {return 'Tarea';}
+	if (tipo === 2) {return 'Encuesta';}
+	if (tipo === 3) {return 'Reunión';}
+  if (tipo === 4) {return 'Objetivo';}
+};
+
 // Function Estado Answer
 function get_answer(answer) {
 	if (answer === 0) {return 'Pendiente revisión';}
 	if (answer === 1) {return 'Solución';}
 	if (answer === 2) {return 'Error';}
+};
+
+// Function Estado Piece
+function get_problema(estado) {
+	if (estado === 0) {return 'Sin solución';}
+	if (estado === 1) {return 'Solucionado';}
 };
 
 // Function Expandir Textarea
@@ -98,6 +111,7 @@ function addChat(id, contactId, username) {
   );
 };
 
+// Function Close Chat
 function closeChat(id,contactId) {
   $("#chatId"+id).remove();
   $("#chatbtnId"+id).remove();

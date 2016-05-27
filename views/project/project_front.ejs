@@ -43,7 +43,7 @@
       <div class="modal-body">
         <form id="newSuggestion" role="form" method="post" action="/project/<%= project.pro_url %>/suggestion/create">
           <div class="form-group">
-            <input type="text" class="form-control" name="sug_sugerencia" value="" placeholder="Sugerencia"/> </p>
+            <textarea rows="3" class="form-control" name="sug_sugerencia" value="" placeholder="Sugerencia"/></textarea>
           </div>
           <input type="submit" class="form-control btn btn-success" value="Salvar" />
         </form>
@@ -59,9 +59,10 @@
     <div></div>
   </div>
 
-  <p>
-  <%= project.pro_descripcion %>
-  </p>
+  <pre>
+    <%= project.pro_descripcion %>
+  </pre>
+
 </div>
 
 <div class="container-fluid">

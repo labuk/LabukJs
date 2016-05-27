@@ -198,10 +198,27 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Ponemos la cabecera de la página en un pozo para diferenciar.
 
  // 20-05-2016
-  - Añadimos una popup con el chat en vez de una página. Facebook cuando cambias de pagina, vuelve a abrir el chat. Utilizar sessionStorage.
+  - Añadimos una popup con el chat en vez de una página. Facebook cuando cambias de pagina, vuelve a abrir el chat.
+  - Utilizar sessionStorage para saber los chats que están abiertos al cambiar de página.
   - Abrir una página individual de mensajes.
 
+// 25-05-2016
+  - Editar los problemas. Al estar solucionados, desaparecen de las piezas. Link pieza de partida.
+  - Crear página para gestionar los eventos.
+  - Añadir descripción a las piezas.
+  - Añadir .lenght para las variables de if() y que no salga en caso de no tener elementos la lista.
+  - Los seguidores no deben aparecer para asignar piezas o tareas.
+  - Textarea no puede sobrepasar el tamaño del modal. textarea{ max-width: 100%;}
+  - Posibilidad de borrar miembros de los proyectos. En realidad no los borro, sino que los convierto en antiguos miembros (pueden ver las noticias pero no pueden acceder).
+  - Proyectos en la página main de usuario.
+  - Añadir la etiqueta <pre> para que el formato en las descripciones incluya los saltos de linea.
+  - Mandar notificación al crear mensaje (funcionaba pero estaba puesto antes de crear el id).
+  - Corregir errores menores en las páginas del proyecto.
+
+
+  Si los formularios no se rellenan correctamente, dar aviso. Eventos, tareas y piezas.
+  Cuando un proyecto pasa de público a privado y tiene seguidores, estos siguen pudiendo acceder.
+  Añadir paginación en el Logbook.
+  Filtros de busqueda para proyectos, logs, usuarios, ...
   Bloquear y eliminar contactos.
   Añadir problemas al logbook de manera automática.
-  Añadir .lenght para las variables de if() y que no salga en caso de no tener elementos la lista.
-  Posibilidad de borrar miembros de los proyectos.

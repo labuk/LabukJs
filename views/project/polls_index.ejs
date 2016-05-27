@@ -33,15 +33,17 @@
 	</div>
 </div>
 
+<% var i; if (polls.length) { %>
 <table class="table table-striped table-condensed">
 	<tr>
 		<th>Pregunta</th>
 		<th>Votos totales</th>
 	</tr>
-	<% var i; if (polls) { for (i=0; i < polls.length; i++){ %>
+	<%  for (i=0; i < polls.length; i++){ %>
 		<tr>
 			<td> <a href="/project/<%= project.pro_url %>/polls/<%= polls[i].id %>"><%= polls[i].pol_pregunta %></a></td>
 			<td> <%= polls[i].pol_votos %> </td>
 		</tr>
-		<% }} %>
+		<% } %>
 </table>
+<% } %>

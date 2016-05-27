@@ -51,20 +51,10 @@
       <script>
         var socket = io();
 
-        var $countMessages = $("#countMessage");
-        var count = 0;
         socket.on('connect', function () {
           socket.emit('newSession', '<%= session.user.id %>', '<%= session.user.username %>', '<%= session.user.username %>');
         });
-        // Nuevo mensage
-        socket.on('countMessage', function(data){
-          if (data.count == 0) {
-            $countMessages.html('');
-          }  else {
-            count = count + data.count;
-            $countMessages.html(count);
-          }
-        });
+
         socket.on('checkUserCli', function(data){
           socket.emit('checkUserSer',data);
           console.log(data);
@@ -140,6 +130,11 @@
 
 
     <div id="wrapper">
+      <script>
+        if (sessionStorage.getItem("wrapper")){
+          $("#wrapper").addClass("toggled");
+        }
+      </script>
 <% if(session.user.id != 1){%>
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
@@ -156,7 +151,7 @@
                   </ul>
                 </li>
                 <li><a href="/contact"><span class="glyphicon glyphicon-user"></span><span class="hidden-tablet"> Contactos</span></a></li>
-                <li><a href="/user"><span class="glyphicon glyphicon-user"></span><span class="hidden-tablet"> Usuarios</span></a></li>
+                <li><a href="/user"><span class="glyphicon glyphicon-globe"></span><span class="hidden-tablet"> Usuarios</span></a></li>
                 <li><a href="/author"><span class="glyphicon glyphicon-asterisk"></span><span class="hidden-tablet"> Créditos</span></a></li>
               </ul>
         </div>
@@ -204,18 +199,38 @@
 
   <!-- Menu Toggle Script -->
   <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
+
+    $("#menu-toggle").click(function() {
         $("#wrapper").toggleClass("toggled");
+        if (sessionStorage.getItem("wrapper")){
+          sessionStorage.setItem("wrapper", "");
+        } else {
+          sessionStorage.setItem("wrapper", "toggle");
+        }
     });
   </script>
 
 <% if(session.user.id != 1){%>
   <script>
 
+    var $countMessages = $("#countMessage");
+    var count = 0;
+
+    // Nuevo mensage
+    socket.on('countMessage', function(data){
+      console.log('countMessage');
+
+      if (data.count == 0) {
+        $countMessages.html('');
+      }  else {
+        count = count + data.count;
+        $countMessages.html(count);
+      }
+    });
+
     for (var item in sessionStorage) {
       var res = item.split('_');
-      if (sessionStorage.getItem(item)) {
+      if (sessionStorage.getItem(item) && res[0] == "chatId") {
         addChat(res[1], res[2], sessionStorage.getItem(item));
         socket.emit('newChat', res[1], res[2], sessionStorage.getItem(item));
       }

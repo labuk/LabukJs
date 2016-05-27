@@ -83,6 +83,7 @@ router.get('/project/:pro_url/board', sessionController.loginRequired,sessionCon
 router.get('/project/:pro_url/problems', sessionController.loginRequired, sessionController.memberRequired, projectController.problems); // index problem
 router.get('/project/:pro_url/problems/:problemId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.show_problem); // index problem :problemId
 router.post('/project/:pro_url/problems/:pie_url/create', sessionController.loginRequired, sessionController.memberRequired, projectController.problem_create); // crear problem
+router.put('/project/:pro_url/problems/:problemId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.problem_update); //editar problem
 router.delete('/project/:pro_url/problems/:problemId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.problem_destroy); //borrar problem
 router.post('/project/:pro_url/problems/:problemId(\\d+)/answer/create', sessionController.loginRequired, sessionController.memberRequired, projectController.answer_create); // crear answer
 router.put('/project/:pro_url/problems/:problemId(\\d+)/answer/:answerId(\\d+)', sessionController.loginRequired, sessionController.memberRequired, projectController.answer_update); //editar answer
@@ -98,8 +99,12 @@ router.delete('/project/:pro_url/polls/:pollId(\\d+)/option/:optionId(\\d+)', se
 router.post('/project/:pro_url/polls/:pollId(\\d+)/vote/create', sessionController.loginRequired, sessionController.memberRequired, projectController.vote_create); // crear vote
 router.put('/project/:pro_url/polls/:pollId(\\d+)/vote/:voteId', sessionController.loginRequired, sessionController.memberRequired, projectController.vote_update); //editar vote
 router.get('/project/:pro_url/meetings', sessionController.loginRequired,sessionController.memberRequired, projectController.meetings); // index meeting
-router.get('/project/:pro_url/events', sessionController.loginRequired,sessionController.memberRequired, projectController.events); // crear events
+router.get('/project/:pro_url/events', sessionController.loginRequired,sessionController.memberRequired, projectController.events); // index events ajax
+router.get('/project/:pro_url/events_table', sessionController.loginRequired,sessionController.memberRequired, projectController.events_table); // index events
 router.post('/project/:pro_url/events/create', sessionController.loginRequired,sessionController.memberRequired, projectController.events_create); // crear events
+router.put('/project/:pro_url/events/:eventsId(\\d+)', sessionController.loginRequired,sessionController.memberRequired, projectController.events_update); // editar events
+router.delete('/project/:pro_url/events/:eventsId(\\d+)', sessionController.loginRequired,sessionController.memberRequired, projectController.events_destroy); // borrar events
+
 router.post('/project/:pro_url/suggestion/create', projectController.suggestion_create); // crear suggestion
 
 // Definición de rutas de Blog

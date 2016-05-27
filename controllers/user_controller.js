@@ -37,8 +37,12 @@ exports.main = function(req,res){
 					}]
 				}]
 			}).then(function(tasks){
-			res.render('main', {user: user, logs: logs, tasks: tasks, moment: moment, errors: []} );
-	})})});
+				models.Member.findAll({
+					where:{ UserId: req.session.user.id },
+					include: [{model: models.Project, attributes: ['pro_nombre','pro_url','pro_logo','pro_eslogan']}]
+				}).then(function(projects_member){
+					res.render('main', {user: user, logs: logs, tasks: tasks, moment: moment, projects_member: projects_member, errors: []} );
+	})})})});
 }
 
 // GET /user

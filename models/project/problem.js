@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes){
 				type: DataTypes.STRING,
 				validate: {notEmpty: {msg: "-> Falta Problema"}}
 			},
-			prb_estado:  {
+			prb_estado:  { // 0 - Sin solución, 1 - Solucionado
 				type: DataTypes.INTEGER,
 				validate: {notEmpty: {msg: "-> Falta Estado"}}
 			}

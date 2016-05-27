@@ -184,9 +184,16 @@ exports.manage = function(req, res){
 
 // GET /project/:pro_url/members
 exports.members = function(req, res){
+
+	var errors = req.session.errors || {};
+  req.session.errors = {};
+
 	// Buscar Miembros
 	models.Member.findAll({
-		where:{ ProjectId: req.project.id },
+		where:{
+			ProjectId: req.project.id,
+			mem_rol: {$lt: 3}
+		},
 		include: [{model: models.User, attributes: ['nombre']}]
 	}).then(function(members){
 		// Crea los datos del form
@@ -199,27 +206,53 @@ exports.members = function(req, res){
 				id: {gt: 1}
 			}
 		}).then(function(users){
-			res.render('project/members_index', {members: members, member: member, users: users, project: req.project, errors: []});
+			res.render('project/members_index', {members: members, member: member, users: users, project: req.project, errors: errors});
 	})}).catch(function(error){next(error);})
 };
 
 // POST /project/:pro_url/members/create
 exports.members_create = function(req,res){
 
-	var member = models.Member.build({
-			mem_rol: req.body.member.mem_rol,
+	models.Member.find({
+		where:{
 			ProjectId: req.project.id,
-			UserId: req.body.member.UserId,
-		});
-
-	member.validate().then(function(err){
-		if (err) {
-			res.render('project/members_index', {piece: piece, errors: err.errors});
+			UserId: req.body.member.UserId
+		}
+	}).then(function(members){
+		if (members) {
+			if (members.mem_rol == 3) {
+				members.mem_rol = req.body.member.mem_rol;
+				members.save({fields: ["mem_rol"] }).then(function(){
+					res.redirect('/project/'+req.params.pro_url+'/members');
+				});
+			} else {
+				if (req.body.member.editar) {
+					members.mem_rol = req.body.member.mem_rol;
+					members.save({fields: ["mem_rol"] }).then(function(){
+						res.redirect('/project/'+req.params.pro_url+'/members');
+					});
+				} else {
+					req.session.errors = [{"message": "Ya existe ese usuario."}];
+					res.redirect('/project/'+req.params.pro_url+'/members');
+				}
+			}
 		} else {
-			// guarda en DB los campos
-			member.save().then(function(){
-			res.redirect('/project/'+req.params.pro_url+'/members');
-			})
+			var member = models.Member.build({
+					mem_rol: req.body.member.mem_rol,
+					ProjectId: req.project.id,
+					UserId: req.body.member.UserId,
+				});
+
+			member.validate().then(function(err){
+				if (err) {
+					res.render('project/members_index', {piece: piece, errors: err.errors});
+				} else {
+					// guarda en DB los campos
+					member.save().then(function(){
+					res.redirect('/project/'+req.params.pro_url+'/members');
+					})
+				}
+			});
 		}
 	});
 };
@@ -266,12 +299,15 @@ exports.pieces = function(req, res){
 		include: [{model: models.User, attributes: ['nombre']}]
 	}).then(function(pieces){
 		models.Member.findAll({
-			where:{ ProjectId: req.project.id },
+			where:{
+				ProjectId: req.project.id,
+				mem_rol: {$lt: 3}
+			},
 			include: [{model: models.User, attributes: ['nombre']}]
 		}).then(function(members){
 			// Crea los datos del form
 			var piece = models.Piece.build(
-				{pie_nombre: "Nombre", pie_url: "Url", pie_prioridad: "Prioridad"}
+				{pie_nombre: "Nombre", pie_descripcion: "Descripcion", pie_url: "Url", pie_prioridad: "Prioridad"}
 			);
 			res.render('project/pieces_index', {pieces: pieces, piece: piece, members: members, project: req.project, errors: []});
 	})}).catch(function(error){next(error);})
@@ -289,6 +325,7 @@ exports.piece_create = function(req,res){
 
 	var piece = models.Piece.build({
 				pie_nombre: req.body.piece.pie_nombre,
+				pie_descripcion: req.body.piece.pie_descripcion,
 				pie_url: req.body.piece.pie_url,
 				pie_prioridad: req.body.piece.pie_prioridad,
 				ProjectId: req.project.id,
@@ -312,14 +349,15 @@ exports.piece_update = function(req,res){
 		where:{ id: req.params.pieceId }
 	}).then(function(piece){
 		piece.pie_nombre = req.body.piece.pie_nombre;
-		piece.pie_prioridad = req.body.piece.pie_prioridad
+		piece.pie_descripcion = req.body.piece.pie_descripcion;
+		piece.pie_prioridad = req.body.piece.pie_prioridad;
 		piece.pie_url = req.body.piece.pie_nombre.replace(/\s+/g, '-').toLowerCase();
 		piece.validate().then(function(err){
 			if (err) {
 				res.render('project/pieces_index', {piece: piece, project: req.project, errors: err.errors});
 			} else {
 				// cambia en DB los campos pregunta y respuesta
-				piece.save({fields: ["pie_nombre","pie_prioridad","pie_url"] }).then(function(){
+				piece.save({fields: ["pie_nombre","pie_descripcion","pie_prioridad","pie_url"] }).then(function(){
 				//models.Piece.update(piece).then(function(){
 				res.redirect('/project/'+req.params.pro_url+'/pieces/'+piece.pie_url);
 			})}
@@ -348,10 +386,16 @@ exports.show_pie = function(req, res){
 					include: [{model: models.User, attributes: ['nombre']}]
 				}).then(function(tasks){
 					models.Problem.findAll({
-							where: { PieceId: piece.id },
+							where: {
+								PieceId: piece.id,
+								prb_estado: 0
+							},
 						}).then(function(problems){
 							models.Member.findAll({
-								where:{ ProjectId: req.project.id },
+								where:{
+									ProjectId: req.project.id,
+									mem_rol: {$lt: 3}
+								},
 								include: [{model: models.User, attributes: ['nombre']}]
 							}).then(function(members){
 								models.Note.findAll({
@@ -540,6 +584,7 @@ exports.board = function(req, res){
 exports.problems = function(req, res){
 	models.Problem.findAll({
 		where:{ ProjectId: req.project.id },
+		include: [{model: models.Piece, attributes: ['pie_nombre','pie_url']}]
 	}).then(function(problems){
 		res.render('project/problems_index', {problems: problems, project: req.project, errors: []});
 	}).catch(function(error){next(error);})
@@ -549,6 +594,7 @@ exports.problems = function(req, res){
 exports.show_problem = function(req, res){
 	models.Problem.find({
 		where:{ ProjectId: req.project.id, id: req.params.problemId },
+		include: [{model: models.Piece, attributes: ['pie_nombre','pie_url']}]
 	}).then(function(problem){
 		models.Answer.findAll({
 			//where:{ ProblemId: req.params.problemId }, // TEST - Cascade para destroy
@@ -573,6 +619,25 @@ exports.problem_create = function(req,res){
 		}
 	});
 }
+
+// PUT /project/:pro_url/problems/:problemId
+exports.problem_update = function(req,res){
+	models.Problem.find({
+		where:{ id: req.params.problemId }
+	}).then(function(problem){
+		problem.prb_problema = req.body.problem.prb_problema;
+		problem.prb_estado = req.body.problem.prb_estado;
+		problem.validate().then(function(err){
+			if (err) {
+				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
+			} else {
+				// cambia en DB los campos pregunta y respuesta
+				problem.save({fields: ["prb_problema","prb_estado"] }).then(function(){
+				res.redirect('/project/'+req.params.pro_url+'/problems/'+req.params.problemId);
+			});
+		}
+	})});
+};
 
 // DELETE /project/:pro_url/problems/:problemId
 exports.problem_destroy = function(req,res){
@@ -790,6 +855,17 @@ exports.meetings = function(req,res) {
 	res.render('project/meetings_index', {project: req.project, user: req.session.user.username, errors: []});
 }
 
+// GET /project/:pro_url/events_table
+exports.events_table = function(req, res){
+	// Muestra Events
+	models.Events.findAll({
+		where:{	ProjectId: req.project.id,	},
+		order: [ ['eve_date', 'ASC'] ],
+	}).then(function(events){
+		res.render('project/events_index', {events: events, project: req.project, moment: moment, errors: []});
+	}).catch(function(error){next(error);})
+};
+
 // GET /project/:pro_url/events
 exports.events = function(req,res) {
 	models.Events.findAll({
@@ -797,7 +873,7 @@ exports.events = function(req,res) {
 			ProjectId: req.project.id,
 			eve_date: {gte: new Date()}
 		},
-		order: [ ['eve_date', 'ASC'] ],
+		order: [ ['eve_date', 'DESC'] ],
 	}).then(function(events){
 		res.send(events);
 	}).catch(function(error){next(error);})
@@ -820,10 +896,49 @@ exports.events_create = function(req,res) {
 		} else {
 			// guarda en DB
 			events.save().then(function(){
+				if(req.body.eve_table) {
+					res.redirect('/project/'+ req.params.pro_url+'/events_table');
+				}
 			});
 		}
 	});
 }
+
+// PUT /project/:pro_url/events/:eventsId
+exports.events_update = function(req,res){
+	console.log('Events');
+	console.log(req.params.eventsId);
+	models.Events.find({
+		where:{ id: req.params.eventsId }
+	}).then(function(event){
+		event.eve_evento = req.body.eve_evento;
+		event.eve_tipo = req.body.eve_tipo;
+		event.eve_date = req.body.eve_date;
+		event.validate().then(function(err){
+			if (err) {
+				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
+			} else {
+				// cambia en DB los campos pregunta y respuesta
+				event.save({fields: ["eve_evento","eve_tipo","eve_date"] }).then(function(){
+					res.redirect('/project/'+ req.params.pro_url+'/events_table');
+				});
+			}
+		})});
+}
+
+// DELETE /project/:pro_url/events/:eventsId
+exports.events_destroy = function(req,res){
+	console.log('Destroy');
+	console.log(req.params.eventsId);
+	models.Events.find({
+		where:{ id: req.params.eventsId }
+	}).then(function(events){
+		console.log(events);
+	 	events.destroy().then(function() {
+			console.log('Destroy2');
+			res.redirect('/project/'+ req.params.pro_url+'/events_table');
+		}).catch(function(error){next(error)});
+})};
 
 // POST /project/:pro_url/suggestion/create
 exports.suggestion_create = function(req,res){

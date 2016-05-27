@@ -1,0 +1,128 @@
+<% include partial_promenu %><p>
+
+  <script>
+  $('#project_menu a:contains("Eventos")').parent().addClass("active");
+  $('#project_menu h8').html('Eventos');
+  </script>
+
+<h2 class="page-header">
+  Eventos
+  <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal1">Nuevo Evento</button>
+</h2>
+
+<!-- Formulario Nuevo Evento -->
+<div id="myModal1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Nuevo Evento</h4>
+      </div>
+      <div class="modal-body">
+        <form id="newEvent" role="form" method="post" action="/project/<%= project.pro_url %>/events/create ">
+          <div class="form-group">
+            <label class="sr-only">Evento</label>
+            <textarea rows="3" class="form-control" name="eve_evento" placeholder="Evento" autocomplete="off" /></textarea>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Tipo:</label>
+            <div class="radio-inline"><input type="radio" name="eve_tipo" value="0" > General </div>
+            <div class="radio-inline"><input type="radio" name="eve_tipo" value="1" > Tarea </div>
+            <div class="radio-inline"><input type="radio" name="eve_tipo" value="2" > Encuesta </div>
+            <div class="radio-inline"><input type="radio" name="eve_tipo" value="3" > Reunión </div>
+            <div class="radio-inline"><input type="radio" name="eve_tipo" value="4" > Objetivo </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+            <span class="input-group-addon">Fecha</span>
+            <input type="date" class="form-control" name="eve_date" value="" />
+            </div>
+          </div>
+          <input type="hidden" class="form-control" name="eve_table" value="true" />
+          <input type="submit" class="form-control btn btn-success" value="Enviar" />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <table class="table table-striped table-condensed">
+    <% var i,time_event; if (events) { for (i=0; i < events.length; i++){ %>
+  		<% time_this = moment(events[i].eve_date).format("YYYY/MM/DD"); if (time_event !== time_this) { time_event = time_this; %>
+        <thead>
+    			<tr>
+    				<th> <h3><%= moment(events[i].eve_date).format("DD/MM/YYYY") %> </h3></th>
+            <th></th>
+            <th></th>
+            <th></th>
+    			</tr>
+        </thead>
+  		<% } %>
+  		<tr>
+  			<td> <%= events[i].eve_evento %> </td>
+  			<td> <script>document.write( get_tipo(<%= events[i].eve_tipo %>) );</script> </td>
+        <td>
+          <!-- Formulario Nuevo Evento -->
+          <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal1_<%= events[i].id %>">Editar</button>
+          <div id="myModal1_<%= events[i].id %>" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Nuevo Evento</h4>
+                </div>
+                <div class="modal-body">
+                  <form id="newEvent" role="form" method="post" action="/project/<%= project.pro_url %>/events/<%= events[i].id %>?_method=put">
+                    <div class="form-group">
+                      <label class="sr-only">Evento</label>
+                      <textarea rows="3" class="form-control" name="eve_evento" placeholder="Evento" autocomplete="off" /><%= events[i].eve_evento %></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Tipo:</label>
+                      <div class="radio-inline"><input id="check<%= events[i].id %>0" type="radio" name="eve_tipo" value="0" > General </div>
+                      <div class="radio-inline"><input id="check<%= events[i].id %>1" type="radio" name="eve_tipo" value="1" > Tarea </div>
+                      <div class="radio-inline"><input id="check<%= events[i].id %>2" type="radio" name="eve_tipo" value="2" > Encuesta </div>
+                      <div class="radio-inline"><input id="check<%= events[i].id %>3" type="radio" name="eve_tipo" value="3" > Reunión </div>
+                      <div class="radio-inline"><input id="check<%= events[i].id %>4" type="radio" name="eve_tipo" value="4" > Objetivo </div>
+                      <script>$('input#check<%= events[i].id %><%= events[i].eve_tipo %>').prop('checked', true);</script>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                      <span class="input-group-addon">Fecha</span>
+                      <input type="date" class="form-control" name="eve_date" value="<%= moment(events[i].eve_date).format("YYYY-MM-DD")%>" />
+                      </div>
+                    </div>
+                    <input type="hidden" class="form-control" name="eve_table" value="true" />
+                    <input type="submit" class="form-control btn btn-success" value="Editar" />
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModal2_<%= events[i].id %>">Borrar</button>
+          <!-- Formulario Borrar Evento -->
+          <div id="myModal2_<%= events[i].id %>" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Borrar Evento</h4>
+                </div>
+                <div class="modal-body">
+                  <p class="form-control-static">Borrar Evento?</p>
+                  <form role="form" method="post" action="/project/<%= project.pro_url %>/events/<%= events[i].id %>?_method=delete">
+                    <button type="submit" class="form-control btn btn-danger">Borrar</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+    	</tr>
+    <% }} %>
+	</table>

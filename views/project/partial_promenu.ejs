@@ -25,11 +25,12 @@
             <li><a href="/project/<%= project.pro_url%>/pieces ">Piezas</a></li>
             <li><a href="/project/<%= project.pro_url%>/ideas ">Ideas</a></li>
             <li><a href="/project/<%= project.pro_url%>/tasks ">Tareas</a></li>
-            <li><a href="/project/<%= project.pro_url%>/members ">Miembros</a></li>
             <li><a href="/project/<%= project.pro_url%>/logs ">Logbook</a></li>
-            <li><a href="/project/<%= project.pro_url%>/board ">Tablón</a></li>
+            <li><a href="/project/<%= project.pro_url%>/board ">Noticias</a></li>
             <li><a href="/project/<%= project.pro_url%>/polls ">Encuesta</a></li>
+            <li><a href="/project/<%= project.pro_url%>/events_table ">Eventos</a></li>
             <li><a href="/project/<%= project.pro_url%>/problems ">Problemas</a></li>
+            <li><a href="/project/<%= project.pro_url%>/members ">Miembros</a></li>
             <li><a href="/project/<%= project.pro_url%>/meetings ">Sala de Reuniones</a></li>
             <li><a href="/project/<%= project.pro_url%>/manage ">Gestión</a></li>
           </ul>
@@ -56,14 +57,14 @@
                     var fecha = getDate(new Date());
                     $('#event_hoy').data('date', fecha[0]);
                     $('#event_hoy').html(fecha[1]);
-onchange="enableTxt(this)"
+                    onchange="enableTxt(this)"
                     //$( ".listevent" ).click(function() {
                     //  console.log($(this).data('content'));
                     //  $('#collapseEvent div').html($(this).data('content'));
                     //});
 
                     function event_well (elem) {
-                      $('#alertEvent div').html($(elem).data('content'));
+                      $('#alertEvent pre').html($(elem).data('content'));
                       $('#alertEvent').show();
                     };
 
@@ -83,7 +84,7 @@ onchange="enableTxt(this)"
 
           <div id="alertEvent" class="alert alert-warning collapse">
             <button type="button" class="close" >&times;</button>
-            <div>  Hola </div>
+            <div> <pre> Hola </pre></div>
           </div>
 
           <script>
@@ -108,7 +109,7 @@ onchange="enableTxt(this)"
                   <form id="newEvent" role="form" method="post" action="/project/<%= project.pro_url %>/events/create ">
           					<div class="form-group">
           						<label class="sr-only">Evento</label>
-          						<input type="text" class="form-control" name="eve_evento" placeholder="Evento" autocomplete="off" value="" />
+          						<textarea rows="3" class="form-control" name="eve_evento" placeholder="Evento" autocomplete="off" /></textarea>
           					</div>
           					<div class="form-group">
           						<label class="control-label">Tipo:</label>

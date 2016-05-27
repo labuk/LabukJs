@@ -6,13 +6,15 @@
 	</script>
 
 <h2 class="page-header">
-  Pieza
+  Pieza: <%= piece.pie_nombre %>
   <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal1">Editar</button>
-  <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal2">Borrar</button>
   <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#myModal6">Añadir Problema</button>
+  <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal2">Borrar</button>
 </h2>
 
-<%= piece.pie_nombre %> - Proyecto: <%= piece.ProjectId %> - Tarea: <%= piece.id %>  - <%= piece.User.nombre %> </p>
+<pre>
+  <%= piece.pie_descripcion %>
+</pre>
 
 <!-- Formulario Editar Pieza -->
 <div id="myModal1" class="modal fade" role="dialog">
@@ -29,6 +31,10 @@
 						<label class="sr-only">Nombre Pieza</label>
 						<input type="text" class="form-control" name="piece[pie_nombre]" value="<%= piece.pie_nombre%>" value="" />
 					</div>
+          <div class="form-group">
+            <label class="sr-only">Descripcion</label>
+            <textarea class="form-control" rows="3" name="piece[pie_descripcion]" /><%= piece.pie_descripcion%></textarea>
+          </div>
 					<div class="form-group">
 						<label class="control-label">Prioridad:</label>
             <div class="radio-inline"><input id="check<%= piece.id %>0" type="radio" name="piece[pie_prioridad]" value="0" > General </div>
@@ -100,22 +106,23 @@
 
 
 <% var i; if (problems.length > 0) { %>
-
-  <h3 class="page-header">
+  <br>
+  <h4 class="page-header">
     Problemas
-  </h3>
+  </h4>
 
   <div class="list-group">
     <% for (i=0; i < problems.length; i++){ %>
-      <a href="/project/<%= project.pro_url %>/problems/<%= problems[i].id %>" class="list-group-item"><%= problems[i].prb_problema %> - <%= problems[i].prb_estado %></a>
+      <a href="/project/<%= project.pro_url %>/problems/<%= problems[i].id %>" class="list-group-item"><%= problems[i].prb_problema %></a>
     <% } %>
   </div>
 <% } %>
 
-<h3 class="page-header">
+<br>
+<h4 class="page-header">
   Tareas
-  <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal3">Añadir Tarea</button>
-</h3>
+  <button type="button" class="btn btn-info btn-xs pull-right" data-toggle="modal" data-target="#myModal3">Añadir Tarea</button>
+</h4>
 
 <!-- Formulario Añadir Task -->
 <div id="myModal3" class="modal fade" role="dialog">
@@ -175,9 +182,9 @@
     </td>
     <td class="col-md-1"><script>document.write( get_estado(<%= tasks[i].tas_estado %>) );</script></td>
     <td class="col-md-1">
-      <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#myModal4">Borrar Tarea</button>
+      <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModal4_<%= tasks[i].id %>">Borrar Tarea</button>
       <!-- Formulario Borrar Task -->
-      <div id="myModal4" class="modal fade" role="dialog">
+      <div id="myModal4_<%= tasks[i].id %>" class="modal fade" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
           <div class="modal-content">
@@ -198,7 +205,7 @@
     </td>
     <td class="col-md-1">
     <!-- Formulario Editar Task -->
-    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#myModal5_<%= tasks[i].id %>">Editar Tarea</button>
+    <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#myModal5_<%= tasks[i].id %>">Editar Tarea</button>
     <div id="myModal5_<%= tasks[i].id %>" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <!-- Modal content-->
@@ -256,11 +263,10 @@
 <% }} %>
 </table>
 
-
-<h3 class="page-header">
+<h4 class="page-header">
   Notas
-  <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal7">Añadir nota</button>
-</h3>
+  <button type="button" class="btn btn-info btn-xs pull-right" data-toggle="modal" data-target="#myModal7">Añadir nota</button>
+</h4>
 
 <!-- Formulario Añadir Note -->
 <div id="myModal7" class="modal fade" role="dialog">
@@ -293,9 +299,9 @@
     <td><%= notes[i].User.nombre %></td>
     <% if (notes[i].User.nombre == session_user.username) { %>
     <td class="col-md-1">
-      <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#myModal8">Borrar Nota</button>
+      <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#myModal8_<%= notes[i].id %>">Borrar Nota</button>
       <!-- Formulario Borrar Note -->
-      <div id="myModal8" class="modal fade" role="dialog">
+      <div id="myModal8_<%= notes[i].id %>" class="modal fade" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
           <div class="modal-content">
