@@ -11,11 +11,14 @@
 	            <% } %>
 	  </div>
 	  <div class="col-md-10 col-sm-10">
-	    <h1 class="page-header">
-	      <%= project.pro_nombre %>
-				<a role="button" href="/project/<%= project.pro_url %>" type="button" class="btn btn-warning pull-right">Volver</a>
-	      <a href='https://twitter.com/intent/tweet?text=Proyecto%20<%= project.pro_nombre %>&url=http://labuk.herokuapp.com/project/<%= project.pro_url %>/posts/front/<%= post.pos_url %>&via=LaBuk_coop' target="_blank" class="btn btn-info pull-right" data-text="Proyecto <%= project.pro_nombre %>" data-via="LaBuk_coop" data-dnt="true"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-	    </h1>
+			<div class="page-header">
+				<h1>
+					<%= project.pro_nombre %>
+					<a role="button" href="/project/<%= project.pro_url %>" type="button" class="btn btn-warning pull-right">Volver</a>
+		      <a href='https://twitter.com/intent/tweet?text=Proyecto%20<%= project.pro_nombre %>&url=http://labuk.herokuapp.com/project/<%= project.pro_url %>/posts/front/<%= post.pos_url %>&via=LaBuk_coop' target="_blank" class="btn btn-info pull-right" data-text="Proyecto <%= project.pro_nombre %>" data-via="LaBuk_coop" data-dnt="true"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+				</h1>
+				<div class="clearfix"></div>
+			</div>
 	    <h3>
 	      <small><%= project.pro_eslogan %></small>
 	      <small class="text-right">
@@ -42,6 +45,8 @@
 	<% if(session.user.id != 1){%>
 	<button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal1">Editar</button>
 	<button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal2">Borrar</button>
+	<a href="https://www.facebook.com/sharer.php?u=http://labuk.herokuapp.com/project/<%= project.pro_url %>" target="_blank" class="btn btn-primary pull-right fb-share-button"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+	<a href='https://twitter.com/intent/tweet?text=Proyecto%20<%= project.pro_nombre %>&url=http://labuk.herokuapp.com/project/<%= project.pro_url %>&via=LaBuk_coop' target="_blank" class="btn btn-info pull-right"><i class="fa fa-twitter" aria-hidden="true"></i></a>
 	<% } %>
 	<h2 class="blog-post-title "><%= post.pos_titulo %></h2>
 	<p class="blog-post-meta"><%= moment(post.updatedAt).format("DD/MM/YYYY") %> por <a class="text-capitalize" href="/user/profile/<%= post.UserId %>"><%= post.User.nombre %></a></p>

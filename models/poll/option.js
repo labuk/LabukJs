@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define('Option',
 		{ opt_respuesta:  {
-				type: DataTypes.STRING,
+				type: DataTypes.TEXT,
 				validate: {notEmpty: {msg: "-> Falta Respuesta"}}
 			},
 			opt_votos:  {

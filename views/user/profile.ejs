@@ -1,21 +1,23 @@
-
-<h2 class="page-header">
-  Perfil
-  <% if (contact) {  %>
-    <% if (contact.con_block == 0) { %>
-      <button type="button" class="btn btn-warning pull-right" >Esperando contestación</button>
+<div class="page-header">
+  <h2>
+    Perfil
+    <% if (contact) {  %>
+      <% if (contact.con_block == 0) { %>
+        <button type="button" class="btn btn-warning pull-right" >Esperando contestación</button>
+      <% }  %>
+      <% if (contact.con_block == 1) {  %>
+        <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#myModal1">Solicitud recibida. Aceptar?</button>
+      <% }  %>
+      <% if (contact.con_block == 2) { %>
+        <button type="button" class="btn btn-success pull-right" >Amigos</button>
+        <button type="button" class="btn btn-info pull-right" onClick="initChat(<%=contact.con_message %>, <%= contact.UserId %>, '<%= user.nombre %>')">Chat</button>
+      <% }  %>
+    <% } else {  %>
+    <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal">Nuevo contacto</button>
     <% }  %>
-    <% if (contact.con_block == 1) {  %>
-      <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#myModal1">Solicitud recibida. Aceptar?</button>
-    <% }  %>
-    <% if (contact.con_block == 2) { %>
-      <button type="button" class="btn btn-success pull-right" >Amigos</button>
-      <button type="button" class="btn btn-info pull-right" onClick="initChat(<%=contact.con_message %>, <%= contact.UserId %>, '<%= user.nombre %>')">Chat</button>
-    <% }  %>
-  <% } else {  %>
-  <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal">Nuevo contacto</button>
-  <% }  %>
-</h2>
+  </h2>
+  <div class="clearfix"></div>
+</div>
 
 <div class="row">
   <div class="col-xs-6 col-md-3">

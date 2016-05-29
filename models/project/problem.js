@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define('Problem',
 		{ prb_problema:  {
-				type: DataTypes.STRING,
+				type: DataTypes.TEXT,
 				validate: {notEmpty: {msg: "-> Falta Problema"}}
 			},
 			prb_estado:  { // 0 - Sin solución, 1 - Solucionado

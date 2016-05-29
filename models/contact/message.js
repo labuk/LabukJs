@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define('message',
 		{ mes_message:  {
-				type: DataTypes.STRING,
+				type: DataTypes.TEXT,
 				validate: {notEmpty: {msg: "-> Falta Message"}}
       },
 			mes_topic:  {

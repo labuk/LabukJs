@@ -5,12 +5,15 @@
 	$('#project_menu h8').html('Piezas');
 	</script>
 
-<h2 class="page-header">
-  Pieza: <%= piece.pie_nombre %>
-  <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal1">Editar</button>
-  <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#myModal6">Añadir Problema</button>
-  <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal2">Borrar</button>
-</h2>
+  <div class="page-header">
+  	<h2>
+      Pieza: <%= piece.pie_nombre %>
+      <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal1">Editar</button>
+      <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#myModal6">Añadir Problema</button>
+      <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal2">Borrar</button>
+  	</h2>
+  	<div class="clearfix"></div>
+  </div>
 
 <pre>
   <%= piece.pie_descripcion %>

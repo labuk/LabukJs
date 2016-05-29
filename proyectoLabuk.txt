@@ -219,8 +219,14 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Anuncio de google
   - Error base de datos boolean.
 
+// 29-05-2016
+  - Quitar anuncios de google.
+  - Cambiar STRING() por TEXT() en la base de datos donde corresponda.
+  - Modificar cabeceras para que se vean mejor en el móvil.
 
-  
+  JCrop muy lento... posibilidad de girar la foto?
+  La página post_main está como si se fuera abrir en front. Añadir enlaces de compartir.
+  En la página main, mirar los tamaños de las columnas para diferentes anchos y revisar animación.
   Aparece la cabecera de las fechas de eventos que están ocultos.
   Si los formularios no se rellenan correctamente, dar aviso. Eventos, tareas y piezas.
   Cuando un proyecto pasa de público a privado y tiene seguidores, estos siguen pudiendo acceder.
@@ -228,3 +234,5 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   Filtros de busqueda para proyectos, logs, usuarios, ...
   Bloquear y eliminar contactos.
   Añadir problemas al logbook de manera automática.
+  Añadir el link de la pieza en la main de tareas.
+  Fallo en las cabeceras al versi la página en el móvil. Los botones salen desplazados.

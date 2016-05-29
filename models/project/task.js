@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define('Task',
 		{ tas_tarea:  {
-				type: DataTypes.STRING,
+				type: DataTypes.TEXT,
 				validate: {notEmpty: {msg: "-> Falta Tarea"}}
 			},
 			tas_estado:  {

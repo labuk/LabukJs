@@ -2,25 +2,25 @@
 
 <div class="well">
 <div class="row">
-  <div class="col-xs-6 col-md-2">
+  <div class="col-xs-12 col-sm-2">
     <% if (user.avatar) { %>
       <img src="/images/avatar/<%= user.avatar %>"  width="100%" class="img-thumbnail" />
     <% } else { %>
       <img src="/images/avatar/avatar.jpg"  width="100%" class="img-thumbnail" />
     <% } %>
   </div>
-  <div class="col-xs-12 col-sm-6 col-md-10">
+  <div class="col-xs-12 col-sm-10">
     <dl>
-      <dd><h3><%= user.nombre %><h3></dd>
+      <dd><h3 class="text-center"><%= user.nombre %><h3></dd>
     </dl>
 
-    <div class="col-md-12">
+    <div class="col-sm-12">
     <div class="carousel slide" id="myCarousel">
       <div class="carousel-inner">
         <% var i; if (projects_member.length) { %>
           <% for (i=0; i < projects_member.length; i++){ %>
             <div class="item <% if (i == 0) { %> active <% } %>">
-              <div class="col-md-2 ">
+              <div class="col-sm-2 col-md-2">
                 <a href="project/<%= projects_member[i].Project.pro_url %>">
                   <% if (projects_member[i].Project.pro_logo) { %>
                     <img src="/images/logo/<%= projects_member[i].Project.pro_logo %>"class="img-responsive"/>
@@ -34,7 +34,7 @@
         <% var i; if (projects_member.length < 6) { %>
           <% for (i=0; i < (6-projects_member.length); i++){ %>
             <div class="item">
-              <div class="col-md-2 ">
+              <div class="col-sm-2 col-md-2">
               </div>
             </div>
         <% }} %>

@@ -3,7 +3,7 @@
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define('Comment',
 		{ com_texto:  {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			validate: {notEmpty: {msg: "-> Falta Comentario"}}
 		  }
 		});

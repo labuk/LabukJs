@@ -11,11 +11,11 @@ module.exports = function(sequelize, DataTypes){
 				validate: {notEmpty: {msg: "-> Falta url"}}
 			},
       pos_contenido:  {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         validate: {notEmpty: {msg: "-> Falta url"}}
       },
       pos_resumen:  {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         validate: {notEmpty: {msg: "-> Falta url"}}
       },
 			pos_publica:  {

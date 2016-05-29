@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes){
 				type: DataTypes.STRING
 			},
 			pro_descripcion:  {
-				type: DataTypes.STRING
+				type: DataTypes.TEXT
 			},
 			pro_tipo:  {
 				type: DataTypes.INTEGER,
