@@ -57,7 +57,6 @@
 
         socket.on('checkUserCli', function(data){
           socket.emit('checkUserSer',data);
-          console.log(data);
         });
     	</script>
     <% } %>
@@ -218,8 +217,6 @@
 
     // Nuevo mensage
     socket.on('countMessage', function(data){
-      console.log('countMessage');
-
       if (data.count == 0) {
         $countMessages.html('');
       }  else {
@@ -232,7 +229,11 @@
       var res = item.split('_');
       if (sessionStorage.getItem(item) && res[0] == "chatId") {
         addChat(res[1], res[2], sessionStorage.getItem(item));
-        socket.emit('newChat', res[1], res[2], sessionStorage.getItem(item));
+        socket.emit('joinChat', res[1], res[2], sessionStorage.getItem(item));
+      }
+      if (sessionStorage.getItem(item) && res[0] == "messageId") {
+        var $messages = $(".footer").find('#listMessages'+res[1]);
+        $messages.prepend(JSON.parse(sessionStorage.getItem(item)));
       }
     }
 
@@ -243,6 +244,11 @@
       if (!flag_chat){
         addChat(id, contactId, username);
         sessionStorage.setItem(chatId, username);
+        var messageId = 'messageId_'+id;
+        if (sessionStorage.getItem(messageId)) {
+          var $messages = $(".footer").find('#listMessages'+id);
+          $messages.prepend(JSON.parse(sessionStorage.getItem(messageId)));
+        }
       } else {
         $("#collapseChat"+id).collapse('show');
       }
@@ -257,18 +263,26 @@
         sessionStorage.setItem(chatId, contactName);
         $messages.prepend('<b> '+data.nick+':</b> '+data.msg+'</br>');
       }
+      var messageId = 'messageId_'+data.id;
+      var messageJSON = sessionStorage.getItem(messageId);
+      var messageJS = JSON.parse(messageJSON);
+      if (messageJS == null){
+        messageJS = ['<b> '+data.nick+':</b> '+data.msg+'</br>'];
+      } else {
+        messageJS.unshift('<b> '+data.nick+':</b> '+data.msg+'</br>');
+      }
+      messageJSON = JSON.stringify(messageJS);
+      sessionStorage.setItem(messageId, messageJSON);
     });
 
     socket.on('openChat', function(id, contactId, contactName){
       var chatId = 'chatId_'+id+'_'+contactId;
       var flag_chat = sessionStorage.getItem(chatId);
       if (!flag_chat){
-        console.log('Abrir chat');
         sessionStorage.setItem(chatId, contactName);
         addChat(id, contactId, contactName);
         var $messages = $(".footer").find('#listMessages'+id);
         socket.emit('joinChat', id, contactId, contactName);
-        console.log('Abrir chat2');
       }
     });
 

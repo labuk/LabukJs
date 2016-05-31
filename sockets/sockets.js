@@ -97,7 +97,7 @@ exports = module.exports = function(io){
       socket.join('contact_'+id);
       io.in(contactId).emit('openChat', id, socket.userId, socket.username);
       if (user_connect[contactId] == true) {
-        //io.in('contact_'+id).emit('emitMessage', {msg: 'Estais conectados', nick: 'chat', id: id});
+        io.in('contact_'+id).emit('emitMessage', {msg: 'Estais conectados', nick: 'chat', id: id});
       } else {
         io.in('contact_'+id).emit('emitMessage', {msg: contactName+' no esta online. Los mensajes que le escribas no le llegarán. El chat no guarda conversaciones.', nick: 'chat', id: id});
       }

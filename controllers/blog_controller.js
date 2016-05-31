@@ -98,7 +98,7 @@ exports.show_post_publica = function(req, res){
 						var project = post.Project;
 						res.render('post/post_main_front',{ post: post, project: project, comments: comments, moment: moment, errors: []});
   		})} else {
-				req.session.errors = [{"message": "Post privado. Tienes que ser miembro del proyecto."}];
+				req.session.errors = [{"message": "El post ha pasado a ser privado. Tienes que ser miembro del proyecto para verlo."}];
 				res.redirect("/project/"+req.params.pro_url+"/front");
 			}
 	}).catch(function(error){ next(error);} );
@@ -128,7 +128,7 @@ exports.post_update = function(req,res){
 				} else {
 					// cambia en DB los campos pregunta y respuesta
 					post.save({fields: ["pos_titulo","pos_resumen","pos_contenido","pos_publica","pos_url"]}).then(function(){
-						res.redirect('/project/'+req.params.pro_url+'/manage/posts/'+post.pos_url);
+						res.redirect('/project/'+req.params.pro_url+'/posts/'+post.pos_url);
 				})}
 		})});
 };

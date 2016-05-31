@@ -79,7 +79,11 @@ exports.show_pro = function(req, res){
 	}).then(function(tasks){
 		models.Task.findAll({
 			where: { tas_todos: 1},
-			include: [{model: models.Piece, where: {ProjectId: req.project.id}}]
+			include: [{
+				model: models.Piece,
+				attributes: ['pie_nombre','pie_url'],
+				where: {ProjectId: req.project.id}
+			}]
 		}).then(function(tasks_all){
 			res.render('project/project_main',{ project: req.project, tasks: tasks, tasks_all: tasks_all, errors: []});
 	})}).catch(function(error){next(error);})
@@ -439,7 +443,7 @@ exports.task_create = function(req,res){
 exports.tasks = function(req, res){
 	// Muestra tareas
 	models.Task.findAll({
-		include: [{	model: models.Piece, attributes: ['ProjectId'],
+		include: [{	model: models.Piece, attributes: ['pie_nombre','pie_url','ProjectId'],
 								where:{ ProjectId: req.project.id }}]
 	}).then(function(tasks){
 		res.render('project/task_tab', {tasks: tasks, project: req.project, errors: []});

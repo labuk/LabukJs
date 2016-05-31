@@ -1,5 +1,5 @@
 <% include partial_promenu %><p>
-  
+
 <script>
 $('#project_menu a:contains("Tareas")').parent().addClass("active");
 $('#project_menu h8').html('Tareas');
@@ -12,9 +12,8 @@ $('#project_menu h8').html('Tareas');
     <% if (tasks[i].tas_estado === 0) {  %>
   	<ul class="list-group col-md-3">
       <li class="list-group-item">
-      <span><%= tasks[i].id %></span>
-  	  <span><%= tasks[i].tas_tarea %></span>
-      <span><script>document.write( get_estado(<%= tasks[i].tas_estado %>) );</script></span>
+  	  <span><%= tasks[i].tas_tarea %></span><br>
+      <span><a href="/project/<%= project.pro_url %>/pieces/<%= tasks[i].Piece.pie_url %>"> <%= tasks[i].Piece.pie_nombre %></a></span>
       <span>
         <form id="change_form<%= tasks[i].id %>" method="post" action="/project/<%= project.pro_url %>/tasks/<%= tasks[i].id %>?_method=put">
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado+1 %>");
@@ -34,9 +33,8 @@ $('#project_menu h8').html('Tareas');
     <% if (tasks[i].tas_estado === 1) {  %>
     <ul class="list-group col-md-3">
       <li class="list-group-item">
-      <span><%= tasks[i].id %></span>
-      <span><%= tasks[i].tas_tarea %></span>
-      <span><%= tasks[i].tas_estado %></span>
+      <span><%= tasks[i].tas_tarea %></span><br>
+      <span><a href="/project/<%= project.pro_url %>/pieces/<%= tasks[i].Piece.pie_url %>"> <%= tasks[i].Piece.pie_nombre %></a></span>
       <span>
         <form id="change_form<%= tasks[i].id %>" method="post" action="/project/<%= project.pro_url %>/tasks/<%= tasks[i].id %>?_method=put">
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado-1 %>");
@@ -57,9 +55,8 @@ $('#project_menu h8').html('Tareas');
     <% if (tasks[i].tas_estado === 2) {  %>
     <ul class="list-group col-md-3">
       <li class="list-group-item">
-      <span><%= tasks[i].id %></span>
-      <span><%= tasks[i].tas_tarea %></span>
-      <span><%= tasks[i].tas_estado %></span>
+      <span><%= tasks[i].tas_tarea %></span><br>
+      <span><a href="/project/<%= project.pro_url %>/pieces/<%= tasks[i].Piece.pie_url %>"> <%= tasks[i].Piece.pie_nombre %></a></span>
       <span>
         <form id="change_form<%= tasks[i].id %>" method="post" action="/project/<%= project.pro_url %>/tasks/<%= tasks[i].id %>?_method=put">
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado-1 %>");
@@ -80,9 +77,8 @@ $('#project_menu h8').html('Tareas');
     <% if (tasks[i].tas_estado === 3) {  %>
     <ul class="list-group col-md-3">
       <li class="list-group-item">
-      <span><%= tasks[i].id %></span>
-      <span><%= tasks[i].tas_tarea %></span>
-      <span><%= tasks[i].tas_estado %></span>
+      <span><%= tasks[i].tas_tarea %></span><br>
+      <span><a href="/project/<%= project.pro_url %>/pieces/<%= tasks[i].Piece.pie_url %>"> <%= tasks[i].Piece.pie_nombre %></a></span>
       <span>
         <form id="change_form<%= tasks[i].id %>" method="post" action="/project/<%= project.pro_url %>/tasks/<%= tasks[i].id %>?_method=put">
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado-1 %>");
@@ -103,9 +99,8 @@ $('#project_menu h8').html('Tareas');
     <% if (tasks[i].tas_estado === 4) {  %>
     <ul class="list-group col-md-3">
       <li class="list-group-item">
-      <span><%= tasks[i].id %></span>
-      <span><%= tasks[i].tas_tarea %></span>
-      <span><%= tasks[i].tas_estado %></span>
+      <span><%= tasks[i].tas_tarea %></span><br>
+      <span><a href="/project/<%= project.pro_url %>/pieces/<%= tasks[i].Piece.pie_url %>"> <%= tasks[i].Piece.pie_nombre %></a></span>
       <span>
         <form id="change_form<%= tasks[i].id %>" method="post" action="/project/<%= project.pro_url %>/tasks/<%= tasks[i].id %>?_method=put">
           <a href="#" onclick='$("#change_hidden<%= tasks[i].id %>").val("<%= tasks[i].tas_estado-1 %>");
