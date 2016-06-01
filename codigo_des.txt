@@ -23,3 +23,7 @@ $('.input-group.date').datepicker({
 });
 
 </script>
+
+
+DATABASE_URL=sqlite://:@:/
+DATABASE_STORAGE=quiz.sqlite

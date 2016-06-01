@@ -7,6 +7,13 @@ var moment = require('moment');
 // Cargamos Jimp
 var jimp = require("jimp");
 
+// Config path - localhost / azure
+if (process.env.DATABASE_URL == "sqlite://:@:/") {
+	var file_avatar = './public/images/avatar/';
+} else {
+  var file_avatar = '../public/images/avatar/';
+}
+
 // GET main
 exports.main = function(req,res){
 	models.User.find({
@@ -52,6 +59,7 @@ exports.index = function(req, res){
 			id: {gt: 1}
 		}
 	}).then(function(users){
+		console.log(users);
 		res.render('user/index',{users: users, errors: []});
 	}).catch(function(error){next(error);})
 };
@@ -92,11 +100,11 @@ exports.upload_avatar = function(req,res){
 		where:{ id: req.session.user.id }
 	}).then(function(user){
 		user.avatar = req.file.filename;
-		jimp.read("./public/images/avatar/user-"+req.session.user.id+".png").then(function (avatar) {
+		jimp.read(file_avatar+"user-"+req.session.user.id+".png").then(function (avatar) {
 		avatar.resize(parseInt(req.body.t), jimp.AUTO)
 					.crop(parseInt(req.body.x), parseInt(req.body.y), parseInt(req.body.w), parseInt(req.body.h))				// crop
 					.resize(400, 400)            // resize
-					.write("./public/images/avatar/user-"+req.session.user.id+".png"); // save
+					.write(file_avatar+"user-"+req.session.user.id+".png"); // save
 		}).then(function(){
 			user.save({fields: ["avatar"] }).then(function(){
 				res.redirect('/user/myprofile');

@@ -199,24 +199,30 @@ exports.Contact = Contact; // exportar definición de tabla Contact
 exports.Message = Message; // exportar definición de tabla Message
 
 // sequelize.sync() crea e inicializa la tabla en DB
+// sequelize.drop() para vaciar las tablas
 sequelize.sync().then(function() {
 	// succes(..) ejecuta el manejador una vez creada la tabla
 
 	Project.count().then(function (count){
-		if (count === 0){ // la tabla se inicializa solo si está vacía
+		if (count == 0){ // la tabla se inicializa solo si está vacía
+
 			User.create({
+				id: '1',
 				nombre: 'Anon',
 				pass: '1234'
 			});
 			User.create({
+				id: '2',
 				nombre: 'Admin',
 				pass: '1234'
 			});
 			User.create({
+				id: '11',
 				nombre: 'Seghis',
 				pass: '1234'
 			});
 			Project.create({
+				id: '1',
 				pro_nombre: 'Labuk',
 				pro_eslogan: 'Incubamos proyectos',
 				pro_descripcion: 'Proyecto de soporte para esta página',
@@ -225,6 +231,7 @@ sequelize.sync().then(function() {
 				pro_logo: 'project-1.png'
 			});
 			Project.create({
+				id: '2',
 				pro_nombre: 'Servicios',
 				pro_eslogan: 'Incubamos proyectos',
 				pro_descripcion: 'Proyecto de servicios ofrecidos para esta página',
@@ -233,6 +240,7 @@ sequelize.sync().then(function() {
 				pro_logo: 'project-2.png'
 			});
 			Project.create({
+				id: '3',
 				pro_nombre: 'ProyectoX',
 				pro_eslogan: 'Innovación divergente',
 				pro_descripcion: 'Proyecto X',
@@ -240,6 +248,7 @@ sequelize.sync().then(function() {
 				pro_portada: '1',
 				pro_logo: 'project-3.png'
 			});
+
 			Member.create({
 				mem_rol:'0',
 				UserId:'2',
@@ -257,16 +266,17 @@ sequelize.sync().then(function() {
 			});
 			Contact.create({
 				con_contact:'2',
-				UserId: '3',
+				UserId: '11',
 				con_block:'2',
 				con_message: '2'
 			});
 			Contact.create({
-				con_contact:'3',
+				con_contact:'11',
 				UserId: '2',
 				con_block:'2',
 				con_message: '2'
 			})
+
 			.then(function(){console.log('Base de datos inicializada')});
 		};
 

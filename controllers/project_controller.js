@@ -10,6 +10,13 @@ var moment = require('moment');
 // Cargamos Jimp
 var jimp = require("jimp");
 
+// Config path - localhost / azure
+if (process.env.DATABASE_URL == "sqlite://:@:/") {
+	var file_logo = './public/images/logo/';
+} else {
+	var file_logo = '../public/images/logo/';
+}
+
 // Autoload - Factoriza el código si la ruta incluye :pro_url
 exports.load = function(req, res, next, pro_url){
 	models.Project.find({
@@ -154,11 +161,11 @@ exports.upload_logo = function(req,res){
 		where:{ id: req.project.id }
 	}).then(function(project){
 		project.pro_logo = req.file.filename;
-		jimp.read('./public/images/logo/project-'+req.project.id+'.png').then(function (logo) {
+		jimp.read(file_logo+'project-'+req.project.id+'.png').then(function (logo) {
 		logo.resize(parseInt(req.body.t), jimp.AUTO)
 					.crop(parseInt(req.body.x), parseInt(req.body.y), parseInt(req.body.w), parseInt(req.body.h))				// crop
 					.resize(400, 400)            // resize
-					.write("./public/images/logo/project-"+req.project.id+".png"); // save
+					.write(file_logo+"project-"+req.project.id+".png"); // save
 		}).then(function(){
 			project.save({fields: ["pro_logo"] }).then(function(){
 				res.redirect('/project/'+req.params.pro_url+'/manage');

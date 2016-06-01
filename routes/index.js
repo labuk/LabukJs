@@ -2,9 +2,18 @@ var express = require('express');
 var router = express.Router();
 var multer  = require('multer');
 
+// Config path - localhost / azure 
+if (process.env.DATABASE_URL == "sqlite://:@:/") {
+	var file_avatar = './public/images/avatar/';
+	var file_logo = './public/images/logo/';
+} else {
+  var file_avatar = '../public/images/avatar/';
+	var file_logo = '../public/images/logo/';
+}
+
 var storage_avatar = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/images/avatar/')
+    cb(null, file_avatar)
   },
   filename: function (req, file, cb) {
     cb(null, 'user-'+req.session.user.id+'.png')
@@ -14,7 +23,7 @@ var upload_avatar = multer({ storage: storage_avatar });
 
 var storage_logo = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/images/logo/')
+    cb(null, file_logo)
   },
   filename: function (req, file, cb) {
     cb(null, 'project-'+req.project.id+'.png')

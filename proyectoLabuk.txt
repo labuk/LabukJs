@@ -230,9 +230,15 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Añadir el link de la pieza en la task tab.
   - En la página main, mirar los tamaños de las columnas para diferentes anchos y revisar animación.
   - Aparece la cabecera de las fechas de eventos que están ocultos.
+
+// 1-06-2016
+  - Configuramos y adaptamos todo lo necesario para desplegar Labuk en Azure.
+
+// 2-06-2016
   Bloquear y eliminar contactos.
 
 
+  Css deficiente en pantallas grandes... Trabajo.
   JCrop muy lento... posibilidad de girar la foto?
   La página post_main está como si se fuera abrir en front. Añadir enlaces de compartir.
   Si los formularios no se rellenan correctamente, dar aviso. Eventos, tareas y piezas.

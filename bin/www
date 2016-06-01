@@ -5,11 +5,20 @@ var fs = require("fs");
 var https = require("https");
 var http = require('http').Server(app);
 var io = require('socket.io').listen(http);
+var path = require('path');
 
+// Config path - localhost / azure
+if (process.env.DATABASE_URL == "sqlite://:@:/") {
+	var file_key = './certs/quiz-2015-key.pem';
+	var file_certs = './certs/quiz-2015-cert.pem';
+} else {
+	var file_key = './certs/quiz-2015-key.pem';
+	var file_certs = './certs/quiz-2015-cert.pem';
+}
 // Leemos los certificados
 var options = {
-	key: fs.readFileSync('certs/quiz-2015-key.pem').toString(),
-	cert: fs.readFileSync('certs/quiz-2015-cert.pem').toString()
+	key: fs.readFileSync(file_key).toString(),
+	cert: fs.readFileSync(file_certs).toString()
 };
 
 app.set('port', process.env.PORT || 3000);
