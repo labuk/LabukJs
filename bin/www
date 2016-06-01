@@ -12,8 +12,8 @@ if (process.env.DATABASE_URL == "sqlite://:@:/") {
 	var file_key = './certs/quiz-2015-key.pem';
 	var file_certs = './certs/quiz-2015-cert.pem';
 } else {
-	var file_key = './certs/quiz-2015-key.pem';
-	var file_certs = './certs/quiz-2015-cert.pem';
+	var file_key = '../certs/quiz-2015-key.pem';
+	var file_certs = '../certs/quiz-2015-cert.pem';
 }
 // Leemos los certificados
 var options = {
