@@ -23,23 +23,24 @@
         <h4 class="modal-title">Nuevo Evento</h4>
       </div>
       <div class="modal-body">
-        <form id="newEvent" role="form" method="post" action="/project/<%= project.pro_url %>/events/create ">
-          <div class="form-group">
+        <form data-toggle="validator" id="newEvent" role="form" method="post" action="/project/<%= project.pro_url %>/events/create ">
+          <div class="form-group has-feedback">
             <label class="sr-only">Evento</label>
-            <textarea rows="3" class="form-control" name="eve_evento" placeholder="Evento" autocomplete="off" /></textarea>
+            <textarea required rows="3" class="form-control" name="eve_evento" placeholder="Evento" autocomplete="off" /></textarea>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
           </div>
           <div class="form-group">
             <label class="control-label">Tipo:</label>
-            <div class="radio-inline"><input type="radio" name="eve_tipo" value="0" > General </div>
-            <div class="radio-inline"><input type="radio" name="eve_tipo" value="1" > Tarea </div>
-            <div class="radio-inline"><input type="radio" name="eve_tipo" value="2" > Encuesta </div>
-            <div class="radio-inline"><input type="radio" name="eve_tipo" value="3" > Reunión </div>
-            <div class="radio-inline"><input type="radio" name="eve_tipo" value="4" > Objetivo </div>
+            <div class="radio-inline"><input required type="radio" name="eve_tipo" value="0" > General </div>
+            <div class="radio-inline"><input required type="radio" name="eve_tipo" value="1" > Tarea </div>
+            <div class="radio-inline"><input required type="radio" name="eve_tipo" value="2" > Encuesta </div>
+            <div class="radio-inline"><input required type="radio" name="eve_tipo" value="3" > Reunión </div>
+            <div class="radio-inline"><input required type="radio" name="eve_tipo" value="4" > Objetivo </div>
           </div>
           <div class="form-group">
             <div class="input-group">
             <span class="input-group-addon">Fecha</span>
-            <input type="date" class="form-control" name="eve_date" value="" />
+            <input required type="date" class="form-control" name="eve_date" value="" />
             </div>
           </div>
           <input type="hidden" class="form-control" name="eve_table" value="true" />

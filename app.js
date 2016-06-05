@@ -15,6 +15,40 @@ var routes = require('./routes/index');
 // Crear aplicación
 var app = express();
 
+// Ping monitor
+var Monitor = require('ping-monitor');
+
+var myWebsite = new Monitor({
+    website: 'http://labuk.azurewebsites.net',
+    interval: 15
+});
+
+var myWebsite2 = new Monitor({
+    website: 'http://lebot.azurewebsites.net',
+    interval: 15
+});
+
+myWebsite.on('error', function (msg) {
+    console.log(msg);
+});
+myWebsite2.on('error', function (msg) {
+    console.log(msg);
+});
+
+myWebsite.on('up', function (res) {
+    console.log('Yay!! ' + res.website + ' is up.');
+});
+myWebsite2.on('up', function (res) {
+    console.log('Yay!! ' + res.website + ' is up.');
+});
+
+myWebsite.on('down', function (res) {
+    console.log('Oh Snap!! ' + res.website + ' is down! ' + res.statusMessage);
+});
+myWebsite2.on('down', function (res) {
+    console.log('Oh Snap!! ' + res.website + ' is down! ' + res.statusMessage);
+});
+
 // view engine setup - Instalar generador de vistas
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

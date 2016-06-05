@@ -71,9 +71,34 @@ exports.create = function(req,res){
 		} else {
 			// guarda en DB los campos pregunta y respuesta
 			project.save().then(function(projectId){
-			var member = models.Member.build({mem_rol: 0, ProjectId: projectId.id, UserId: req.session.user.id});
-			member.save().then(function(){
-				res.redirect('/project/'+req.body.project.pro_url);
+				var member = models.Member.build({mem_rol: 0, ProjectId: projectId.id, UserId: req.session.user.id});
+				member.save().then(function(memberId){
+					console.log(memberId);
+					models.Piece.create({
+						pie_nombre: 'Definición de proyecto',
+						pie_url: 'definición-de-proyecto',
+						pie_descripcion: 'Punto de partida donde se definen los objetivos y planifican las piezas del proyecto.',
+						pie_prioridad: '0',
+						UserId: req.session.user.id,
+						ProjectId: projectId.id
+					});
+					models.Piece.create({
+						pie_nombre: 'Foro general',
+						pie_url: 'foro-general',
+						pie_descripcion: 'Foro de discusión general del proyecto, para hablar de todos los temas relacionados con el mismo y establecer tareas compartidas o genéricas del proyecto.',
+						pie_prioridad: '0',
+						UserId: req.session.user.id,
+						ProjectId: projectId.id
+					});
+					models.Piece.create({
+						pie_nombre: 'Taller de creatividad',
+						pie_url: 'taller-de-creatividad',
+						pie_descripcion: 'Pieza donde se gestiona la creatividad del proyecto, creando tareas que posibiliten el surgimiento de nuevas ideas.',
+						pie_prioridad: '0',
+						UserId: req.session.user.id,
+						ProjectId: projectId.id
+					});
+					res.redirect('/project/'+req.body.project.pro_url);
 		})})}
 	});
 };
@@ -92,6 +117,9 @@ exports.show_pro = function(req, res){
 				where: {ProjectId: req.project.id}
 			}]
 		}).then(function(tasks_all){
+			console.log('project');
+			console.log(tasks);
+			console.log(tasks_all);
 			res.render('project/project_main',{ project: req.project, tasks: tasks, tasks_all: tasks_all, errors: []});
 	})}).catch(function(error){next(error);})
 };

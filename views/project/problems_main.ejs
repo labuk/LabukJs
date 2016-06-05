@@ -82,11 +82,12 @@
         <h4 class="modal-title">Añadir Solución</h4>
       </div>
       <div class="modal-body">
-        <form role="form" method="post" action="/project/<%= project.pro_url %>/problems/<%= problem.id %>/answer/create">
-          <div class="form-group">
+        <form data-toggle="validator" role="form" method="post" action="/project/<%= project.pro_url %>/problems/<%= problem.id %>/answer/create">
+          <div class="form-group has-feedback">
             <label class="sr-only">Solución</label>
-            <textarea class="form-control" rows="3" name="answer[ans_solucion]" placeholder="Descripción <%= answer.ans_solucion %>"></textarea>
-            <input type="hidden" name="answer[ans_estado]" value="0"/>
+            <textarea required class="form-control" rows="3" name="answer[ans_solucion]" placeholder="Descripción <%= answer.ans_solucion %>"></textarea>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+						<input type="hidden" name="answer[ans_estado]" value="0"/>
             <input type="hidden" name="answer[ProblemId]" value="<%= problem.id%>"/>
           </div>
           <input type="submit" class="form-control btn btn-success" value="Salvar" />

@@ -235,13 +235,16 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Configuramos y adaptamos todo lo necesario para desplegar Labuk en Azure.
 
 // 2-06-2016
+  - Crear piezas iniciales al crear proyecto.
+  - Si los formularios no se rellenan correctamente, dar aviso (con data-toggle="validator" en el form y required).
+  - Notificación de nueva amistad.
+  - El WebSocket de Azure tiene problemas por demasiadas conexiones. Limito el tiempo a 1500 ms para hacer el check.
+
   Bloquear y eliminar contactos.
-
-
-  Css deficiente en pantallas grandes... Trabajo.
+  Css deficiente en pantallas grandes... Pantalla Trabajo.
+  Menu proyecto pequeño en movil.
   JCrop muy lento... posibilidad de girar la foto?
   La página post_main está como si se fuera abrir en front. Añadir enlaces de compartir.
-  Si los formularios no se rellenan correctamente, dar aviso. Eventos, tareas y piezas.
   Cuando un proyecto pasa de público a privado y tiene seguidores, estos siguen pudiendo acceder.
   Añadir paginación en el Logbook.
   Filtros de busqueda para proyectos, logs, usuarios, ...

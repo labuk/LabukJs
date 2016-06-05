@@ -23,10 +23,10 @@
         <h4 class="modal-title">Añadir Miembro</h4>
       </div>
       <div class="modal-body">
-				<form role="form" method="post" action="/project/<%= project.pro_url %>/members/create">
+				<form data-toggle="validator" role="form" method="post" action="/project/<%= project.pro_url %>/members/create">
           <div class="form-group">
             <label class="sr-only">Nombre Miembro</label>
-						<select class="form-control" name="member[UserId]">
+						<select required class="form-control" name="member[UserId]">
 							<option value="" selected="selected">- selecciona -</option>
 							<% var i; if (users) { for (i=0; i < users.length; i++){ %>
 									<option value="<%= users[i].id %>"><%= users[i].nombre %></option>
@@ -35,10 +35,10 @@
           </div>
 					<div class="form-group">
 						<label class="control-label">Rol:</label>
-						<input type="radio" name="member[mem_rol]" value="0" > Administrador
-						<input type="radio" name="member[mem_rol]" value="1" > Miembro
-						<input type="radio" name="member[mem_rol]" value="2" > Colaborador
-          	<input type="submit" class="form-control btn btn-success" value="Salvar" />
+						<input required type="radio" name="member[mem_rol]" value="0" > Administrador
+						<input required type="radio" name="member[mem_rol]" value="1" > Miembro
+						<input required type="radio" name="member[mem_rol]" value="2" > Colaborador
+          	<input required type="submit" class="form-control btn btn-success" value="Salvar" />
 					</div>
         </form>
       </div>

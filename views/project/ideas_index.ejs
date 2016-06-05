@@ -13,7 +13,7 @@
   	<div class="clearfix"></div>
   </div>
 
-	<!-- Formulario Nueva Idea -->
+	<!-- Formulario Añadir Idea -->
 	<div id="myModal" class="modal fade" role="dialog">
 	  <div class="modal-dialog">
 	    <!-- Modal content-->
@@ -23,9 +23,10 @@
 	        <h4 class="modal-title">Nueva Idea</h4>
 	      </div>
 	      <div class="modal-body">
-					<form role="form" method="post" action="/project/<%= project.pro_url %>/ideas/create">
-						<div class="form-group">
-							<textarea class="form-control" rows="3" name="idea[ide_idea]" placeholder="Idea"></textarea>
+					<form data-toggle="validator" role="form" method="post" action="/project/<%= project.pro_url %>/ideas/create">
+						<div class="form-group has-feedback">
+							<textarea required class="form-control" rows="3" name="idea[ide_idea]" placeholder="Idea"></textarea>
+							<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 						</div>
 						<input type="submit" class="form-control btn btn-success" value="Salvar" />
 					</form>

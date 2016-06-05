@@ -47,7 +47,7 @@
 <% var i; if (tasks.length) { for (i=0; i < tasks.length; i++){ %>
 	<tr>
 	  <td><%= tasks[i].tas_tarea %></td>
-    <td><a href="/project/<%= project.pro_url %>/pieces/<%= tasks[i].Piece.pie_url %>"><%= tasks_all[i].Piece.pie_nombre %></a></td>
+    <td><a href="/project/<%= project.pro_url %>/pieces/<%= tasks[i].Piece.pie_url %>"><%= tasks[i].Piece.pie_nombre %></a></td>
   </tr>
 <% }} else { %>
   <tr>

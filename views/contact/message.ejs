@@ -16,11 +16,11 @@
         <h4 class="modal-title">Nuevo Mensaje</h4>
       </div>
       <div class="modal-body">
-				<form id="newMessage" method="post" action="/contact/message/create">
-					<div class="form-group">
+				<form data-toggle="validator" id="newMessage" method="post" action="/contact/message/create">
+					<div class="form-group has-feedback">
 						<label class="control-label">Destinatario:</label>
-						<select id="Contact1" class="form-control" name="message[contact1]">
-							<option value="0">Selecciona a un amigo</option>
+						<select required id="Contact1" class="form-control" name="message[contact1]">
+							<option value="">Selecciona a un amigo</option>
 							<% var i; if (contacts) { for (i=0; i < contacts.length; i++){ %>
 								<option value="<%= contacts[i].UserId %>"><%= contacts[i].User.nombre %></option>
 							<% }} %>
@@ -29,8 +29,9 @@
 						<div class="form-group">
 							<input id="Topic" type="text" name="message[topic]" class="form-control" placeholder="Asunto" value="" autocomplete="off" />
 						</div>
-						<div class="form-group">
-							<textarea id="Message" type="text" name="message[message]" class="form-control" placeholder="Respuesta" autocomplete="off" /></textarea>
+						<div class="form-group has-feedback">
+							<textarea required id="Message" type="text" name="message[message]" class="form-control" placeholder="Respuesta" autocomplete="off" /></textarea>
+							<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 						</div>
 						<div class="form-group">
 						<button class="btn btn-success btn-block" type="submit">Enviar</button>
@@ -88,12 +89,13 @@
 					<%= messages[i].mes_message %>
 				</pre>
 				<hr>
-        <form id="newMessage_2" method="post" action="/contact/message/create">
+        <form data-toggle="validator" id="newMessage_2" method="post" action="/contact/message/create">
             <div class="form-group">
 							<input id="Topic_2" type="text" name="message[topic]" class="form-control" value="Re: <%= messages[i].mes_topic %>" autocomplete="off" />
 						</div>
-						<div class="form-group">
-							<textarea id="Message_2" type="text" name="message[message]" class="form-control" placeholder="Respuesta" autocomplete="off" /></textarea>
+						<div class="form-group has-feedback">
+							<textarea required id="Message_2" type="text" name="message[message]" class="form-control" placeholder="Respuesta" autocomplete="off" /></textarea>
+							<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
               <input id="Contact1_2" type="hidden" name="message[contact1]" value="<%= messages[i].UserId %>" />
             </div>
             <div class="form-group">

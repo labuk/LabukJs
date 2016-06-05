@@ -31,7 +31,7 @@ exports = module.exports = function(io){
               io.in('contact_'+id).emit('emitMessage', {msg: socket.chat[id]['contactName']+' se ha desconectado.', nick: 'chat', id: id});
             }
           })};
-      }, 2000);
+      }, 1500);
       if(!socket.nickname) return;
       delete nicknames[socket.projectId][socket.nickname];
       io.in(socket.projectId).emit('newUser', nicknames[socket.projectId]);

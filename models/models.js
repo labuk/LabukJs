@@ -230,6 +230,30 @@ sequelize.sync().then(function() {
 				pro_portada: '1',
 				pro_logo: 'project-1.png'
 			});
+			Piece.create({
+				pie_nombre: 'Definición de proyecto',
+				pie_url: 'definición-de-proyecto',
+				pie_descripcion: 'Punto de partida donde se definen los objetivos y planifican las piezas del proyecto.',
+				pie_prioridad: '0',
+				UserId: 2,
+				ProjectId: 1
+			});
+			Piece.create({
+				pie_nombre: 'Foro general',
+				pie_url: 'foro-general',
+				pie_descripcion: 'Foro de discusión general del proyecto, para hablar de todos los temas relacionados con el mismo y establecer tareas compartidas o genéricas del proyecto.',
+				pie_prioridad: '0',
+				UserId: 2,
+				ProjectId: 1
+			});
+			Piece.create({
+				pie_nombre: 'Taller de creatividad',
+				pie_url: 'taller-de-creatividad',
+				pie_descripcion: 'Pieza donde se gestiona la creatividad del proyecto, creando tareas que posibiliten el surgimiento de nuevas ideas.',
+				pie_prioridad: '0',
+				UserId: 2,
+				ProjectId: 1
+			});
 			Project.create({
 				id: '2',
 				pro_nombre: 'Servicios',
@@ -238,6 +262,30 @@ sequelize.sync().then(function() {
 				pro_url: 'servicios',
 				pro_portada: '1',
 				pro_logo: 'project-2.png'
+			});
+			Piece.create({
+				pie_nombre: 'Definición de proyecto',
+				pie_url: 'definición-de-proyecto',
+				pie_descripcion: 'Punto de partida donde se definen los objetivos y planifican las piezas del proyecto.',
+				pie_prioridad: '0',
+				UserId: 2,
+				ProjectId: 2
+			});
+			Piece.create({
+				pie_nombre: 'Foro general',
+				pie_url: 'foro-general',
+				pie_descripcion: 'Foro de discusión general del proyecto, para hablar de todos los temas relacionados con el mismo y establecer tareas compartidas o genéricas del proyecto.',
+				pie_prioridad: '0',
+				UserId: 2,
+				ProjectId: 2
+			});
+			Piece.create({
+				pie_nombre: 'Taller de creatividad',
+				pie_url: 'taller-de-creatividad',
+				pie_descripcion: 'Pieza donde se gestiona la creatividad del proyecto, creando tareas que posibiliten el surgimiento de nuevas ideas.',
+				pie_prioridad: '0',
+				UserId: 2,
+				ProjectId: 2
 			});
 			Project.create({
 				id: '3',
@@ -248,7 +296,30 @@ sequelize.sync().then(function() {
 				pro_portada: '1',
 				pro_logo: 'project-3.png'
 			});
-
+			Piece.create({
+				pie_nombre: 'Definición de proyecto',
+				pie_url: 'definición-de-proyecto',
+				pie_descripcion: 'Punto de partida donde se definen los objetivos y planifican las piezas del proyecto.',
+				pie_prioridad: '0',
+				UserId: 11,
+				ProjectId: 3
+			});
+			Piece.create({
+				pie_nombre: 'Foro general',
+				pie_url: 'foro-general',
+				pie_descripcion: 'Foro de discusión general del proyecto, para hablar de todos los temas relacionados con el mismo y establecer tareas compartidas o genéricas del proyecto.',
+				pie_prioridad: '0',
+				UserId: 11,
+				ProjectId: 3
+			});
+			Piece.create({
+				pie_nombre: 'Taller de creatividad',
+				pie_url: 'taller-de-creatividad',
+				pie_descripcion: 'Pieza donde se gestiona la creatividad del proyecto, creando tareas que posibiliten el surgimiento de nuevas ideas.',
+				pie_prioridad: '0',
+				UserId: 11,
+				ProjectId: 3
+			});
 			Member.create({
 				mem_rol:'0',
 				UserId:'2',
@@ -261,7 +332,7 @@ sequelize.sync().then(function() {
 			});
 			Member.create({
 				mem_rol:'0',
-				UserId:'2',
+				UserId:'11',
 				ProjectId:'3'
 			});
 			Contact.create({

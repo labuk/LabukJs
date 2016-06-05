@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer  = require('multer');
 
-// Config path - localhost / azure 
+// Config path - localhost / azure
 if (process.env.DATABASE_URL == "sqlite://:@:/") {
 	var file_avatar = './public/images/avatar/';
 	var file_logo = './public/images/logo/';
@@ -126,6 +126,7 @@ router.post('/project/:pro_url/comments/:pos_url/create', sessionController.logi
 
 // Definición de rutas de Contact
 router.get('/contact', sessionController.loginRequired, contactController.index); // lista de contactos
+router.get('/contact_new', sessionController.loginRequired, contactController.count_new); // lista de contactos
 router.post('/contact/create', sessionController.loginRequired, contactController.create); // crear contacto
 router.post('/contact/update_allow', sessionController.loginRequired, contactController.update_allow); // crear contacto
 router.get('/contact/message', sessionController.loginRequired, contactController.index_message); // pagina de mensajes

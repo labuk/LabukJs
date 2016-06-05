@@ -23,22 +23,24 @@
         <h4 class="modal-title">Nueva Pieza</h4>
       </div>
       <div class="modal-body">
-				<form role="form" method="post" action="/project/<%= project.pro_url %>/pieces/create">
-					<div class="form-group">
+				<form data-toggle="validator" role="form" method="post" action="/project/<%= project.pro_url %>/pieces/create">
+					<div class="form-group has-feedback">
 						<label class="sr-only">Nombre Pieza</label>
-						<input type="text" autocomplete="off" class="form-control" name="piece[pie_nombre]" placeholder="<%= piece.pie_nombre%>" value="" />
+						<input required type="text" autocomplete="off" class="form-control" name="piece[pie_nombre]" placeholder="<%= piece.pie_nombre%>" value="" />
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 					</div>
-					<div class="form-group">
+					<div class="form-group has-feedback">
 						<label class="sr-only">Descripcion</label>
-						<textarea class="form-control" rows="3" name="piece[pie_descripcion]" placeholder="<%= piece.pie_descripcion%>" /></textarea>
+						<textarea required class="form-control" rows="3" name="piece[pie_descripcion]" placeholder="<%= piece.pie_descripcion%>" /></textarea>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 					</div>
 					<div class="form-group">
 						<label class="control-label">Prioridad:</label><br>
-						<div class="radio-inline"><input type="radio" name="piece[pie_prioridad]" value="0" > General </div>
-						<div class="radio-inline"><input type="radio" name="piece[pie_prioridad]" value="1" > Esencial </div>
-						<div class="radio-inline"><input type="radio" name="piece[pie_prioridad]" value="2" > Útil </div>
-						<div class="radio-inline"><input type="radio" name="piece[pie_prioridad]" value="3" > Laborioso </div>
-						<div class="radio-inline"><input type="radio" name="piece[pie_prioridad]" value="4" > Desechado </div>
+						<div class="radio-inline"><input required type="radio" name="piece[pie_prioridad]" value="0" > General </div>
+						<div class="radio-inline"><input required type="radio" name="piece[pie_prioridad]" value="1" > Esencial </div>
+						<div class="radio-inline"><input required type="radio" name="piece[pie_prioridad]" value="2" > Útil </div>
+						<div class="radio-inline"><input required type="radio" name="piece[pie_prioridad]" value="3" > Laborioso </div>
+						<div class="radio-inline"><input required type="radio" name="piece[pie_prioridad]" value="4" > Desechado </div>
 					</div>
 					<div class="form-group">
 						<label class="control-label">Responsable:</label>
@@ -49,7 +51,9 @@
 							<% }} %>
 						</select>
 					</div>
-					<input type="submit" class="form-control btn btn-success" value="Salvar" />
+					<div class="form-group">
+						<button type="submit" class="form-control btn btn-success">Salvar</button>
+					</div>
 				</form>
       </div>
     </div>

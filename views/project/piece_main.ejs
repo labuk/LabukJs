@@ -92,10 +92,11 @@
         <h4 class="modal-title">Añadir Problema</h4>
       </div>
       <div class="modal-body">
-        <form role="form" method="post" action="/project/<%= project.pro_url %>/problems/<%= piece.pie_url %>/create">
-          <div class="form-group">
+        <form data-toggle="validator" role="form" method="post" action="/project/<%= project.pro_url %>/problems/<%= piece.pie_url %>/create">
+          <div class="form-group has-feedback">
             <label class="sr-only">Problema</label>
-            <textarea class="form-control" rows="3" name="problem[prb_problema]" placeholder="Descripción <%= problem.prb_problema %>"></textarea>
+            <textarea required class="form-control" rows="3" name="problem[prb_problema]" placeholder="Descripción <%= problem.prb_problema %>"></textarea>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <input type="hidden" name="problem[prb_estado]" value="0"/>
             <input type="hidden" name="problem[PieceId]" value="<%= piece.id%>"/>
             <input type="hidden" name="problem[ProjectId]" value="<%= project.id%>"/>
@@ -137,10 +138,11 @@
         <h4 class="modal-title">Añadir Tarea</h4>
       </div>
       <div class="modal-body">
-        <form role="form" method="post" action="/project/<%= project.pro_url %>/tasks/<%= piece.pie_url %>/create">
-          <div class="form-group">
+        <form data-toggle="validator" role="form" method="post" action="/project/<%= project.pro_url %>/tasks/<%= piece.pie_url %>/create">
+          <div class="form-group has-feedback">
             <label class="sr-only">Tarea</label>
-            <textarea class="form-control" rows="3" name="task[tas_tarea]" placeholder="Descripción <%= task.tas_tarea%>"></textarea>
+            <textarea required class="form-control" rows="3" name="task[tas_tarea]" placeholder="Descripción <%= task.tas_tarea%>"></textarea>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
           </div>
           <div class="form-group">
             <label class="control-label">Autor:</label><br>
@@ -281,10 +283,11 @@
         <h4 class="modal-title">Añadir Nota</h4>
       </div>
       <div class="modal-body">
-        <form role="form" method="post" action="/project/<%= project.pro_url %>/notes/<%= piece.pie_url %>/create">
-          <div class="form-group">
+        <form data-toggle="validator" role="form" method="post" action="/project/<%= project.pro_url %>/notes/<%= piece.pie_url %>/create">
+          <div class="form-group has-feedback">
             <label class="sr-only">Nota</label>
-            <textarea class="form-control" rows="3" name="note[not_nota]" placeholder="Descripción <%= note.not_nota %>"></textarea>
+            <textarea required class="form-control" rows="3" name="note[not_nota]" placeholder="Descripción <%= note.not_nota %>"></textarea>
+            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
             <input type="hidden" name="note[PieceId]" value="<%= piece.id%>"/>
             <input type="hidden" name="note[ProjectId]" value="<%= project.id%>"/>
           </div>

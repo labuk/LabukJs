@@ -43,7 +43,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-
+    <script src="/js/validator.js"></script>
     <script src="/js/labuk.js"></script>
 
     <% if(session.user.id != 1){%>
@@ -90,14 +90,18 @@
         </div>
         <ul class="nav navbar-nav navbar-right">
           <!-- start: Notification -->
+          <% if(session.user.id != 1){%>
           <li>
-            <a class="btn" href="/contact/message">
-              <% if(session.user.id != 1){%>
-              <span class="glyphicon glyphicon-bell"></span>
-              <% } %>
-              <span id="countMessage" class="badge"></span>
+            <a id="countContact" class="btn" href="/contact">
+              <span style="color: lawngreen;" class="glyphicon glyphicon-user collapse">+</span>
             </a>
           </li>
+          <li>
+            <a id="countMessage" class="btn" href="/contact/message">
+              <span style="color: lawngreen;" class="glyphicon glyphicon-envelope collapse">+</span>
+            </a>
+          </li>
+          <% } %>
           <!-- end: Notification -->
 
 					<!-- start: User Dropdown -->
@@ -212,17 +216,25 @@
 <% if(session.user.id != 1){%>
   <script>
 
-    var $countMessages = $("#countMessage");
     var count = 0;
-
     // Nuevo mensage
     socket.on('countMessage', function(data){
+      count = count + data.count;
       if (data.count == 0) {
-        $countMessages.html('');
+        $("#badgeMessage").html('');
+        $("#countMessage .glyphicon").collapse('hide');
       }  else {
-        count = count + data.count;
-        $countMessages.html(count);
+        $("#badgeMessage").html(count);
+        $("#countMessage .glyphicon").collapse('show');
       }
+    });
+
+    $.get( '/contact_new', function(contacts) {
+      console.log('Terminado');
+      console.log(contacts);
+      if (contacts != "undefined") {
+        $("#countContact .glyphicon").collapse('show');
+      };
     });
 
     for (var item in sessionStorage) {
@@ -300,4 +312,19 @@
     sessionStorage.clear();
   </script>
 <% } %>
+
+<script>
+// Function Validator Modal
+$('.modal').on('shown.bs.modal', function (e) {
+  $(this).find('form[data-toggle=validator]').validator('destroy');
+  $(this).find('form[data-toggle=validator]').validator();
+});
+
+$('.panel-collapse').on('shown.bs.collapse', function (e) {
+  $(this).find('form[data-toggle=validator]').validator('destroy');
+  $(this).find('form[data-toggle=validator]').validator();
+});
+
+</script>
+
 </html>

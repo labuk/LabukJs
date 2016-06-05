@@ -13,7 +13,7 @@
   	<div class="clearfix"></div>
   </div>
 
-<!-- Formulario Nueva Idea -->
+<!-- Formulario Añadir Encuesta -->
 <div id="myModal" class="modal fade" role="dialog">
 	<div class="modal-dialog">
 		<!-- Modal content-->
@@ -23,9 +23,10 @@
 				<h4 class="modal-title">Nueva Encuesta</h4>
 			</div>
 			<div class="modal-body">
-				<form role="form" method="post" action="/project/<%= project.pro_url %>/polls/create">
-					<div class="form-group">
-						<textarea class="form-control" rows="3" name="poll[pol_pregunta]" placeholder="Pregunta"></textarea>
+				<form data-toggle="validator" role="form" method="post" action="/project/<%= project.pro_url %>/polls/create">
+					<div class="form-group has-feedback">
+						<textarea required class="form-control" rows="3" name="poll[pol_pregunta]" placeholder="Pregunta"></textarea>
+						<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 						<input type="hidden" name="poll[pol_votos]" value="0" >
 						<input type="hidden" name="poll[ProjectId]" value="<%= project.id %>" >
 					</div>

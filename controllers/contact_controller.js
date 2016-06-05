@@ -14,6 +14,22 @@ exports.index = function(req, res){
 	}).catch(function(error){next(error);})
 };
 
+// GET /contact_new
+exports.count_new = function(req, res){
+	models.Contact.count(
+		{where: {
+			con_contact: req.session.user.id,
+			con_block: 1
+		}
+	}).then(function(contacts){
+		if (contacts) {
+			res.send('Ok');
+		} else {
+			res.send('undefined');
+		}
+	}).catch(function(error){next(error);})
+};
+
 // POST /contact/create
 exports.create = function(req,res){
 
@@ -117,7 +133,7 @@ exports.create_message = function(req, res){
 		console.log(req.body);
 		var message = models.Message.build(
 			{ mes_message: req.body.message,
-				mes_topic: req.body.topic,
+				mes_topic: req.body.topic || "Sin asunto",
 				mes_read: 0,
 				mes_recivier: req.body.contact1,
 				contactId: contact.con_message,

@@ -21,12 +21,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Editar Pieza</h4>
+        <h4 class="modal-title">Editar Pregunta</h4>
       </div>
       <div class="modal-body">
         <form role="form" method="post" action="/project/<%= project.pro_url %>/polls/<%= poll.id %>?_method=put ">
 					<div class="form-group">
-						<label class="sr-only">Nombre Pieza</label>
+						<label class="sr-only">Pregunta</label>
 						<input type="text" class="form-control" name="poll[pol_pregunta]" value="<%= poll.pol_pregunta%>" value="" />
 					</div>
 					<input type="submit" class="form-control btn btn-success" value="Editar" />
@@ -60,7 +60,7 @@
 		<h3><%= poll.pol_pregunta %>
 		<div class="clearfix">
 			<button id="ver_resultados" class="btn btn-default pull-right" style="display:none" onclick="$('#ver_resultados').toggle(); $('#resultados_encuesta').toggle(); ">Ver Resultados</button>
-			<button id="ver_nueva" class="btn btn-default pull-right" onclick="$('#nueva_respuesta').toggle();">Nueva Respuesta</button>
+			<button id="ver_nueva" class="btn btn-default pull-right" onclick="$('#nueva_respuesta').toggle(); console.log('Respuesta'); $('#nueva_respuesta form').validator('destroy'); $('#nueva_respuesta form').validator(); console.log('Respuesta 2');">Nueva Respuesta</button>
 		</div>
 		</h3>
 	</div>
@@ -81,10 +81,11 @@
 
   <ul class="list-group">
 		<li id="nueva_respuesta" style="display:none" class="list-group-item">
-		<!-- Formulario Nueva Respuesta -->
-		<form role="form" method="post" action="/project/<%= project.pro_url %>/polls/<%= poll.id %>/option/create">
-			<div class="form-group">
-				<textarea class="form-control" rows="3" name="option[opt_respuesta]" placeholder="Respuesta"></textarea>
+		<!-- Formulario Añadir Respuesta -->
+		<form data-toggle="validator" role="form" method="post" action="/project/<%= project.pro_url %>/polls/<%= poll.id %>/option/create">
+			<div class="form-group has-feedback">
+				<textarea required class="form-control" rows="3" name="option[opt_respuesta]" placeholder="Respuesta"></textarea>
+				<span class="glyphicon form-control-feedback" aria-hidden="true"></span>
 				<input type="hidden" name="option[opt_votos]" value="0" >
 				<input type="hidden" name="option[PollId]" value="<%= poll.id %>" >
 			</div>
