@@ -240,6 +240,12 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Notificación de nueva amistad.
   - El WebSocket de Azure tiene problemas por demasiadas conexiones. Limito el tiempo a 1500 ms para hacer el check.
 
+ // 6-06-2016
+  - Problemas con acentos al guardar el url. Al pasar el argumento por req.params al query los acentos no salen correctamente.
+  - Añadir problemas y notas al logbook de manera automática.
+  - Problema foto proyecto en tareas del main.
+
+  Log con nombre de pieza... hidden?
   Bloquear y eliminar contactos.
   Css deficiente en pantallas grandes... Pantalla Trabajo.
   Menu proyecto pequeño en movil.
@@ -248,4 +254,3 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   Cuando un proyecto pasa de público a privado y tiene seguidores, estos siguen pudiendo acceder.
   Añadir paginación en el Logbook.
   Filtros de busqueda para proyectos, logs, usuarios, ...
-  Añadir problemas al logbook de manera automática.

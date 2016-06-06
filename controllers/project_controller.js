@@ -10,6 +10,9 @@ var moment = require('moment');
 // Cargamos Jimp
 var jimp = require("jimp");
 
+// Cargamos Tools
+var tools = require('./tools.js');
+
 // Config path - localhost / azure
 if (process.env.DATABASE_URL == "sqlite://:@:/") {
 	var file_logo = './public/images/logo/';
@@ -61,7 +64,7 @@ exports.new = function(req,res){
 exports.create = function(req,res){
 
 	// Sustituimos espacios por '-' y todo en minúscula.
-	req.body.project.pro_url = req.body.project.pro_nombre.replace(/\s+/g, '-').toLowerCase();
+	req.body.project.pro_url = tools.getCleanedString(req.body.project.pro_nombre);
 
 	var project = models.Project.build(req.body.project);
 
@@ -169,7 +172,7 @@ exports.project_update = function(req,res){
 		req.project.pro_tipo = req.body.project.pro_tipo || req.project.pro_tipo;
 
 		if (req.body.project.pro_nombre) {
-			req.project.pro_url = req.body.project.pro_nombre.replace(/\s+/g, '-').toLowerCase();
+			req.project.pro_url = tools.getCleanedString(req.body.project.pro_nombre);
 		}
 
 		req.project.validate().then(function(err){
@@ -356,9 +359,9 @@ exports.pieces = function(req, res){
 // POST /project/:pro_url/pieces/create
 exports.piece_create = function(req,res){
 
-	// Sustituimos espacios por '-' y todo en minúscula.
-	req.body.piece.pie_url = req.body.piece.pie_nombre.replace(/\s+/g, '-').toLowerCase();
-
+	// Sustituimos espacios por '-' y todo en minúscula. Quitamos acentos y carácteres raros.
+	req.body.piece.pie_url = tools.getCleanedString(req.body.piece.pie_nombre);
+	console.log(req.body.piece.pie_url);
 	// Permite Seleccionar al user de la session sin hacer nada en el formulario
 	var PieceUserId = req.body.piece.UserId != 0 ? req.body.piece.UserId : req.session.user.id;
 
@@ -390,7 +393,7 @@ exports.piece_update = function(req,res){
 		piece.pie_nombre = req.body.piece.pie_nombre;
 		piece.pie_descripcion = req.body.piece.pie_descripcion;
 		piece.pie_prioridad = req.body.piece.pie_prioridad;
-		piece.pie_url = req.body.piece.pie_nombre.replace(/\s+/g, '-').toLowerCase();
+		piece.pie_url = tools.getCleanedString(req.body.piece.pie_nombre);
 		piece.validate().then(function(err){
 			if (err) {
 				res.render('project/pieces_index', {piece: piece, project: req.project, errors: err.errors});
@@ -492,6 +495,12 @@ exports.task_update = function(req,res){
 	}).then(function(task){
 		task.tas_tarea = req.body.task.tas_tarea;
 		task.tas_estado = req.body.task.tas_estado;
+		req.body.task.UserId = req.body.task.UserId != 0 ? req.body.task.UserId : req.session.user.id;
+		if (!req.body.task.tas_todos) {
+			task.tas_todos = '0';
+		} else {
+			task.tas_todos = '1';
+		}
 		task.validate().then(function(err){
 			if (err) {
 				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
@@ -529,6 +538,7 @@ exports.note_create = function(req,res){
 		} else {
 			// guarda en DB los campos pregunta y respuesta
 			note.save().then(function(){
+			tools.autoLog(13, req.project.id, req.project.pro_url, req.session.user.id, req.params.pie_url);
 			res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.params.pie_url);})
 		}
 	});
@@ -653,8 +663,10 @@ exports.problem_create = function(req,res){
 			res.render('project/pieces_index', {piece: piece, errors: err.errors});
 		} else {
 			// guarda en DB los campos pregunta y respuesta
-			problem.save().then(function(){
-			res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.params.pie_url);})
+			problem.save().then(function(problemId){
+				// Guardamos log
+				tools.autoLog(12, req.project.id, req.project.pro_url, req.session.user.id, problemId.id);
+				res.redirect('/project/'+req.params.pro_url+'/pieces/'+req.params.pie_url);})
 		}
 	});
 }

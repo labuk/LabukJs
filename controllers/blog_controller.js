@@ -4,41 +4,13 @@ var models = require('../models/models.js');
 // Cargamos Moments
 var moment = require('moment');
 
-// Guardamos logs automáticos
-function autoLog(tipo, project, project_url, id, url) {
-
-	console.log('AutoLog');
-
-	if (tipo == 10){
-		var entrada = "Se ha creado una nueva noticia";
-		var log_url = "/posts/"+url;
-	}
-
-	if (tipo == 11){
-		var entrada = "Se ha creado una nueva noticia privada";
-		var log_url = "/posts/"+url;
-	}
-
-	var log = models.Log.build({
-			log_entrada: entrada,
-			log_tipo: tipo,
-			log_url: log_url,
-			ProjectId: project,
-			UserId: id
-	});
-
-	log.validate().then(function(err){
-			// guarda en DB los campos pregunta y respuesta
-			log.save().then(function(){
-			return 'Ok';
-		})
-	});
-}
+// Cargamos Tools
+var tools = require('./tools.js');
 
 // POST /project/:pro_url/posts/create
 exports.post_create = function(req,res){
 
-	var pos_url = req.body.post.pos_titulo.replace(/\s+/g, '-').toLowerCase();
+	var pos_url = tools.getCleanedString(req.body.post.pos_titulo);
 
 	var post = models.Post.build({
 			pos_titulo: req.body.post.pos_titulo,
@@ -55,9 +27,9 @@ exports.post_create = function(req,res){
 			res.render('project/log_index', {piece: piece, errors: err.errors});
 		} else {
 			if (req.body.post.pos_publica == 1) {
-				autoLog(10, req.project.id, req.project.pro_url, req.session.user.id, pos_url);
+				tools.autoLog(10, req.project.id, req.project.pro_url, req.session.user.id, pos_url);
 			} else {
-				autoLog(11, req.project.id, req.project.pro_url, req.session.user.id, pos_url);
+				tools.autoLog(11, req.project.id, req.project.pro_url, req.session.user.id, pos_url);
 			}
 			// guarda en DB los campos pregunta y respuesta
 			post.save().then(function(){
