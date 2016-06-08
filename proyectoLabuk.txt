@@ -245,6 +245,15 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Añadir problemas y notas al logbook de manera automática.
   - Problema foto proyecto en tareas del main.
 
+ // 7-06-2016
+  - Logbook en main de proyecto.
+  - Problema: Las tareas no cambiaban de responsable.
+  - Problema: no aparece avatar en los contactos.
+  - Problema: Al cambiar de nombre no se redirecciona al nuevo enlace del proyecto.
+  - Cambiamos el tamaño de los logos de proyecto en index a col-sm-3. Centramos con row-centered y col-centered.
+  - Creamos la página de servicios como si fueran proyectos independientes: blog, diseño web. Se crea una página que los agrupe y le damos un link en el layout.
+
+
   Log con nombre de pieza... hidden?
   Bloquear y eliminar contactos.
   Css deficiente en pantallas grandes... Pantalla Trabajo.

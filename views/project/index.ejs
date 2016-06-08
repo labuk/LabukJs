@@ -13,7 +13,7 @@
 		<h3 class="page-header">Mis proyectos</h3>
 		<% for (i=0; i < projects_member.length; i++){ %>
 		<% if (projects_member[i].mem_rol < 3) {  %>
-		<div class="col-sm-4 portfolio-item">
+		<div class="col-sm-3 portfolio-item">
 				<a href="project/<%= projects_member[i].Project.pro_url %>" class="portfolio-link" >
 						<div class="caption">
 								<div class="caption-content">
@@ -36,7 +36,7 @@
 		<h3 class="page-header">Proyectos que sigo</h3>
 		<% for (i=0; i < projects_member.length; i++){ %>
 		<% if (projects_member[i].mem_rol == 3) {  %>
-		<div class="col-sm-4 portfolio-item">
+		<div class="col-sm-3 portfolio-item">
 				<a href="project/<%= projects_member[i].Project.pro_url %>" class="portfolio-link" >
 						<div class="caption">
 								<div class="caption-content">
@@ -58,7 +58,7 @@
 	<% if(session.user.id != 1){%><h3 class="page-header">Otros proyectos</h3> <% } %>
 	<% var i; if (projects) { for (i=0; i < projects.length; i++){ %>
 
-		<div class="col-sm-4 portfolio-item">
+		<div class="col-sm-3 portfolio-item">
 				<a href="project/<%= projects[i].pro_url %>" class="portfolio-link" >
 						<div class="caption">
 								<div class="caption-content">

@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes){
 				type: DataTypes.INTEGER,
 				validate: {notEmpty: {msg: "-> Falta Contact"}}
       },
-      con_block:  { // 0: Enviada, 1: Pendiente, 2: Aceptado, 3: Bloqueado
+      con_block:  { // 0: Enviada, 1: Pendiente, 2: Aceptado, 3: Bloqueado, 4: Bloqueador
   			type: DataTypes.INTEGER,
   			validate: {notEmpty: {msg: "-> Falta Block"}}
       },

@@ -8,7 +8,7 @@ var moment = require('moment');
 exports.index = function(req, res){
 	models.Contact.findAll(
 		{where: {con_contact: req.session.user.id},
-		include: [{model: models.User, attributes: ['nombre','online']}]
+		include: [{model: models.User, attributes: ['nombre','online','avatar']}]
 	}).then(function(contacts){
 		res.render('contact/index',{contacts: contacts, errors: []});
 	}).catch(function(error){next(error);})
@@ -82,6 +82,35 @@ exports.update_allow = function(req,res){
 					contact.save({fields: ["con_block","con_message"] }).then(function(){
 						contact_bis.save({fields: ["con_block","con_message"] });
 						res.redirect('/user/profile/'+req.body.contact.UserId);
+				})}
+			})})});
+};
+
+// POST /contact/update_block
+exports.update_block = function(req,res){
+	models.Contact.find({
+		where:{ id: req.body.contact.id }
+	}).then(function(contact){
+		contact.con_block = 4;
+		models.Contact.find({
+			where:{ con_contact: req.body.contact.UserId, UserId: req.session.user.id }
+		}).then(function(contact_bis){
+			contact_bis.con_block = 3;
+			if (req.body.contact.UserId > req.session.user.id) {
+				contact_bis.con_message = contact.id;
+				contact.con_message = contact.id;
+			} else {
+				contact_bis.con_message = contact_bis.id;
+				contact.con_message = contact_bis.id;
+			}
+			contact.validate().then(function(err){
+				if (err) {
+					res.render('project/new', {project: project, errors: err.errors});
+				} else {
+					// guarda en DB los campos pregunta y respuesta
+					contact.save({fields: ["con_block","con_message"] }).then(function(){
+						contact_bis.save({fields: ["con_block","con_message"] });
+						res.redirect('/contact');
 				})}
 			})})});
 };

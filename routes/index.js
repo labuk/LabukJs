@@ -36,6 +36,7 @@ var sessionController = require('../controllers/session_controller');
 var projectController = require('../controllers/project_controller');
 var blogController = require('../controllers/blog_controller');
 var contactController = require('../controllers/contact_controller');
+var servicesController = require('../controllers/services_controller');
 
 // GET home page
 router.get('/', function(req, res) {
@@ -128,12 +129,16 @@ router.post('/project/:pro_url/comments/:pos_url/create', sessionController.logi
 router.get('/contact', sessionController.loginRequired, contactController.index); // lista de contactos
 router.get('/contact_new', sessionController.loginRequired, contactController.count_new); // lista de contactos
 router.post('/contact/create', sessionController.loginRequired, contactController.create); // crear contacto
-router.post('/contact/update_allow', sessionController.loginRequired, contactController.update_allow); // crear contacto
+router.post('/contact/update_allow', sessionController.loginRequired, contactController.update_allow); // aceptar contacto
+router.post('/contact/update_block', sessionController.loginRequired, contactController.update_block); // bloquear contacto
 router.get('/contact/message', sessionController.loginRequired, contactController.index_message); // pagina de mensajes
 router.get('/contact/message/send', sessionController.loginRequired, contactController.index_send); // pagina de mensajes enviados
 router.post('/contact/message/create', sessionController.loginRequired, contactController.create_message); // crear mensajes
 router.post('/contact/message/read', sessionController.loginRequired, contactController.read_message); // marcar mensajes como leido
 router.get('/contact/chat/:userId', sessionController.loginRequired, contactController.index_chat); // pagina de mensajes
+
+// Definicion de rutas de Services
+router.get('/services', servicesController.index); // lista de servicios
 
 // GET author page
 router.get('/author', function(req, res){

@@ -6,8 +6,8 @@
     <div class="col-sm-4 col-xs-6 col-md-3 portfolio-item">
       <div class="panel <% if (contacts[i].User.online) { %> panel-success <% } else { %> panel-default <% } %> ">
     	  <div class="panel-body">
-    			<% if (contacts[i].avatar) { %>
-    				<img src="/images/avatar/<%= contacts[i].avatar %>" class="img-responsive" />
+    			<% if (contacts[i].User.avatar) { %>
+    				<img src="/images/avatar/<%= contacts[i].User.avatar %>" class="img-responsive" />
     			<% } else { %>
     				<img src="/images/avatar/avatar.jpg" class="img-responsive" />
     			<% } %>
@@ -22,8 +22,8 @@
     <div class="col-sm-4 col-xs-6 col-md-3 portfolio-item">
       <div class="panel <% if (contacts[i].User.online) { %> panel-success <% } else { %> panel-default <% } %> ">
     	  <div class="panel-body">
-    			<% if (contacts[i].avatar) { %>
-    				<img src="/images/avatar/<%= contacts[i].avatar %>" class="img-responsive" />
+    			<% if (contacts[i].User.avatar) { %>
+    				<img src="/images/avatar/<%= contacts[i].User.avatar %>" class="img-responsive" />
     			<% } else { %>
     				<img src="/images/avatar/avatar.jpg" class="img-responsive" />
     			<% } %>
@@ -44,8 +44,8 @@
       <div class="panel <% if (contacts[i].User.online) { %> panel-success <% } else { %> panel-default <% } %> ">
     	  <div class="panel-body">
           <% console.log(contacts[i].User.online)  %>
-    			<% if (contacts[i].avatar) { %>
-    				<img src="/images/avatar/<%= contacts[i].avatar %>" class="img-responsive" />
+    			<% if (contacts[i].User.avatar) { %>
+    				<img src="/images/avatar/<%= contacts[i].User.avatar %>" class="img-responsive" />
     			<% } else { %>
     				<img src="/images/avatar/avatar.jpg" class="img-responsive" />
     			<% } %>
@@ -59,12 +59,52 @@
     				<li><a href="/contact/message" >Mensajes</a></li>
             <li><a href="#" onClick="initChat(<%=contacts[i].con_message %>, <%= contacts[i].UserId %>, '<%= contacts[i].User.nombre %>')" >Chat</a></li>
     				<li class="divider"></li>
-    				<li><a href="#" ><span class="text-warning">Bloquear</span></a></li>
-            <li><a href="#" ><span class="text-danger">Eliminar</span></a></li>
+    				<li><a href="#" ><span class="text-warning" data-toggle="modal" data-target="#myModal5_<%= contacts[i].id %>">Bloquear</span></a></li>
+            <li><a href="#" ><span class="text-danger" data-toggle="modal" data-target="#myModal6_<%= contacts[i].id %>">Eliminar</span></a></li>
     			</ul>
     		</div>
       </div>
   	</div>
+    <!-- Formulario Bloquear Contact -->
+    <div id="myModal5_<%= contacts[i].id %>" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Bloquear contacto</h4>
+          </div>
+          <div class="modal-body">
+            <p class="form-control-static">Bloquear contacto?</p>
+            <form role="post" method="post" action="/contact/update_block">
+              <input type="hidden" name="contact[id]" value="<%= contacts[i].id %>" >
+              <input type="hidden" name="contact[UserId]" value="<%= contacts[i].UserId %>" >
+              <input type="submit" class="form-control btn btn-warning" value="Bloquear contacto" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Formulario Borrar Contact -->
+    <div id="myModal6_<%= contacts[i].id %>" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Borrar Contacto</h4>
+          </div>
+          <div class="modal-body">
+            <p class="form-control-static">Borrar contacto?</p>
+            <form role="post" method="post" action="/contact/delete">
+              <input type="hidden" name="contact[id]" value="<%= contacts[i].id %>" >
+              <input type="hidden" name="contact[UserId]" value="<%= contacts[i].UserId %>" >
+              <input type="submit" class="form-control btn btn-warning" value="Bloquear contacto" />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   <% } %>
 </tr>
 <% }} %>

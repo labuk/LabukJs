@@ -256,36 +256,21 @@ sequelize.sync().then(function() {
 			});
 			Project.create({
 				id: '2',
-				pro_nombre: 'Servicios',
+				pro_nombre: 'Blog Labuk',
 				pro_eslogan: 'Incubamos proyectos',
-				pro_descripcion: 'Proyecto de servicios ofrecidos para esta página',
-				pro_url: 'servicios',
+				pro_descripcion: 'Proyecto del blog ofrecido en esta página',
+				pro_url: 'blog-labuk',
 				pro_portada: '1',
 				pro_logo: 'project-2.png'
 			});
-			Piece.create({
-				pie_nombre: 'Definición de proyecto',
-				pie_url: 'definición-de-proyecto',
-				pie_descripcion: 'Punto de partida donde se definen los objetivos y planifican las piezas del proyecto.',
-				pie_prioridad: '0',
-				UserId: 2,
-				ProjectId: 2
-			});
-			Piece.create({
-				pie_nombre: 'Foro general',
-				pie_url: 'foro-general',
-				pie_descripcion: 'Foro de discusión general del proyecto, para hablar de todos los temas relacionados con el mismo y establecer tareas compartidas o genéricas del proyecto.',
-				pie_prioridad: '0',
-				UserId: 2,
-				ProjectId: 2
-			});
-			Piece.create({
-				pie_nombre: 'Taller de creatividad',
-				pie_url: 'taller-de-creatividad',
-				pie_descripcion: 'Pieza donde se gestiona la creatividad del proyecto, creando tareas que posibiliten el surgimiento de nuevas ideas.',
-				pie_prioridad: '0',
-				UserId: 2,
-				ProjectId: 2
+			Project.create({
+				id: '4',
+				pro_nombre: 'Diseño Web Labuk',
+				pro_eslogan: 'Incubamos proyectos',
+				pro_descripcion: 'Proyecto del servicio de diseño web ofrecidos por esta página',
+				pro_url: 'diseño-web-labuk',
+				pro_portada: '1',
+				pro_logo: 'project-2.png'
 			});
 			Project.create({
 				id: '3',
@@ -334,6 +319,11 @@ sequelize.sync().then(function() {
 				mem_rol:'0',
 				UserId:'11',
 				ProjectId:'3'
+			});
+			Member.create({
+				mem_rol:'0',
+				UserId:'2',
+				ProjectId:'4'
 			});
 			Contact.create({
 				con_contact:'2',

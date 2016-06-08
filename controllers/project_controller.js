@@ -120,11 +120,15 @@ exports.show_pro = function(req, res){
 				where: {ProjectId: req.project.id}
 			}]
 		}).then(function(tasks_all){
-			console.log('project');
-			console.log(tasks);
-			console.log(tasks_all);
-			res.render('project/project_main',{ project: req.project, tasks: tasks, tasks_all: tasks_all, errors: []});
-	})}).catch(function(error){next(error);})
+			models.Log.findAll({
+				where:{ ProjectId: req.project.id },
+				order: [
+					['createdAt', 'DESC']
+				],
+				include: [{model: models.User, attributes: ['nombre']}]
+			}).then(function(logs){
+			res.render('project/project_main',{ project: req.project, logs: logs, tasks: tasks, tasks_all: tasks_all, moment: moment, errors: []});
+	})})}).catch(function(error){next(error);})
 };
 
 // GET /project/:pro_url/front
@@ -181,7 +185,11 @@ exports.project_update = function(req,res){
 			} else {
 				// cambia en DB los campos pregunta y respuesta
 				req.project.save({fields: ["pro_nombre","pro_url","pro_portada","pro_eslogan","pro_descripcion","pro_tipo"]}).then(function(){
-					res.redirect('/project/'+req.params.pro_url+'/manage');
+					if (req.body.project.pro_nombre) {
+						res.redirect('/project/'+req.project.pro_url+'/manage');
+					} else {
+						res.redirect('/project/'+req.params.pro_url+'/manage');
+					}
 			})}
 		});
 };
@@ -493,9 +501,10 @@ exports.task_update = function(req,res){
 	models.Task.find({
 		where:{ id: req.params.taskId }
 	}).then(function(task){
+		console.log(req.body.task);
 		task.tas_tarea = req.body.task.tas_tarea;
 		task.tas_estado = req.body.task.tas_estado;
-		req.body.task.UserId = req.body.task.UserId != 0 ? req.body.task.UserId : req.session.user.id;
+		task.UserId = req.body.task.UserId != 0 ? req.body.task.UserId : task.UserId;
 		if (!req.body.task.tas_todos) {
 			task.tas_todos = '0';
 		} else {
@@ -506,7 +515,7 @@ exports.task_update = function(req,res){
 				res.render('project/pieces_index', {quiz: quiz, errors: err.errors});
 			} else {
 				// cambia en DB los campos pregunta y respuesta
-				task.save({fields: ["tas_tarea","tas_estado"] }).then(function(){
+				task.save({fields: ["tas_tarea","tas_estado","UserId","tas_todos"] }).then(function(){
 					if (req.body.task.flag_tab){
 						res.redirect('/project/'+req.params.pro_url+'/tasks');
 					} else {
@@ -559,6 +568,9 @@ exports.logs = function(req, res){
 	// Muestra logs
 	models.Log.findAll({
 		where:{ ProjectId: req.project.id },
+		order: [
+			['createdAt', 'DESC']
+		],
 		include: [{model: models.User, attributes: ['nombre']}]
 	}).then(function(logs){
 		res.render('project/logs_index', {logs: logs, project: req.project, moment: moment, errors: []});
