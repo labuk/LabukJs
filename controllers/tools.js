@@ -37,22 +37,22 @@ exports.autoLog = function (tipo, project, entrada_aux, id, url) {
 
 	if (tipo == 10){
 		var entrada = "Se ha creado una nueva noticia";
-		var log_url = "/posts/"+url;
+		var log_url = "posts/"+url;
 	}
 
 	if (tipo == 11){
 		var entrada = "Se ha creado una nueva noticia privada";
-		var log_url = "/posts/"+url;
+		var log_url = "posts/"+url;
 	}
 
   if (tipo == 12){
     var entrada = "Se ha creado un nuevo problema.";
-    var log_url = "/problems/"+url;
+    var log_url = "problems/"+url;
   }
 
   if (tipo == 13){
     var entrada = "Se ha creado una nueva nota.";
-    var log_url = "/pieces/"+url;
+    var log_url = "pieces/"+url;
   }
 
 	var log = models.Log.build({

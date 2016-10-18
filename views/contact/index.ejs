@@ -56,6 +56,7 @@
     				<span class="caret"></span>
     			</button>
     			<ul class="dropdown-menu pull-right" role="menu">
+            <li><a href="/user/profile/<%= contacts[i].UserId %>">Perfil</a></li>
     				<li><a href="/contact/message" >Mensajes</a></li>
             <li><a href="#" onClick="initChat(<%=contacts[i].con_message %>, <%= contacts[i].UserId %>, '<%= contacts[i].User.nombre %>')" >Chat</a></li>
     				<li class="divider"></li>
@@ -76,7 +77,7 @@
           </div>
           <div class="modal-body">
             <p class="form-control-static">Bloquear contacto?</p>
-            <form role="post" method="post" action="/contact/update_block">
+            <form role="post" method="post" action="/contact/update_block?_method=put">
               <input type="hidden" name="contact[id]" value="<%= contacts[i].id %>" >
               <input type="hidden" name="contact[UserId]" value="<%= contacts[i].UserId %>" >
               <input type="submit" class="form-control btn btn-warning" value="Bloquear contacto" />
@@ -96,10 +97,10 @@
           </div>
           <div class="modal-body">
             <p class="form-control-static">Borrar contacto?</p>
-            <form role="post" method="post" action="/contact/delete">
+            <form role="post" method="post" action="/contact/delete?_method=delete">
               <input type="hidden" name="contact[id]" value="<%= contacts[i].id %>" >
               <input type="hidden" name="contact[UserId]" value="<%= contacts[i].UserId %>" >
-              <input type="submit" class="form-control btn btn-warning" value="Bloquear contacto" />
+              <input type="submit" class="form-control btn btn-danger" value="Borrar contacto" />
             </form>
           </div>
         </div>

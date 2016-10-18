@@ -253,13 +253,16 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Cambiamos el tamaño de los logos de proyecto en index a col-sm-3. Centramos con row-centered y col-centered.
   - Creamos la página de servicios como si fueran proyectos independientes: blog, diseño web. Se crea una página que los agrupe y le damos un link en el layout.
 
+ // 8-06-2016
+  - Bloquear y eliminar contactos.
+  - Carousel 1 step.
+  - Competencias.
+
 
   Log con nombre de pieza... hidden?
-  Bloquear y eliminar contactos.
   Css deficiente en pantallas grandes... Pantalla Trabajo.
   Menu proyecto pequeño en movil.
   JCrop muy lento... posibilidad de girar la foto?
-  La página post_main está como si se fuera abrir en front. Añadir enlaces de compartir.
   Cuando un proyecto pasa de público a privado y tiene seguidores, estos siguen pudiendo acceder.
   Añadir paginación en el Logbook.
   Filtros de busqueda para proyectos, logs, usuarios, ...

@@ -36,7 +36,7 @@
             </thead>
           <% }%>
           <tr>
-            <td> <%= logs[i].log_entrada %> <a href="<%= logs[i].log_url %>"><i class="glyphicon glyphicon-link"></i></a></td>
+            <td> <%= logs[i].log_entrada %> <a href="/project/<%= project.pro_url %>/<%= logs[i].log_url %>"><i class="glyphicon glyphicon-link"></i></a></td>
             <td> <%= logs[i].User.nombre %> </td>
           </tr>
         <% } %>

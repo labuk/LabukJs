@@ -115,6 +115,20 @@ exports.update_block = function(req,res){
 			})})});
 };
 
+// DELETE /contact/delete
+exports.contact_destroy = function(req,res){
+	models.Contact.find({
+		where:{ id: req.body.contact.id }
+	}).then(function(contact){
+		models.Contact.find({
+			where:{ con_contact: req.body.contact.UserId, UserId: req.session.user.id }
+		}).then(function(contact_bis){
+		contact_bis.destroy();
+	 	contact.destroy().then(function() {
+			res.redirect('/contact');
+		})}).catch(function(error){next(error)});
+})};
+
 // GET /contact/message
 exports.index_message = function(req, res){
 	models.Message.findAll(

@@ -1,4 +1,4 @@
-// Definición del modelo Pieces
+// Definición del modelo Task
 
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define('Task',

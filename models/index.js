@@ -27,14 +27,14 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 	 omitNull: true
 });
 
+// Sección de User
 // Importar la definición de la tabla User en user.js
 var user_path = path.join(__dirname, 'user')
 var User = sequelize.import(user_path);
-
-// Importar la definición de la tabla Member en user/competence.js
+// Importar la definición de la tabla Competence en user/competence.js
 var competence_path = path.join(__dirname, 'user/competence')
 var Competence = sequelize.import(competence_path);
-	// Relación Competence - User
+	// Relación Member - Project/User
 	Competence.belongsTo(User);
 		User.hasOne(Competence, {onDelete: 'cascade', hooks:true});
 
@@ -208,7 +208,7 @@ exports.Message = Message; // exportar definición de tabla Message
 
 // sequelize.sync() crea e inicializa la tabla en DB
 // sequelize.drop() para vaciar las tablas
-sequelize.sync({alter: true}).then(function() {
+sequelize.sync().then(function() {
 	// succes(..) ejecuta el manejador una vez creada la tabla
 
 	Project.count().then(function (count){

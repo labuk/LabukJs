@@ -1,9 +1,12 @@
 <link rel="stylesheet" href="/stylesheets/jquery.Jcrop.css" type="text/css" />
+<link rel="stylesheet" href="/stylesheets/bootstrap-slider.min.css" type="text/css" />
+<script src="/js/bootstrap-slider.min.js"></script> <!-- Resource Slider -->
 
 <div class="page-header">
   <h2>
     Mi perfil
     <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal">Cambiar Foto</button>
+    <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal1">Añadir CV</button>
   </h2>
   <div class="clearfix"></div>
 </div>
@@ -55,6 +58,118 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- Formulario Añadir CV -->
+<div id="myModal1" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Añadir Dato CV</h4>
+      </div>
+      <div class="modal-body">
+        <form data-toggle="validator" role="form" method="post" action="/user/competence/create">
+          <div class="form-group">
+            <label class="control-label">Tipo:</label><br>
+            <div class="radio-inline"><input required id="check0" type="radio" name="competence[com_tipo]" value="0" > Educación </div>
+            <div class="radio-inline"><input required id="check1" type="radio" name="competence[com_tipo]" value="1" > Experiencia </div>
+            <div class="radio-inline"><input required id="check2" type="radio" name="competence[com_tipo]" value="2" > Habilidades </div>
+            <div class="radio-inline"><input required id="check3" type="radio" name="competence[com_tipo]" value="3" > Aptitudes </div>
+            <script type="text/javascript">
+              $("#check0, #check1, #check2, #check3").change(function() {
+                $('.competence_tab').collapse("hide");
+                var tipo = $("input[name='competence[com_tipo]']:checked").val();
+                if(tipo == 0){
+                  $('#competence_tab0').collapse("show");
+                }
+                if(tipo == 1){
+                  $('#competence_tab1').collapse("show");
+                  $('#ex1').slider('refresh');
+                }
+                if(tipo == 2){
+                  $('#competence_tab2').collapse("show");
+                }
+                if(tipo == 3){
+                  $('#competence_tab3').collapse("show");
+                }
+              });
+            </script>
+          </div>
+          <div id="competence_tab0" class="competence_tab collapse">
+            <div class="form-group has-feedback">
+              <label class="control-label">Educación</label>
+              <input required type="text" class="form-control" name="competence[com_competence]" placeholder="Descripción"/>
+              <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            </div>
+            <div class="form-group has-feedback">
+              <textarea required row="3" class="form-control" name="competence[com_descripcion]" placeholder="Más datos... "></textarea>
+              <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div id="competence_tab1" class="competence_tab collapse">
+            <div class="form-group has-feedback">
+              <label class="control-label">Experiencia</label>
+              <input required type="text" class="form-control" name="competence[com_competence]" placeholder="Descripción"/>
+              <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            </div>
+            <div class="form-group has-feedback">
+              <textarea required row="3" class="form-control" name="competence[com_descripcion]" placeholder="Más datos... "></textarea>
+              <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+              <span class="input-group-addon">Fecha</span>
+              <input required type="date" class="form-control" name="competence[com_date]" value="" />
+              </div>
+            </div>
+            <div class="form-group has-feedback">
+              <label class="control-label">Tiempo de duración</label>
+              <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-ticks="[0, 30, 180, 365, 720, 1825, 3650]" data-slider-value="0" data-slider-ticks-snap-bounds="30" data-slider-ticks-labels="['0 días', '30 días', '6 meses', '1 años', '2 años', '5 años', '10 años']" ticks_positions="[0, 20, 50, 70, 80, 90, 100]" name="competence[com_valor]"/>
+              <script>// With JQuery
+                $('#ex1').slider({
+                  formatter: function(value) {
+                    return 'Días: ' + value;
+                  },
+                  ticks: [0, 30, 180, 365, 720, 1825, 3650],
+                  ticks_positions: [0, 15, 40, 60, 75, 90, 100],
+                  ticks_labels: ['0 días', '30 días', '6 meses', '1 años', '2 años', '5 años', '10 años'],
+                  ticks_snap_bounds: 5
+                });
+              </script>
+            </div>
+          </div>
+          <div id="competence_tab2" class="competence_tab collapse">
+            <div class="form-group has-feedback">
+              <label class="control-label">Habilidades</label>
+              <input required type="text" class="form-control" name="competence[com_competence]" placeholder="Descripción"/>
+              <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            </div>
+            <div class="form-group has-feedback">
+              <label class="control-label">Puntuación</label>
+              <input id="ex2" data-slider-id='ex2Slider' type="text" data-slider-min="0" data-slider-max="5" data-slider-step="0.5" data-slider-value="2.5" name="competence[com_valor]"/>
+              <script>// With JQuery
+                $('#ex2').slider({
+                	formatter: function(value) {
+                		return 'Valor: ' + value;
+                	}
+                });
+              </script>
+            </div>
+          </div>
+          <div id="competence_tab3" class="competence_tab collapse">
+            <div class="form-group has-feedback">
+              <label class="control-label">Aptitudes</label>
+              <input required type="text" class="form-control" name="competence[com_competence]" placeholder="Descripción"/>
+              <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+            </div>
+          </div>
+          <input type="submit" class="form-control btn btn-success" value="Salvar" />
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="/js/jquery.Jcrop.min.js"></script>

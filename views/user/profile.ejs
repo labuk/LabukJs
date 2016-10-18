@@ -9,8 +9,11 @@
         <button type="button" class="btn btn-warning pull-right" data-toggle="modal" data-target="#myModal1">Solicitud recibida. Aceptar?</button>
       <% }  %>
       <% if (contact.con_block == 2) { %>
-        <button type="button" class="btn btn-success pull-right" >Amigos</button>
+        <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal3">Amigos</button>
         <button type="button" class="btn btn-info pull-right" onClick="initChat(<%=contact.con_message %>, <%= contact.UserId %>, '<%= user.nombre %>')">Chat</button>
+      <% }  %>
+      <% if (contact.con_block == 4) {  %>
+        <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal2">Contacto Bloqueado.</button>
       <% }  %>
     <% } else {  %>
     <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#myModal">Nuevo contacto</button>
@@ -70,11 +73,86 @@
         <h4 class="modal-title">Aceptar contacto</h4>
       </div>
       <div class="modal-body">
-        <form role="post" method="post" action="/contact/update_allow">
-          <input type="hidden" name="contact[id]" value="<%= contact.id %>" >
-          <input type="hidden" name="contact[UserId]" value="<%= user.id %>" >
-          <input type="submit" class="form-control btn btn-success" value="Aceptar amigos" />
-        </form>
+        <div class="form-group">
+          <form role="post" method="post" action="/contact/update_allow?_method=put">
+            <input type="hidden" name="contact[id]" value="<%= contact.id %>" >
+            <input type="hidden" name="contact[UserId]" value="<%= user.id %>" >
+            <input type="submit" class="form-control btn btn-success" value="Aceptar amigo" />
+          </form>
+        </div>
+        <div class="form-group">
+          <form role="post" method="post" action="/contact/update_block?_method=put">
+            <input type="hidden" name="contact[id]" value="<%= contact.id %>" >
+            <input type="hidden" name="contact[UserId]" value="<%= user.id %>" >
+            <input type="submit" class="form-control btn btn-warning" value="Bloquear amigo" />
+          </form>
+        </div>
+        <div class="form-group">
+          <form role="post" method="post" action="/contact/delete?_method=delete">
+            <input type="hidden" name="contact[id]" value="<%= contact.id %>" >
+            <input type="hidden" name="contact[UserId]" value="<%= user.id %>" >
+            <input type="submit" class="form-control btn btn-danger" value="Borrar amigo" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario Añadir Contacto -->
+<div id="myModal2" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Desbloquear contacto</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <form role="post" method="post" action="/contact/update_allow?_method=put">
+            <input type="hidden" name="contact[id]" value="<%= contact.id %>" >
+            <input type="hidden" name="contact[UserId]" value="<%= user.id %>" >
+            <input type="submit" class="form-control btn btn-success" value="Desbloquear contacto" />
+          </form>
+        </div>
+        <div class="form-group">
+          <form role="post" method="post" action="/contact/delete?_method=delete">
+            <input type="hidden" name="contact[id]" value="<%= contact.id %>" >
+            <input type="hidden" name="contact[UserId]" value="<%= user.id %>" >
+            <input type="submit" class="form-control btn btn-danger" value="Borrar contacto" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Formulario Añadir Contacto -->
+<div id="myModal3" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Bloquear o borrar amigo</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <form role="post" method="post" action="/contact/update_block?_method=put">
+            <input type="hidden" name="contact[id]" value="<%= contact.id %>" >
+            <input type="hidden" name="contact[UserId]" value="<%= user.id %>" >
+            <input type="submit" class="form-control btn btn-warning" value="Bloquear amigo" />
+          </form>
+        </div>
+        <div class="form-group">
+          <form role="post" method="post" action="/contact/delete?_method=delete">
+            <input type="hidden" name="contact[id]" value="<%= contact.id %>" >
+            <input type="hidden" name="contact[UserId]" value="<%= user.id %>" >
+            <input type="submit" class="form-control btn btn-danger" value="Borrar amigo" />
+          </form>
+        </div>
       </div>
     </div>
   </div>

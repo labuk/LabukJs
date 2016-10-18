@@ -20,7 +20,7 @@
         <% var i; if (projects_member.length) { %>
           <% for (i=0; i < projects_member.length; i++){ %>
             <div class="item <% if (i == 0) { %> active <% } %>">
-              <div class="col-sm-3 col-md-3">
+              <div class="col-xs-12 col-sm-3 col-md-3">
                 <a href="project/<%= projects_member[i].Project.pro_url %>">
                   <% if (projects_member[i].Project.pro_logo) { %>
                     <img src="/images/logo/<%= projects_member[i].Project.pro_logo %>"class="img-responsive img-thumbnail"/>
@@ -34,7 +34,7 @@
         <% var i; if (projects_member.length < 4) { %>
           <% for (i=0; i < (4-projects_member.length); i++){ %>
             <div class="item">
-              <div class="col-sm-3 col-md-3">
+              <div class="col-xs-12 col-sm-3 col-md-3 img-responsive" style="height: auto">
               </div>
             </div>
         <% }} %>
@@ -55,19 +55,22 @@ $('#myCarousel').carousel({
 
 $('.carousel .item').each(function(){
 
-  var next = $(this).next();
-  if (!next.length) {
-    next = $(this).siblings(':first');
-  }
-  next.children(':first-child').clone().appendTo($(this));
+  //var next = $(this).next();
+  //if (!next.length) {
+  //  next = $(this).siblings(':first');
+  //}
+  //next.children(':first-child').clone().appendTo($(this));
 
-  for (var i=0;i<2;i++) {
-    next=next.next();
-    if (!next.length) {
-      next = $(this).siblings(':first');
+  var itemToClone = $(this);
+  for (var i=1;i<4;i++) {
+    itemToClone=itemToClone.next();
+    if (!itemToClone.length) {
+      itemToClone = $(this).siblings(':first');
     }
 
-    next.children(':first-child').clone().appendTo($(this));
+    itemToClone.children(':first-child').clone()
+      .addClass("cloneditem-"+(i))
+      .appendTo($(this));
   }
 
 });
@@ -96,12 +99,12 @@ $('.carousel .item').each(function(){
           <% if ( logs[i].Project.Member.mem_rol == 3) { %>
             <% if (logs[i].log_tipo == 10){ %>
             <td> <%= logs[i].log_entrada %>
-            <a href="/project/<%= logs[i].Project.pro_url %>/front<%= logs[i].log_url %>"><i class="glyphicon glyphicon-link"></i></a></td>
+            <a href="/project/<%= logs[i].Project.pro_url %>/front/<%= logs[i].log_url %>"><i class="glyphicon glyphicon-link"></i></a></td>
             <td> <a href="/project/<%= logs[i].Project.pro_url %>/front"><%= logs[i].Project.pro_nombre %></a> </td>
             <% } %>
           <% } else { %>
             <td> <%= logs[i].log_entrada %>
-            <a href="/project/<%= logs[i].Project.pro_url %><%= logs[i].log_url %>"><i class="glyphicon glyphicon-link"></i></a></td>
+            <a href="/project/<%= logs[i].Project.pro_url %>/<%= logs[i].log_url %>"><i class="glyphicon glyphicon-link"></i></a></td>
             <td> <a href="/project/<%= logs[i].Project.pro_url %>"><%= logs[i].Project.pro_nombre %></a> </td>
           <% } %>
       </tr>

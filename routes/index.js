@@ -51,7 +51,8 @@ router.get('/main', sessionController.loginRequired, userController.main); // li
 router.get('/user', userController.index); // lista de usuarios
 router.get('/user/new', userController.new); // formulario nuevo usuario
 router.post('/user/create', userController.create); // crear usuario
-router.get('/user/myprofile', userController.myprofile); // perfil mi usuario
+router.get('/user/myprofile', sessionController.loginRequired, userController.myprofile); // perfil mi usuario
+router.post('/user/competence/create', sessionController.loginRequired, userController.competence_create); // crear competencia
 router.post('/user/avatar', upload_avatar.single('avatar'), userController.upload_avatar); // perfil mi usuario
 router.get('/user/profile/:userId', userController.show_profile); // perfil usuario :userId
 
@@ -129,8 +130,9 @@ router.post('/project/:pro_url/comments/:pos_url/create', sessionController.logi
 router.get('/contact', sessionController.loginRequired, contactController.index); // lista de contactos
 router.get('/contact_new', sessionController.loginRequired, contactController.count_new); // lista de contactos
 router.post('/contact/create', sessionController.loginRequired, contactController.create); // crear contacto
-router.post('/contact/update_allow', sessionController.loginRequired, contactController.update_allow); // aceptar contacto
-router.post('/contact/update_block', sessionController.loginRequired, contactController.update_block); // bloquear contacto
+router.put('/contact/update_allow', sessionController.loginRequired, contactController.update_allow); // aceptar contacto
+router.put('/contact/update_block', sessionController.loginRequired, contactController.update_block); // bloquear contacto
+router.delete('/contact/delete', sessionController.loginRequired, contactController.contact_destroy); // eliminar contacto
 router.get('/contact/message', sessionController.loginRequired, contactController.index_message); // pagina de mensajes
 router.get('/contact/message/send', sessionController.loginRequired, contactController.index_send); // pagina de mensajes enviados
 router.post('/contact/message/create', sessionController.loginRequired, contactController.create_message); // crear mensajes

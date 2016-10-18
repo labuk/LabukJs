@@ -120,6 +120,29 @@ exports.myprofile = function(req,res){
 	}).catch(function(error){next(error);});
 };
 
+// POST /user/competence/create
+exports.competence_create = function(req,res){
+ 	var competence = models.competence.build(
+		{ com_competencia: req.body.competence.com_competencia,
+		  com_descripcion: req.body.competence.com_descripcion,
+			com_tipo: req.body.competence.com_tipo,
+			com_valor: req.body.competence.com_valor,
+			com_date: req.body.competence.com_date,
+			UserId: req.session.user.id
+		});
+		console.log(competence);
+	competence.validate().then(function(msg, err){
+		if (err) {
+			res.render('user/new', {errors: err.errors});
+		} else {
+			// guarda en DB los campos pregunta y respuesta
+			competence.save().then(function(err){
+				res.redirect('/user/myprofile');
+			});
+		}
+	}).catch(function(error){next(error);});
+};
+
 // GET /user/profile/:UserId
 exports.show_profile = function(req,res){
 	if (req.params.userId == req.session.user.id) {
