@@ -658,7 +658,7 @@ exports.show_problem = function(req, res){
 		include: [{model: models.Piece, attributes: ['pie_nombre','pie_url']}]
 	}).then(function(problem){
 		models.Answer.findAll({
-			//where:{ ProblemId: req.params.problemId }, // TEST - Cascade para destroy
+			where:{ ProblemId: req.params.problemId } // TEST - Cascade para destroy
 		}).then(function(answers){
 			var answer = models.Answer.build( {ans_solucion: "Solución", ans_estado: "Estado", ProblemId: "ProblemId"} )
 			res.render('project/problems_main', {problem: problem, answer: answer, answers: answers, project: req.project, errors: []});
@@ -763,7 +763,7 @@ exports.polls = function(req, res){
 	models.Poll.findAll({
 		where:{ ProjectId: req.project.id },
 	}).then(function(polls){
-		var poll = models.Poll.build( {pol_pregunta: "Pregunta", pol_votos: "Votos", ProjectId: "ProjectId"} )
+		var poll = models.Poll.build( {pol_pregunta: "Pregunta", pol_votos: "Votos", ProjectId: "ProjectId", UserId: "UserId"} )
 		res.render('project/polls_index', {polls: polls,poll: poll, project: req.project, errors: []});
 	}).catch(function(error){next(error);})
 };
@@ -923,7 +923,7 @@ exports.events_table = function(req, res){
 	// Muestra Events
 	models.Events.findAll({
 		where:{	ProjectId: req.project.id,	},
-		order: [ ['eve_date', 'ASC'] ],
+		order: [ ['eve_date', 'ASC'] ]
 	}).then(function(events){
 		res.render('project/events_index', {events: events, project: req.project, moment: moment, errors: []});
 	}).catch(function(error){next(error);})
@@ -936,8 +936,9 @@ exports.events = function(req,res) {
 			ProjectId: req.project.id,
 			eve_date: {gte: new Date()}
 		},
-		order: [ ['eve_date', 'DESC'] ],
+		order: [ ['eve_date', 'DESC'] ]
 	}).then(function(events){
+		console.log(events);
 		res.send(events);
 	}).catch(function(error){next(error);})
 }

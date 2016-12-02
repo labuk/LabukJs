@@ -179,7 +179,7 @@ exports.create_message = function(req, res){
 				mes_topic: req.body.topic || "Sin asunto",
 				mes_read: 0,
 				mes_recivier: req.body.contact1,
-				contactId: contact.con_message,
+				ContactId: contact.con_message,
 				UserId: req.session.user.id
 			});
 			message.validate().then(function(err){
@@ -219,7 +219,7 @@ exports.index_chat = function(req, res){
 		include: [{model: models.User, attributes: ['nombre']}]
 	}).then(function(contact){
 		models.Message.findAll(
-			{where: {contactId: contact.con_message},
+			{where: {ContactId: contact.con_message},
 			include: [{model: models.User, attributes: ['nombre']}],
 			limit: 20,
 			order: [['updatedAt' , 'DESC']]

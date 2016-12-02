@@ -1,0 +1,10 @@
+// 20-10-2016
+ - Sistema de migración para DB con sequelize. Comandos:
+   $ sequelize init              # Initializes the project.
+
+   $ sequelize migration:create  # Generates a new migration file.
+
+   $ sequelize db:migrate        # Run pending migrations.
+   $ sequelize db:migrate:undo   # Revert the last migration run.
+
+   $ sequelize help              # Display this help text.

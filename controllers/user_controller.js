@@ -116,17 +116,29 @@ exports.myprofile = function(req,res){
 	models.User.find({
 		where:{ id: req.session.user.id }
 	}).then(function(user){
-		res.render('user/myprofile', {user: user, moment: moment, errors: []});
-	}).catch(function(error){next(error);});
+		models.Competence.findAll({
+			where:{
+				UserId: req.session.user.id
+			}	,
+			order: [
+				['com_date', 'DESC']
+			]
+		}).then(function(competences){
+			res.render('user/myprofile', {user: user, competences: competences, moment: moment, errors: []});
+	})}).catch(function(error){next(error);});
 };
 
 // POST /user/competence/create
 exports.competence_create = function(req,res){
- 	var competence = models.competence.build(
-		{ com_competencia: req.body.competence.com_competencia,
-		  com_descripcion: req.body.competence.com_descripcion,
+	var tipo = req.body.competence.com_tipo;
+	var competencia = req.body.competence.com_competencia[tipo];
+	var descripcion = req.body.competence.com_descripcion[tipo];
+	var valor = req.body.competence.com_valor[tipo];
+ 	var competence = models.Competence.build(
+		{ com_competencia: competencia,
+		  com_descripcion: descripcion,
 			com_tipo: req.body.competence.com_tipo,
-			com_valor: req.body.competence.com_valor,
+			com_valor: valor,
 			com_date: req.body.competence.com_date,
 			UserId: req.session.user.id
 		});
@@ -148,7 +160,6 @@ exports.show_profile = function(req,res){
 	if (req.params.userId == req.session.user.id) {
 		res.redirect('/user/myprofile');
 	}
-
 	models.User.find({
 		where:{ id: req.params.userId }
 	}).then(function(user){
@@ -156,8 +167,16 @@ exports.show_profile = function(req,res){
 			where:{ con_contact: req.session.user.id,
 							UserId: req.params.userId }
 		}).then(function(contact){
-			res.render('user/profile', {user: user, contact: contact, moment: moment, errors: []});
-	})}).catch(function(error){next(error);});
+			models.Competence.findAll({
+				where:{
+					UserId: req.params.userId
+				}	,
+				order: [
+					['com_date', 'DESC']
+				]
+			}).then(function(competences){
+			res.render('user/profile', {user: user, contact: contact, competences: competences, moment: moment, errors: []});
+	})})}).catch(function(error){next(error);});
 };
 
 // Comprueba si el usuario esta registrado en users

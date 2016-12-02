@@ -1,7 +1,7 @@
 @@ -1,70 +0,0 @@
-﻿// Proyecto Quiz
-quiz-2015-sergio.herokuapp.com
-https://github.com/labuk/proyectoQuiz
+﻿// Proyecto Labuk
+labuk.azurewebsites.net
+https://github.com/labuk/labukJs
 
 //05-10-2015
 Empiezo a modificar el proyecto Quiz para adaptarlo a Labuk
@@ -258,11 +258,26 @@ $  - Borrar respuestas. Hay que optimizar el sistema, posiblemente editando la e
   - Carousel 1 step.
   - Competencias.
 
+ // 20-10-2016
+  - Sistema de migración para DB con sequelize. Comandos:
+    $ sequelize init              # Initializes the project.
 
+    $ sequelize migration:create  # Generates a new migration file.
+
+    $ sequelize db:migrate        # Run pending migrations.
+    $ sequelize db:migrate:undo   # Revert the last migration run.
+
+    $ sequelize help              # Display this help text.
+  - Competencias añadidas al Perfil
+
+
+  Mensajes: página propia por persona.
   Log con nombre de pieza... hidden?
+  El Carousel de proyectos no va d euno en uno.
   Css deficiente en pantallas grandes... Pantalla Trabajo.
   Menu proyecto pequeño en movil.
   JCrop muy lento... posibilidad de girar la foto?
   Cuando un proyecto pasa de público a privado y tiene seguidores, estos siguen pudiendo acceder.
+  Permisos en los proyectos para los diferentes tipos.
   Añadir paginación en el Logbook.
   Filtros de busqueda para proyectos, logs, usuarios, ...

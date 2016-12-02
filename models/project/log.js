@@ -12,6 +12,6 @@ module.exports = function(sequelize, DataTypes){
 			},
 			log_url:  {
 					type: DataTypes.STRING
-				}
+			}
 		});
 }

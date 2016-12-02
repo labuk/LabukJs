@@ -1,6 +1,20 @@
-// "sequelize":"2.0.0-rc2",
+'use strict';
 
-var path = require('path');
+var fs        = require('fs');
+var path      = require('path');
+
+/* Antigua forma
+var basename  = path.basename(module.filename);
+var env       = process.env.NODE_ENV || 'development';
+var config    = require('../config/config.json')[env];
+var db        = {};
+
+if (config.use_env_variable) {
+  var sequelize = new Sequelize(process.env[config.use_env_variable]);
+} else {
+  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
+*/
 
 //Postgres DATABASE_URL = postgres://user:passwd@host:port/database
 //SQLite DATABASE_URL = sqlite://:@:/
@@ -131,6 +145,8 @@ var Post = sequelize.import(post_path);
 	// Relación Post - Project / User
 	Post.belongsTo(Project);
 	Post.belongsTo(User);
+
+// Importar la definición de la tabla Comment en blog/comment.js
 var comment_path = path.join(__dirname, 'blog/comment')
 var Comment = sequelize.import(comment_path);
 	// Relación Comment - Post
@@ -144,7 +160,7 @@ var Poll = sequelize.import(poll_path);
 	// Relación Post - Project / User
 	Poll.belongsTo(Project);
 		Project.hasOne(Poll, {onDelete: 'cascade', hooks:true});
-	Poll.belongsTo(User);
+	//Poll.belongsTo(User);
 
 // Importar la definición de la tabla Post en poll/option.js
 var option_path = path.join(__dirname, 'poll/option')
@@ -179,8 +195,7 @@ var Message = sequelize.import(message_path);
 // Fin -- Contact
 
 
-
-// Exportar General DB
+// Exportar General User DB
 exports.User = User; // exportar definición de tabla User
 exports.Competence = Competence; // exportar definición de tabla Competence
 // Exportar Project DB
@@ -206,150 +221,13 @@ exports.Vote = Vote; // exportar definición de tabla Vote
 exports.Contact = Contact; // exportar definición de tabla Contact
 exports.Message = Message; // exportar definición de tabla Message
 
-// sequelize.sync() crea e inicializa la tabla en DB
-// sequelize.drop() para vaciar las tablas
-sequelize.sync({alter: true}).then(function() {
-	// succes(..) ejecuta el manejador una vez creada la tabla
-
-	Project.count().then(function (count){
-		if (count == 0){ // la tabla se inicializa solo si está vacía
-
-			User.create({
-				id: '1',
-				nombre: 'Anon',
-				pass: '1234'
-			});
-			User.create({
-				id: '2',
-				nombre: 'Admin',
-				pass: '1234'
-			});
-			User.create({
-				id: '11',
-				nombre: 'Seghis',
-				pass: '1234'
-			});
-			Project.create({
-				id: '1',
-				pro_nombre: 'Labuk',
-				pro_eslogan: 'Incubamos proyectos',
-				pro_descripcion: 'Proyecto de soporte para esta página',
-				pro_url: 'labuk',
-				pro_portada: '1',
-				pro_logo: 'project-1.png'
-			});
-			Piece.create({
-				pie_nombre: 'Definición de proyecto',
-				pie_url: 'definición-de-proyecto',
-				pie_descripcion: 'Punto de partida donde se definen los objetivos y planifican las piezas del proyecto.',
-				pie_prioridad: '0',
-				UserId: 2,
-				ProjectId: 1
-			});
-			Piece.create({
-				pie_nombre: 'Foro general',
-				pie_url: 'foro-general',
-				pie_descripcion: 'Foro de discusión general del proyecto, para hablar de todos los temas relacionados con el mismo y establecer tareas compartidas o genéricas del proyecto.',
-				pie_prioridad: '0',
-				UserId: 2,
-				ProjectId: 1
-			});
-			Piece.create({
-				pie_nombre: 'Taller de creatividad',
-				pie_url: 'taller-de-creatividad',
-				pie_descripcion: 'Pieza donde se gestiona la creatividad del proyecto, creando tareas que posibiliten el surgimiento de nuevas ideas.',
-				pie_prioridad: '0',
-				UserId: 2,
-				ProjectId: 1
-			});
-			Project.create({
-				id: '2',
-				pro_nombre: 'Blog Labuk',
-				pro_eslogan: 'Incubamos proyectos',
-				pro_descripcion: 'Proyecto del blog ofrecido en esta página',
-				pro_url: 'blog-labuk',
-				pro_portada: '1',
-				pro_logo: 'project-2.png'
-			});
-			Project.create({
-				id: '4',
-				pro_nombre: 'Diseño Web Labuk',
-				pro_eslogan: 'Incubamos proyectos',
-				pro_descripcion: 'Proyecto del servicio de diseño web ofrecidos por esta página',
-				pro_url: 'diseño-web-labuk',
-				pro_portada: '1',
-				pro_logo: 'project-2.png'
-			});
-			Project.create({
-				id: '3',
-				pro_nombre: 'ProyectoX',
-				pro_eslogan: 'Innovación divergente',
-				pro_descripcion: 'Proyecto X',
-				pro_url: 'proyectox',
-				pro_portada: '1',
-				pro_logo: 'project-3.png'
-			});
-			Piece.create({
-				pie_nombre: 'Definición de proyecto',
-				pie_url: 'definición-de-proyecto',
-				pie_descripcion: 'Punto de partida donde se definen los objetivos y planifican las piezas del proyecto.',
-				pie_prioridad: '0',
-				UserId: 11,
-				ProjectId: 3
-			});
-			Piece.create({
-				pie_nombre: 'Foro general',
-				pie_url: 'foro-general',
-				pie_descripcion: 'Foro de discusión general del proyecto, para hablar de todos los temas relacionados con el mismo y establecer tareas compartidas o genéricas del proyecto.',
-				pie_prioridad: '0',
-				UserId: 11,
-				ProjectId: 3
-			});
-			Piece.create({
-				pie_nombre: 'Taller de creatividad',
-				pie_url: 'taller-de-creatividad',
-				pie_descripcion: 'Pieza donde se gestiona la creatividad del proyecto, creando tareas que posibiliten el surgimiento de nuevas ideas.',
-				pie_prioridad: '0',
-				UserId: 11,
-				ProjectId: 3
-			});
-			Member.create({
-				mem_rol:'0',
-				UserId:'2',
-				ProjectId:'1'
-			});
-			Member.create({
-				mem_rol:'0',
-				UserId:'2',
-				ProjectId:'2'
-			});
-			Member.create({
-				mem_rol:'0',
-				UserId:'11',
-				ProjectId:'3'
-			});
-			Member.create({
-				mem_rol:'0',
-				UserId:'2',
-				ProjectId:'4'
-			});
-			Contact.create({
-				con_contact:'2',
-				UserId: '11',
-				con_block:'2',
-				con_message: '2'
-			});
-			Contact.create({
-				con_contact:'11',
-				UserId: '2',
-				con_block:'2',
-				con_message: '2'
-			})
-
-			.then(function(){console.log('Base de datos inicializada')});
-		};
-
-
-
-	});
+// Desplegamos todas las migraciones pendientes
+var Umzug = require('umzug');
+var umzug = new Umzug({
+	storage: 'none',
+	migrations: {
+		params: [sequelize.getQueryInterface(), Sequelize],
+		path: './config/migrations',
+		pattern: /\.js$/
+  }
 });

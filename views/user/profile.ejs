@@ -43,6 +43,94 @@
   </div>
 </div>
 
+
+<% if (competences) { %>
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th class="col-md-2"></th>
+      <th>Experiencia</th>
+    </tr>
+  </thead>
+  <% var i; for (i=0; i < competences.length; i++){ %>
+  <tr>
+    <% if (competences[i].com_tipo == 1) { %>
+    <td> <%= moment(competences[i].com_date).format("MM/YYYY") %> </td>
+    <td> <%= competences[i].com_competencia %> </td>
+  </tr>
+<% }} %>
+</table>
+<% } %>
+
+<% if (competences) { %>
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th class="col-md-2"></th>
+      <th>Educación</th>
+    </tr>
+  </thead>
+  <% var i; for (i=0; i < competences.length; i++){ %>
+  <tr>
+    <% if (competences[i].com_tipo == 0) { %>
+    <td> <%= moment(competences[i].com_date).format("MM/YYYY") %> </td>
+    <td> <%= competences[i].com_competencia %> </td>
+  </tr>
+<% }} %>
+</table>
+<% } %>
+
+<div class="row">
+  <div class="col-md-6">
+<% if (competences) { %>
+<table class="table table-condensed ">
+  <thead>
+    <tr>
+      <th>Habilidades</th>
+      <th class="col-md-6"></th>
+    </tr>
+  </thead>
+  <% var i; for (i=0; i < competences.length; i++){ %>
+  <tr>
+    <% if (competences[i].com_tipo == 2) { %>
+    <td> <%= competences[i].com_competencia %> </td>
+    <td>
+      <div class="progress progress-striped">
+        <div class="progress-bar progress-bar-warning" role="progressbar"
+             aria-valuenow="<%= competences[i].com_valor %>" aria-valuemin="0" aria-valuemax="5"
+             style="width: 80%">
+          <span class="sr-only">Valor <%= competences[i].com_valor %></span>
+        </div>
+      </div>
+    </td>
+  </tr>
+<% }} %>
+</table>
+<% } %>
+</div>
+
+<div class="col-md-6">
+<% if (competences) { %>
+<table class="table table-condensed col-md-6">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Aptitudes</th>
+    </tr>
+  </thead>
+  <% var i; for (i=0; i < competences.length; i++){ %>
+  <tr>
+    <% if (competences[i].com_tipo == 3) { %>
+    <td> <%= moment(competences[i].com_date).format("MM/YYYY") %> </td>
+    <td> <%= competences[i].com_competencia %> </td>
+  </tr>
+<% }} %>
+</table>
+<% } %>
+</div>
+</div>
+
+
 <!-- Formulario Nuevo Contacto -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">

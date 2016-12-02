@@ -1,7 +1,7 @@
 // Definición del modelo message
 
 module.exports = function(sequelize, DataTypes){
-	return sequelize.define('message',
+	return sequelize.define('Message',
 		{ mes_message:  {
 				type: DataTypes.TEXT,
 				validate: {notEmpty: {msg: "-> Falta Message"}}

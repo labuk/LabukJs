@@ -1,5 +1,5 @@
-// Definición del modelo Quiz
-
+// Definición del modelo User
+'use strict';
 module.exports = function(sequelize, DataTypes){
 	return sequelize.define('User',
 		{ nombre:  {
@@ -18,5 +18,11 @@ module.exports = function(sequelize, DataTypes){
       online:  {
   		type: DataTypes.BOOLEAN
       }
-		});
+		},{
+	    classMethods: {
+	      associate: function(models) {
+	        // associations can be defined here
+	      }
+	    }
+	  });
 }

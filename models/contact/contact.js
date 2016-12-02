@@ -1,7 +1,7 @@
 // Definición del modelo contact
 
 module.exports = function(sequelize, DataTypes){
-	return sequelize.define('contact',
+	return sequelize.define('Contact',
 		{ con_contact:  {
 				type: DataTypes.INTEGER,
 				validate: {notEmpty: {msg: "-> Falta Contact"}}
